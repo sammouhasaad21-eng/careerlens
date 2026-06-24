@@ -1,10 +1,8 @@
 // netlify/functions/analyze.js
-// Das ist dein Backend — läuft auf Netlify Functions (kostenlos)
-// Netlify ruft diese Funktion auf wenn jemand POST /api/analyze schickt
+// يستخدم Gemini API بدلاً من Claude — مجاني تماماً
 
 exports.handler = async function (event) {
 
-  // CORS — erlaubt dem Browser, diese Funktion aufzurufen
   const headers = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Headers': 'Content-Type',
@@ -12,7 +10,6 @@ exports.handler = async function (event) {
     'Content-Type': 'application/json',
   };
 
-  // Preflight request vom Browser
   if (event.httpMethod === 'OPTIONS') {
     return { statusCode: 204, headers, body: '' };
   }
@@ -21,7 +18,6 @@ exports.handler = async function (event) {
     return { statusCode: 405, headers, body: JSON.stringify({ error: 'Method not allowed' }) };
   }
 
-  // Body parsen
   let cv, jd;
   try {
     const body = JSON.parse(event.body || '{}');
@@ -32,18 +28,17 @@ exports.handler = async function (event) {
   }
 
   if (!cv || cv.length < 100) {
-    return { statusCode: 400, headers, body: JSON.stringify({ error: 'CV ist zu kurz. Bitte den vollständigen CV einfügen.' }) };
+    return { statusCode: 400, headers, body: JSON.stringify({ error: 'CV ist zu kurz.' }) };
   }
   if (!jd || jd.length < 100) {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'Stellenbeschreibung ist zu kurz.' }) };
   }
 
-  // Prompt für Claude
   const prompt = `You are a senior software engineering hiring manager with 15 years of IT recruitment experience. You give honest, specific, actionable feedback.
 
 Analyze the CV and Job Description below.
 
-Return ONLY a valid JSON object — no preamble, no markdown, no extra text. Use this exact structure:
+Return ONLY a valid JSON object — no preamble, no markdown, no extra text, no backticks. Use this exact structure:
 {
   "match_score": <integer 0-100>,
   "score_explanation": "<2 clear sentences explaining the score>",
@@ -73,47 +68,48 @@ ${cv.substring(0, 4000)}
 Job Description:
 ${jd.substring(0, 3000)}`;
 
-  // Claude API aufrufen
   try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
+    const apiKey = process.env.GEMINI_API_KEY;
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+    const response = await fetch(url, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': process.env.ANTHROPIC_API_KEY,  // aus Netlify Environment Variables
-        'anthropic-version': '2023-06-01',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-6',
-        max_tokens: 3000,
-        messages: [{ role: 'user', content: prompt }],
+        contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: {
+          temperature: 0.3,
+          maxOutputTokens: 3000,
+        },
       }),
     });
 
     if (!response.ok) {
       const errText = await response.text();
-      console.error('Claude API Fehler:', response.status, errText);
+      console.error('Gemini API Fehler:', response.status, errText);
       return {
         statusCode: 502,
         headers,
-        body: JSON.stringify({ error: 'Claude API Fehler: ' + response.status }),
+        body: JSON.stringify({ error: 'Gemini API Fehler: ' + response.status }),
       };
     }
 
     const data = await response.json();
-    const rawText = data.content?.[0]?.text || '';
+    const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
 
     // JSON aus der Antwort extrahieren
     let result;
     try {
-      result = JSON.parse(rawText);
+      // Entferne Markdown-Backticks falls vorhanden
+      const cleaned = rawText.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+      result = JSON.parse(cleaned);
     } catch {
-      // Falls Claude trotzdem etwas um das JSON herum schreibt
       const match = rawText.match(/\{[\s\S]*\}/);
       if (match) {
         try {
           result = JSON.parse(match[0]);
         } catch {
-          return { statusCode: 500, headers, body: JSON.stringify({ error: 'Antwort konnte nicht verarbeitet werden. Bitte nochmal versuchen.' }) };
+          return { statusCode: 500, headers, body: JSON.stringify({ error: 'Antwort konnte nicht verarbeitet werden.' }) };
         }
       } else {
         return { statusCode: 500, headers, body: JSON.stringify({ error: 'Keine gültige Antwort erhalten.' }) };
