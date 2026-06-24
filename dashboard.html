@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — CareerLens</title>
+  <!-- IMPORTANT: This page is for YOUR eyes only. Don't link to it publicly. -->
+  <!-- Add basic auth via Cloudflare Access or just don't deploy this file. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .dash { padding: 100px 0 60px; }
+    .dash-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 36px;
+    }
+    .dash-card {
+      background: var(--navy-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 24px;
+    }
+    .dash-card-label {
+      font-size: 11px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 1px;
+      color: var(--text-3); margin-bottom: 10px;
+    }
+    .dash-card-value {
+      font-family: var(--font-display);
+      font-size: 36px; font-weight: 700;
+      letter-spacing: -1px; color: var(--text-1);
+      margin-bottom: 4px;
+    }
+    .dash-card-sub { font-size: 12px; color: var(--text-3); }
+    .dash-card.highlight { border-color: rgba(0,212,180,0.3); }
+    .dash-card.highlight .dash-card-value { color: var(--teal); }
+
+    .funnel-section, .events-section { margin-bottom: 40px; }
+    .funnel-bar-row {
+      display: flex; align-items: center; gap: 16px;
+      padding: 10px 0; border-bottom: 1px solid var(--border);
+    }
+    .funnel-bar-row:last-child { border-bottom: none; }
+    .funnel-label { font-size: 14px; color: var(--text-2); width: 200px; flex-shrink: 0; }
+    .funnel-bar-track { flex: 1; background: var(--navy-4); border-radius: 4px; height: 8px; overflow: hidden; }
+    .funnel-bar-fill  { height: 100%; background: var(--teal); border-radius: 4px; transition: width 0.8s ease; }
+    .funnel-count { font-size: 14px; font-weight: 600; color: var(--text-1); width: 48px; text-align: right; }
+    .funnel-rate  { font-size: 12px; color: var(--text-3); width: 56px; text-align: right; }
+
+    .events-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .events-table th {
+      text-align: left; padding: 10px 16px;
+      background: var(--navy-3); border-bottom: 1px solid var(--border);
+      color: var(--text-3); font-size: 11px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 1px;
+    }
+    .events-table td {
+      padding: 10px 16px; border-bottom: 1px solid var(--border);
+      color: var(--text-2); vertical-align: top;
+    }
+    .events-table tr:last-child td { border-bottom: none; }
+    .events-table tr:hover td { background: var(--navy-3); }
+
+    .event-name {
+      font-family: monospace; font-size: 12px;
+      background: var(--navy-3); border: 1px solid var(--border);
+      padding: 2px 8px; border-radius: 4px; color: var(--teal);
+    }
+
+    .score-distribution { display: flex; gap: 4px; align-items: flex-end; height: 80px; }
+    .score-bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+    .score-bar { width: 100%; background: var(--teal); border-radius: 3px 3px 0 0; min-height: 4px; transition: height 0.8s ease; }
+    .score-bar-label { font-size: 10px; color: var(--text-3); }
+
+    .no-data { color: var(--text-3); font-size: 14px; padding: 20px 0; }
+
+    .dash-actions { display: flex; gap: 10px; margin-bottom: 32px; }
+    .dash-note {
+      background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.2);
+      border-radius: var(--radius-sm); padding: 12px 16px;
+      font-size: 13px; color: var(--amber); margin-bottom: 24px;
+    }
+
+    @media (max-width: 900px) {
+      .dash-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 480px) {
+      .dash-grid { grid-template-columns: 1fr; }
+      .funnel-label { width: auto; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="nav">
+    <div class="container nav-inner">
+      <a href="/" class="logo"><span class="logo-mark">●</span>CareerLens <span style="font-size:12px;color:var(--text-3);font-weight:400;font-family:var(--font-body);">/ Dashboard</span></a>
+      <nav class="nav-links">
+        <a href="/">Site</a>
+        <a href="analyzer.html">Analyzer</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container dash">
+
+    <div class="section-label">Founder dashboard</div>
+    <h1 style="font-size:32px;font-weight:700;letter-spacing:-1px;margin-bottom:8px;">Analytics</h1>
+    <p style="color:var(--text-2);margin-bottom:24px;">All data is from your browser's localStorage — this only shows <em>your</em> activity. Once you have real users, connect Plausible in <code>analytics.js</code>.</p>
+
+    <div class="dash-note">
+      ⚠ This page reads your local browser data only. It does not show other users' activity.
+      To get real multi-user analytics, enable Plausible in <code>analytics.js</code> (free self-hosted or $9/month).
+    </div>
+
+    <div class="dash-actions">
+      <button class="btn-secondary" id="refresh-btn">Refresh</button>
+      <button class="btn-secondary" id="export-btn">Export JSON</button>
+      <button class="btn-secondary" id="clear-btn" style="color:var(--coral);">Clear data</button>
+    </div>
+
+    <!-- KPI cards -->
+    <div class="dash-grid" id="kpi-grid">
+      <div class="dash-card">
+        <div class="dash-card-label">Page views</div>
+        <div class="dash-card-value" id="kpi-pageviews">—</div>
+        <div class="dash-card-sub">total sessions tracked</div>
+      </div>
+      <div class="dash-card">
+        <div class="dash-card-label">Analyses started</div>
+        <div class="dash-card-value" id="kpi-started">—</div>
+        <div class="dash-card-sub">button clicked</div>
+      </div>
+      <div class="dash-card highlight">
+        <div class="dash-card-label">Analyses completed</div>
+        <div class="dash-card-value" id="kpi-completed">—</div>
+        <div class="dash-card-sub">results received</div>
+      </div>
+      <div class="dash-card">
+        <div class="dash-card-label">Completion rate</div>
+        <div class="dash-card-value" id="kpi-rate">—</div>
+        <div class="dash-card-sub">started → completed</div>
+      </div>
+    </div>
+
+    <div class="dash-grid" style="grid-template-columns: repeat(3,1fr);">
+      <div class="dash-card">
+        <div class="dash-card-label">Email captures</div>
+        <div class="dash-card-value" id="kpi-emails">—</div>
+        <div class="dash-card-sub">subscribers gained</div>
+      </div>
+      <div class="dash-card">
+        <div class="dash-card-label">Shares</div>
+        <div class="dash-card-value" id="kpi-shares">—</div>
+        <div class="dash-card-sub">share button clicked</div>
+      </div>
+      <div class="dash-card">
+        <div class="dash-card-label">Upgrade clicks</div>
+        <div class="dash-card-value" id="kpi-upgrades">—</div>
+        <div class="dash-card-sub">pro interest signals</div>
+      </div>
+    </div>
+
+    <!-- Funnel -->
+    <div class="funnel-section">
+      <h2 style="font-size:20px;font-weight:600;margin-bottom:20px;">Conversion funnel</h2>
+      <div id="funnel-bars"></div>
+    </div>
+
+    <!-- Score distribution -->
+    <div style="margin-bottom:40px;">
+      <h2 style="font-size:20px;font-weight:600;margin-bottom:20px;">Match score distribution</h2>
+      <div class="score-distribution" id="score-dist">
+        <div class="no-data">No analysis data yet.</div>
+      </div>
+      <div style="display:flex;gap:4px;margin-top:6px;" id="score-dist-labels"></div>
+    </div>
+
+    <!-- Recent events -->
+    <div class="events-section">
+      <h2 style="font-size:20px;font-weight:600;margin-bottom:20px;">Recent events <span style="font-size:13px;color:var(--text-3);font-weight:400;" id="event-count"></span></h2>
+      <div style="background:var(--navy-2);border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden;">
+        <table class="events-table" id="events-table">
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Event</th>
+              <th>Page</th>
+              <th>Properties</th>
+            </tr>
+          </thead>
+          <tbody id="events-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Growth targets -->
+    <div style="margin-bottom:40px;">
+      <h2 style="font-size:20px;font-weight:600;margin-bottom:20px;">Growth milestones</h2>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
+        <div class="dash-card">
+          <div class="dash-card-label">🎯 Milestone 1</div>
+          <div style="font-size:22px;font-weight:700;margin-bottom:6px;">10 users</div>
+          <div id="m1-progress" style="background:var(--navy-4);border-radius:4px;height:6px;margin-bottom:8px;overflow:hidden;">
+            <div id="m1-bar" style="height:100%;background:var(--teal);border-radius:4px;width:0%;transition:width 1s ease;"></div>
+          </div>
+          <div class="dash-card-sub">First real feedback. Fix the biggest friction point.</div>
+        </div>
+        <div class="dash-card">
+          <div class="dash-card-label">🎯 Milestone 2</div>
+          <div style="font-size:22px;font-weight:700;margin-bottom:6px;">100 users</div>
+          <div id="m2-progress" style="background:var(--navy-4);border-radius:4px;height:6px;margin-bottom:8px;overflow:hidden;">
+            <div id="m2-bar" style="height:100%;background:var(--teal);border-radius:4px;width:0%;transition:width 1s ease;"></div>
+          </div>
+          <div class="dash-card-sub">Enough data to see patterns. Enable payments.</div>
+        </div>
+        <div class="dash-card">
+          <div class="dash-card-label">🎯 Milestone 3</div>
+          <div style="font-size:22px;font-weight:700;margin-bottom:6px;">1,000 users</div>
+          <div id="m3-progress" style="background:var(--navy-4);border-radius:4px;height:6px;margin-bottom:8px;overflow:hidden;">
+            <div id="m3-bar" style="height:100%;background:var(--teal);border-radius:4px;width:0%;transition:width 1s ease;"></div>
+          </div>
+          <div class="dash-card-sub">Product-market fit signal. Time to double down.</div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    const LOCAL_KEY = 'careerlens_analytics';
+
+    function loadEvents() {
+      try {
+        return JSON.parse(localStorage.getItem(LOCAL_KEY) || '[]');
+      } catch { return []; }
+    }
+
+    function countBy(events, name) {
+      return events.filter(e => e.event === name).length;
+    }
+
+    function render() {
+      const events = loadEvents();
+      const total = events.length;
+
+      document.getElementById('event-count').textContent = `(${total} total)`;
+
+      // KPIs
+      const pageviews  = countBy(events, 'pageview');
+      const started    = countBy(events, 'analysis_started');
+      const completed  = countBy(events, 'analysis_completed');
+      const emails     = countBy(events, 'email_captured');
+      const shares     = countBy(events, 'share_clicked');
+      const upgrades   = countBy(events, 'upgrade_clicked');
+      const rate       = started ? Math.round((completed / started) * 100) + '%' : '—';
+
+      document.getElementById('kpi-pageviews').textContent  = pageviews  || '0';
+      document.getElementById('kpi-started').textContent    = started    || '0';
+      document.getElementById('kpi-completed').textContent  = completed  || '0';
+      document.getElementById('kpi-rate').textContent       = rate;
+      document.getElementById('kpi-emails').textContent     = emails     || '0';
+      document.getElementById('kpi-shares').textContent     = shares     || '0';
+      document.getElementById('kpi-upgrades').textContent   = upgrades   || '0';
+
+      // Funnel
+      const funnelData = [
+        { label: 'Page views',          count: pageviews, base: pageviews },
+        { label: 'CV input engaged',    count: countBy(events, 'cv_input_engaged'), base: pageviews },
+        { label: 'JD input engaged',    count: countBy(events, 'jd_input_engaged'), base: pageviews },
+        { label: 'Analysis started',    count: started,   base: pageviews },
+        { label: 'Analysis completed',  count: completed, base: pageviews },
+        { label: 'Email captured',      count: emails,    base: completed },
+        { label: 'Share clicked',       count: shares,    base: completed },
+      ];
+      const funnelEl = document.getElementById('funnel-bars');
+      funnelEl.innerHTML = funnelData.map(row => {
+        const pct = row.base > 0 ? Math.round((row.count / row.base) * 100) : 0;
+        return `
+          <div class="funnel-bar-row">
+            <div class="funnel-label">${row.label}</div>
+            <div class="funnel-bar-track">
+              <div class="funnel-bar-fill" style="width:${pct}%"></div>
+            </div>
+            <div class="funnel-count">${row.count}</div>
+            <div class="funnel-rate">${pct}%</div>
+          </div>
+        `;
+      }).join('');
+
+      // Score distribution
+      const scoreEvents = events.filter(e => e.event === 'analysis_completed' && e.props?.score != null);
+      if (scoreEvents.length > 0) {
+        const buckets = { '0–20':0, '21–40':0, '41–60':0, '61–80':0, '81–100':0 };
+        scoreEvents.forEach(e => {
+          const s = e.props.score;
+          if (s <= 20)       buckets['0–20']++;
+          else if (s <= 40)  buckets['21–40']++;
+          else if (s <= 60)  buckets['41–60']++;
+          else if (s <= 80)  buckets['61–80']++;
+          else               buckets['81–100']++;
+        });
+        const maxB = Math.max(...Object.values(buckets), 1);
+        const distEl = document.getElementById('score-dist');
+        distEl.innerHTML = Object.entries(buckets).map(([label, count]) => {
+          const h = Math.max(4, Math.round((count / maxB) * 72));
+          return `
+            <div class="score-bar-col">
+              <div style="font-size:11px;color:var(--text-3);margin-bottom:4px;">${count}</div>
+              <div class="score-bar" style="height:${h}px"></div>
+              <div class="score-bar-label">${label}</div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      // Growth milestones (use completed analyses as proxy for users)
+      const userProxy = completed; // Replace with real user count when you have auth
+      const targets = [10, 100, 1000];
+      targets.forEach((t, i) => {
+        const pct = Math.min(100, Math.round((userProxy / t) * 100));
+        document.getElementById(`m${i+1}-bar`).style.width = pct + '%';
+      });
+
+      // Recent events table
+      const tbody = document.getElementById('events-tbody');
+      const recent = [...events].reverse().slice(0, 50);
+      if (recent.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4" class="no-data">No events yet. Run an analysis to start tracking.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = recent.map(e => {
+        const time = new Date(e.timestamp).toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit', second:'2-digit' });
+        const date = new Date(e.timestamp).toLocaleDateString('en-GB', { day:'2-digit', month:'short' });
+        const props = e.props ? JSON.stringify(e.props, null, 0)
+          .replace(/[{}"]/g, '')
+          .replace(/,/g, ' · ')
+          .substring(0, 80) : '—';
+        return `
+          <tr>
+            <td style="white-space:nowrap;color:var(--text-3);">${date} ${time}</td>
+            <td><span class="event-name">${e.event}</span></td>
+            <td style="color:var(--text-3);">${e.url || '/'}</td>
+            <td style="font-size:12px;color:var(--text-3);max-width:280px;word-break:break-all;">${props}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // ── ACTIONS ────────────────────────────────────────────────────────────
+    document.getElementById('refresh-btn').addEventListener('click', render);
+
+    document.getElementById('export-btn').addEventListener('click', () => {
+      const events = loadEvents();
+      const blob = new Blob([JSON.stringify(events, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `careerlens-events-${new Date().toISOString().split('T')[0]}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    document.getElementById('clear-btn').addEventListener('click', () => {
+      if (confirm('Delete all local analytics data? This cannot be undone.')) {
+        localStorage.removeItem(LOCAL_KEY);
+        render();
+      }
+    });
+
+    render();
+  </script>
+
+</body>
+</html>

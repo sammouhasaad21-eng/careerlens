@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CV Analyzer — CareerLens</title>
+  <meta name="description" content="Paste your CV and a job description to get your match score, skill gaps, and learning roadmap." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Page-specific overrides for the dedicated analyzer page */
+    body { background: var(--navy); }
+
+    .analyzer-page {
+      min-height: 100vh;
+      padding: 100px 0 60px;
+    }
+
+    .analyzer-page-header {
+      margin-bottom: 40px;
+    }
+
+    .analyzer-page-header h1 {
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 700;
+      letter-spacing: -1px;
+      margin-bottom: 10px;
+    }
+
+    .analyzer-page-header p {
+      font-size: 16px;
+      color: var(--text-2);
+    }
+
+    .usage-indicator {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 28px;
+      font-size: 13px;
+      color: var(--text-3);
+    }
+
+    .usage-dots {
+      display: flex;
+      gap: 5px;
+    }
+
+    .usage-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--navy-4);
+      border: 1px solid var(--border-2);
+      transition: background 0.3s ease;
+    }
+
+    .usage-dot.used { background: var(--teal); border-color: var(--teal); }
+    .usage-dot.empty { background: var(--navy-4); }
+
+    .tips-panel {
+      background: var(--navy-3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 20px 24px;
+      margin-bottom: 28px;
+      font-size: 13px;
+      color: var(--text-2);
+    }
+
+    .tips-panel strong {
+      color: var(--teal);
+      font-size: 11px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .tips-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px 24px;
+    }
+
+    .tips-list li {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+    }
+
+    .tips-list li::before {
+      content: '→';
+      color: var(--teal);
+      flex-shrink: 0;
+    }
+
+    /* Larger textareas for the dedicated page */
+    .analyzer-page .analyzer-textarea {
+      min-height: 280px;
+    }
+
+    /* Keyboard shortcut hint */
+    .keyboard-hint {
+      font-size: 11px;
+      color: var(--text-3);
+      margin-top: 8px;
+    }
+
+    kbd {
+      background: var(--navy-4);
+      border: 1px solid var(--border-2);
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-family: monospace;
+      font-size: 10px;
+      color: var(--text-2);
+    }
+
+    /* Back link */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-3);
+      margin-bottom: 32px;
+      transition: color var(--transition);
+    }
+    .back-link:hover { color: var(--text-1); }
+    .back-link::before { content: '←'; }
+
+    /* Pro upsell banner */
+    .pro-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(135deg, rgba(0,212,180,0.08), rgba(0,212,180,0.03));
+      border: 1px solid rgba(0,212,180,0.2);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      margin-top: 20px;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .pro-banner-text strong {
+      display: block;
+      font-size: 14px;
+      color: var(--text-1);
+      margin-bottom: 2px;
+    }
+
+    .pro-banner-text span {
+      font-size: 13px;
+      color: var(--text-2);
+    }
+
+    .pro-banner-cta {
+      background: var(--teal);
+      color: var(--navy);
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 13px;
+      padding: 8px 18px;
+      border-radius: var(--radius-sm);
+      white-space: nowrap;
+      transition: background var(--transition);
+      text-decoration: none;
+    }
+    .pro-banner-cta:hover { background: var(--teal-dim); }
+
+    .pro-banner[hidden] { display: none; }
+
+    /* History panel */
+    .history-section {
+      margin-top: 48px;
+      padding-top: 40px;
+      border-top: 1px solid var(--border);
+    }
+
+    .history-section h2 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: var(--text-2);
+    }
+
+    .history-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .history-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--navy-3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 14px 18px;
+      cursor: pointer;
+      transition: border-color var(--transition);
+      gap: 16px;
+    }
+
+    .history-item:hover { border-color: var(--border-2); }
+
+    .history-item-meta { flex: 1; }
+    .history-item-meta strong { display: block; font-size: 14px; margin-bottom: 2px; }
+    .history-item-meta span { font-size: 12px; color: var(--text-3); }
+
+    .history-item-score {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 18px;
+    }
+
+    .score-high   { color: var(--green); }
+    .score-medium { color: var(--amber); }
+    .score-low    { color: var(--coral); }
+
+    /* Paste examples */
+    .example-btn {
+      background: none;
+      border: 1px dashed var(--border-2);
+      color: var(--teal);
+      font-size: 12px;
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: background var(--transition), border-color var(--transition);
+      margin-top: 6px;
+    }
+    .example-btn:hover {
+      background: var(--teal-bg);
+      border-color: rgba(0,212,180,0.4);
+    }
+
+    @media (max-width: 640px) {
+      .tips-list { grid-template-columns: 1fr; }
+      .pro-banner { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV (minimal version) -->
+  <header class="nav">
+    <div class="container nav-inner">
+      <a href="/" class="logo">
+        <span class="logo-mark">●</span>CareerLens
+      </a>
+      <nav class="nav-links">
+        <a href="/">Home</a>
+        <a href="#" id="upgrade-nav-link" class="btn-nav">Upgrade to Pro →</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="analyzer-page">
+    <div class="container" style="max-width: 900px;">
+
+      <a href="/" class="back-link">Back to home</a>
+
+      <div class="analyzer-page-header">
+        <h1>Analyze your CV</h1>
+        <p>Paste your CV and a job description. Results appear in ~30 seconds.</p>
+      </div>
+
+      <!-- Usage indicator -->
+      <div class="usage-indicator">
+        <div class="usage-dots" id="usage-dots">
+          <div class="usage-dot" id="dot-1"></div>
+          <div class="usage-dot" id="dot-2"></div>
+          <div class="usage-dot" id="dot-3"></div>
+        </div>
+        <span id="usage-text">3 free analyses remaining today</span>
+      </div>
+
+      <!-- Tips -->
+      <div class="tips-panel">
+        <strong>Tips for best results</strong>
+        <ul class="tips-list">
+          <li>Paste your entire CV — don't summarize it</li>
+          <li>Include the full job posting, not just the title</li>
+          <li>Copy-paste from PDF: select all, Ctrl+C, Ctrl+V</li>
+          <li>The more text, the more specific the analysis</li>
+        </ul>
+      </div>
+
+      <!-- Main analyzer box -->
+      <div class="analyzer-box">
+        <div class="analyzer-inputs">
+          <div class="input-group">
+            <label for="cv-input" class="input-label">
+              Your CV
+              <span class="input-hint">Full text — work experience, skills, education, projects</span>
+            </label>
+            <textarea
+              id="cv-input"
+              class="analyzer-textarea"
+              placeholder="Paste your full CV here...
+
+Example:
+John Smith
+john@email.com | LinkedIn: /in/johnsmith | GitHub: /johnsmith
+
+EXPERIENCE
+Senior Python Developer — TechCorp (2021–2024)
+• Built REST APIs serving 2M requests/day using FastAPI and PostgreSQL
+• Led migration of monolith to 5 microservices, reducing deploy time by 60%
+..."
+              rows="14"
+              spellcheck="false"
+            ></textarea>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:6px;">
+              <button class="example-btn" id="load-cv-example">Load example CV</button>
+              <div class="char-count" id="cv-count">0 characters</div>
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label for="jd-input" class="input-label">
+              Job description
+              <span class="input-hint">Full posting including requirements and responsibilities</span>
+            </label>
+            <textarea
+              id="jd-input"
+              class="analyzer-textarea"
+              placeholder="Paste the full job description here...
+
+Example:
+Senior Backend Engineer — CloudScale Inc.
+
+We're looking for a Senior Backend Engineer to join our Platform team.
+
+REQUIREMENTS
+• 4+ years backend development experience
+• Strong Python or Go skills
+• Experience with Kubernetes and containerized deployments
+• Familiarity with AWS or GCP
+• PostgreSQL or other relational DB experience
+
+NICE TO HAVE
+• Terraform or Pulumi experience
+• Experience with service meshes (Istio, Linkerd)
+• Prometheus/Grafana monitoring experience
+..."
+              rows="14"
+              spellcheck="false"
+            ></textarea>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:6px;">
+              <button class="example-btn" id="load-jd-example">Load example job description</button>
+              <div class="char-count" id="jd-count">0 characters</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="analyzer-actions">
+          <button class="btn-analyze" id="analyze-btn">
+            <span class="btn-analyze-text">Analyze my CV →</span>
+            <span class="btn-analyze-loading" hidden>
+              <span class="spinner"></span> Analyzing — ~30 seconds...
+            </span>
+          </button>
+          <p class="free-note">Free · No signup · Your text is never stored</p>
+        </div>
+
+        <p class="keyboard-hint">Tip: Press <kbd>Ctrl</kbd>+<kbd>Enter</kbd> to analyze</p>
+
+        <!-- Pro upsell (shown when limit reached) -->
+        <div class="pro-banner" id="pro-banner" hidden>
+          <div class="pro-banner-text">
+            <strong>You've used all 3 free analyses today.</strong>
+            <span>Upgrade to Pro for unlimited analyses, history, and PDF export.</span>
+          </div>
+          <a href="#" class="pro-banner-cta" id="upgrade-link">Get Pro — €9/month →</a>
+        </div>
+
+        <!-- Results -->
+        <div class="results-section" id="results" hidden>
+          <div class="result-score-card" id="score-card">
+            <div class="score-ring">
+              <svg viewBox="0 0 100 100" class="score-svg">
+                <circle cx="50" cy="50" r="42" class="score-bg-circle"/>
+                <circle cx="50" cy="50" r="42" class="score-fill-circle" id="score-circle"/>
+              </svg>
+              <div class="score-number" id="score-number">—</div>
+            </div>
+            <div class="score-meta">
+              <h3 class="score-title">Match score</h3>
+              <p class="score-explanation" id="score-explanation"></p>
+            </div>
+          </div>
+
+          <!-- Overall advice callout -->
+          <div id="overall-advice-card" style="
+            background: rgba(0,212,180,0.05);
+            border: 1px solid rgba(0,212,180,0.18);
+            border-radius: var(--radius-md);
+            padding: 18px 22px;
+            margin-bottom: 24px;
+            font-size: 14px;
+            color: var(--text-2);
+            line-height: 1.65;
+          "></div>
+
+          <div class="result-tabs">
+            <button class="result-tab active" data-tab="skills">Missing skills</button>
+            <button class="result-tab" data-tab="improvements">CV improvements</button>
+            <button class="result-tab" data-tab="questions">Interview prep</button>
+            <button class="result-tab" data-tab="roadmap">Learning roadmap</button>
+            <button class="result-tab" data-tab="projects">Portfolio ideas</button>
+          </div>
+
+          <div class="result-panel" id="tab-skills"></div>
+          <div class="result-panel" id="tab-improvements" hidden></div>
+          <div class="result-panel" id="tab-questions" hidden></div>
+          <div class="result-panel" id="tab-roadmap" hidden></div>
+          <div class="result-panel" id="tab-projects" hidden></div>
+
+          <div class="result-actions">
+            <button class="btn-secondary" id="share-btn">Copy shareable result</button>
+            <button class="btn-secondary" id="save-btn">Save to history</button>
+            <button class="btn-secondary" id="new-analysis-btn">New analysis</button>
+          </div>
+        </div>
+
+        <!-- Error -->
+        <div class="error-section" id="error-section" hidden>
+          <p class="error-text" id="error-text"></p>
+        </div>
+      </div>
+
+      <!-- Analysis history (from localStorage) -->
+      <div class="history-section" id="history-section" hidden>
+        <h2>Your recent analyses</h2>
+        <div class="history-list" id="history-list"></div>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+  <script>
+    // ── ANALYZER PAGE EXTRAS ──────────────────────────────────────────────
+
+    // Update usage dots on load
+    function updateUsageDots() {
+      const used = getUsageCount();
+      const remaining = Math.max(0, CONFIG.FREE_LIMIT - used);
+      const usageText = document.getElementById('usage-text');
+      const proBanner = document.getElementById('pro-banner');
+
+      document.querySelectorAll('.usage-dot').forEach((dot, i) => {
+        dot.classList.toggle('used', i < used);
+      });
+
+      if (remaining === 0) {
+        usageText.textContent = 'Daily limit reached — upgrade for unlimited';
+        usageText.style.color = 'var(--coral)';
+        proBanner.hidden = false;
+      } else {
+        usageText.textContent = `${remaining} free ${remaining === 1 ? 'analysis' : 'analyses'} remaining today`;
+      }
+    }
+
+    updateUsageDots();
+
+    // ── OVERALL ADVICE CARD ────────────────────────────────────────────────
+    const origShowResults = window._origShowResults;
+    // Patch showResults to also populate advice card
+    const _patchedShowResults = function(data) {
+      showResults(data);  // from script.js
+      const card = document.getElementById('overall-advice-card');
+      if (data.overall_advice && card) {
+        card.innerHTML = '<strong style="color:var(--teal);font-size:11px;letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:8px;">Overall assessment</strong>' + escapeHtml(data.overall_advice);
+        card.hidden = false;
+      }
+      updateUsageDots();
+    };
+
+    // Override analyze button handler to use patched version
+    document.getElementById('analyze-btn').removeEventListener('click', runAnalysis);
+    document.getElementById('analyze-btn').addEventListener('click', async () => {
+      const cv = document.getElementById('cv-input').value.trim();
+      const jd = document.getElementById('jd-input').value.trim();
+      if (cv.length < 100) { showError('Your CV seems too short. Please paste more content.'); return; }
+      if (jd.length < 100) { showError('The job description is too short. Please paste more content.'); return; }
+      const used = getUsageCount();
+      if (used >= CONFIG.FREE_LIMIT) {
+        document.getElementById('pro-banner').hidden = false;
+        showError(`You've used all ${CONFIG.FREE_LIMIT} free analyses for today. Upgrade to Pro or come back tomorrow.`);
+        return;
+      }
+      setLoading(true);
+      hideError();
+      hideResults();
+      try {
+        let result;
+        if (CONFIG.MOCK_MODE) {
+          await new Promise(r => setTimeout(r, 2000));
+          result = getMockResult(cv, jd);
+        } else {
+          const response = await fetch(CONFIG.WORKER_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ cv, jd })
+          });
+          if (!response.ok) { const e = await response.json().catch(()=>({})); throw new Error(e.error || `Error ${response.status}`); }
+          result = await response.json();
+        }
+        incrementUsage();
+        _patchedShowResults(result);
+        saveToHistory(result, jd);
+      } catch (err) {
+        showError('Analysis failed: ' + (err.message || 'Please try again.'));
+      } finally {
+        setLoading(false);
+        updateUsageDots();
+      }
+    });
+
+    // ── KEYBOARD SHORTCUT ──────────────────────────────────────────────────
+    document.addEventListener('keydown', e => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        document.getElementById('analyze-btn').click();
+      }
+    });
+
+    // ── HISTORY (localStorage) ─────────────────────────────────────────────
+    const HISTORY_KEY = 'careerlens_history';
+
+    function saveToHistory(result, jd) {
+      try {
+        const history = JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
+        const jdTitle = jd.split('\n')[0].trim().substring(0, 60) || 'Job analysis';
+        history.unshift({
+          id: Date.now(),
+          date: new Date().toLocaleDateString(),
+          jd_title: jdTitle,
+          score: result.match_score,
+          result: result
+        });
+        localStorage.setItem(HISTORY_KEY, JSON.stringify(history.slice(0, 10))); // keep last 10
+        renderHistory();
+      } catch { /* */ }
+    }
+
+    function renderHistory() {
+      try {
+        const history = JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
+        const section = document.getElementById('history-section');
+        const list = document.getElementById('history-list');
+        if (!history.length) { section.hidden = true; return; }
+        section.hidden = false;
+        list.innerHTML = history.map(item => {
+          const scoreClass = item.score >= 75 ? 'score-high' : item.score >= 50 ? 'score-medium' : 'score-low';
+          return `
+            <div class="history-item" data-id="${item.id}">
+              <div class="history-item-meta">
+                <strong>${escapeHtml(item.jd_title)}</strong>
+                <span>${item.date}</span>
+              </div>
+              <div class="history-item-score ${scoreClass}">${item.score}%</div>
+            </div>
+          `;
+        }).join('');
+
+        list.querySelectorAll('.history-item').forEach(el => {
+          el.addEventListener('click', () => {
+            const id = parseInt(el.dataset.id);
+            const item = history.find(h => h.id === id);
+            if (item) _patchedShowResults(item.result);
+          });
+        });
+      } catch { /* */ }
+    }
+
+    document.getElementById('save-btn')?.addEventListener('click', () => {
+      const btn = document.getElementById('save-btn');
+      btn.textContent = 'Saved ✓';
+      setTimeout(() => { btn.textContent = 'Save to history'; }, 2000);
+    });
+
+    renderHistory();
+
+    // ── EXAMPLE CONTENT ────────────────────────────────────────────────────
+    const EXAMPLE_CV = `Sarah Chen
+sarah.chen@email.com | github.com/sarahchen | linkedin.com/in/sarahchen
+
+SUMMARY
+Backend developer with 3 years experience building Python web applications and REST APIs. Comfortable with SQL databases and basic Docker usage. Looking to move into cloud-native roles.
+
+EXPERIENCE
+Backend Developer — FinanceApp Ltd (Jan 2022 – Present)
+• Built REST APIs using Django and PostgreSQL for a fintech SaaS product
+• Wrote unit and integration tests (pytest), maintaining ~80% coverage
+• Worked on bug fixes and feature development in an Agile team
+• Set up basic Docker containers for local development environments
+• Used Git for version control and participated in code reviews
+
+Junior Developer — WebAgency (Jul 2020 – Dec 2021)
+• Developed Python scripts for data processing and reporting
+• Maintained legacy PHP codebase for client websites
+• Used MySQL for database management
+
+SKILLS
+Languages: Python, JavaScript, PHP, SQL
+Frameworks: Django, FastAPI (basic), React (basic)
+Tools: Docker, Git, Linux, Nginx, Postman
+Databases: PostgreSQL, MySQL
+Cloud: AWS (EC2, S3 — basic experience)
+
+EDUCATION
+BSc Computer Science — University of Leeds (2017–2020)
+
+PROJECTS
+Personal Finance Tracker — Django REST API + React frontend
+• Deployed on a single AWS EC2 instance with Nginx`;
+
+    const EXAMPLE_JD = `Senior Backend Engineer — CloudScale Technologies
+
+About the role:
+We're scaling fast and need a Senior Backend Engineer to join our Platform Infrastructure team. You'll own the design and operation of core services that handle millions of events per day.
+
+What you'll do:
+• Design, build, and operate production microservices using Python and Go
+• Own the full lifecycle: architecture, implementation, testing, deployment, monitoring
+• Work with Kubernetes to manage containerized workloads across our GKE clusters
+• Write Terraform to provision and manage cloud infrastructure on GCP
+• Define SLOs and implement observability (Prometheus, Grafana, structured logging)
+• Collaborate with product engineers to design internal APIs and data contracts
+• Lead technical discussions and mentor junior engineers
+
+Requirements:
+• 4+ years of professional backend development experience
+• Strong Python skills (we use FastAPI, pydantic, SQLAlchemy)
+• Experience with Kubernetes — deploying, troubleshooting, scaling workloads
+• Infrastructure as code experience — Terraform or Pulumi preferred
+• Comfortable with relational databases at scale (PostgreSQL, query optimization)
+• Experience with distributed systems concepts (eventual consistency, message queues)
+• Strong understanding of REST API design and gRPC
+
+Nice to have:
+• Go programming experience
+• Experience with Kafka or Pub/Sub
+• GCP certifications
+• Experience with service meshes (Istio)
+• ArgoCD or similar GitOps tools
+
+We offer: €75,000–95,000, remote-friendly, stock options, €2,000 L&D budget`;
+
+    document.getElementById('load-cv-example').addEventListener('click', () => {
+      document.getElementById('cv-input').value = EXAMPLE_CV;
+      updateCount(document.getElementById('cv-input'), document.getElementById('cv-count'));
+    });
+
+    document.getElementById('load-jd-example').addEventListener('click', () => {
+      document.getElementById('jd-input').value = EXAMPLE_JD;
+      updateCount(document.getElementById('jd-input'), document.getElementById('jd-count'));
+    });
+  </script>
+</body>
+</html>

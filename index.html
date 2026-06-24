@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CareerLens — AI CV Analyzer for IT Professionals</title>
+  <meta name="description" content="Paste your CV and a job description. Get your match score, missing skills, CV improvements, interview questions, and a learning roadmap — in 30 seconds." />
+  <meta property="og:title" content="CareerLens — AI CV Analyzer for IT Professionals" />
+  <meta property="og:description" content="Find out exactly why you didn't get the interview. Free for IT job seekers." />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <header class="nav">
+    <div class="container nav-inner">
+      <a href="/" class="logo">
+        <span class="logo-mark">●</span>CareerLens
+      </a>
+      <nav class="nav-links">
+        <a href="#how-it-works">How it works</a>
+        <a href="#features">Features</a>
+        <a href="#faq">FAQ</a>
+        <a href="#analyzer" class="btn-nav">Try free →</a>
+      </nav>
+      <button class="nav-hamburger" aria-label="Open menu" id="hamburger">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-eyebrow">Free for IT professionals</div>
+      <h1 class="hero-headline">
+        Find out exactly why<br />
+        you didn't get<br />
+        the interview.
+      </h1>
+      <p class="hero-sub">
+        Paste your CV and a job description. Get your match score, missing skills,
+        CV improvements, interview questions, and a personalized learning roadmap —
+        in under 30 seconds.
+      </p>
+      <div class="hero-cta">
+        <a href="#analyzer" class="btn-primary">Analyze my CV — it's free</a>
+        <span class="hero-note">No signup required. No CV stored.</span>
+      </div>
+      <div class="hero-stats">
+        <div class="stat">
+          <strong>30 sec</strong>
+          <span>Average analysis time</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <strong>10 insights</strong>
+          <span>Per analysis</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <strong>100% IT-focused</strong>
+          <span>Built for tech roles</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROBLEM & SOLUTION -->
+  <section class="problem-solution" id="features">
+    <div class="container">
+      <div class="section-label">The problem</div>
+      <h2 class="section-headline">You're applying in the dark.</h2>
+      <div class="ps-grid">
+        <div class="ps-card ps-problem">
+          <div class="ps-icon">✗</div>
+          <h3>What most job seekers experience</h3>
+          <ul>
+            <li>Apply to dozens of roles with the same generic CV</li>
+            <li>Get rejected with zero feedback</li>
+            <li>Don't know if ATS systems are filtering them out</li>
+            <li>Waste months learning the wrong skills</li>
+            <li>Pay €200+ for a professional CV writer</li>
+          </ul>
+        </div>
+        <div class="ps-card ps-solution">
+          <div class="ps-icon">✓</div>
+          <h3>What CareerLens gives you</h3>
+          <ul>
+            <li>An exact match score for every role you apply to</li>
+            <li>The precise skills the employer is looking for</li>
+            <li>Sentence-level CV improvements with before/after</li>
+            <li>A 6-week learning roadmap for your gaps</li>
+            <li>5 tailored interview questions to prepare for</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how-it-works" id="how-it-works">
+    <div class="container">
+      <div class="section-label">How it works</div>
+      <h2 class="section-headline">Three steps. Thirty seconds.</h2>
+      <div class="steps-grid">
+        <div class="step">
+          <div class="step-num">1</div>
+          <h3>Paste your CV</h3>
+          <p>Copy and paste your CV as plain text. No file upload, no account needed. Your data stays in your browser.</p>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <h3>Paste the job description</h3>
+          <p>Copy the full job posting — requirements, responsibilities, everything. The more you paste, the better the analysis.</p>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <h3>Get your analysis</h3>
+          <p>In 30 seconds, you receive your match score, missing skills, CV improvements, interview questions, and a learning roadmap.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES DEEP DIVE -->
+  <section class="features-deep">
+    <div class="container">
+      <div class="section-label">What you get</div>
+      <h2 class="section-headline">Ten insights per analysis.</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">◎</div>
+          <h3>Match score</h3>
+          <p>A 0–100 score showing how well your CV aligns with this specific role — with a plain explanation of why.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">⊘</div>
+          <h3>Missing skills</h3>
+          <p>The exact skills in the job description that aren't in your CV, ranked by how often they're mentioned.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">✎</div>
+          <h3>CV improvements</h3>
+          <p>Before/after rewrites for specific lines in your CV, with the reason each change improves your chances.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">?</div>
+          <h3>Interview questions</h3>
+          <p>5 questions the interviewer is likely to ask, based on the job description and your CV gaps.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">⇒</div>
+          <h3>Learning roadmap</h3>
+          <p>A prioritized 6-week plan: which skills to learn first, with specific resources for each one.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">▲</div>
+          <h3>Portfolio projects</h3>
+          <p>Two concrete project ideas that demonstrate exactly the skills this employer is looking for.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE ANALYZER TOOL -->
+  <section class="analyzer-section" id="analyzer">
+    <div class="container">
+      <div class="section-label">The tool</div>
+      <h2 class="section-headline">Analyze your CV now.</h2>
+      <p class="analyzer-intro">Paste your CV and the job description below. No signup, no email, no CV stored. Your analysis appears below in around 30 seconds.</p>
+
+      <div class="analyzer-box">
+        <div class="analyzer-inputs">
+          <div class="input-group">
+            <label for="cv-input" class="input-label">
+              Your CV
+              <span class="input-hint">Paste as plain text. Include all sections.</span>
+            </label>
+            <textarea
+              id="cv-input"
+              class="analyzer-textarea"
+              placeholder="Paste your full CV here — work experience, skills, education, projects..."
+              rows="12"
+            ></textarea>
+            <div class="char-count" id="cv-count">0 characters</div>
+          </div>
+          <div class="input-group">
+            <label for="jd-input" class="input-label">
+              Job description
+              <span class="input-hint">Paste the full posting including requirements.</span>
+            </label>
+            <textarea
+              id="jd-input"
+              class="analyzer-textarea"
+              placeholder="Paste the full job description here — title, responsibilities, requirements, nice-to-haves..."
+              rows="12"
+            ></textarea>
+            <div class="char-count" id="jd-count">0 characters</div>
+          </div>
+        </div>
+
+        <div class="analyzer-actions">
+          <button class="btn-analyze" id="analyze-btn">
+            <span class="btn-analyze-text">Analyze my CV →</span>
+            <span class="btn-analyze-loading" hidden>
+              <span class="spinner"></span> Analyzing...
+            </span>
+          </button>
+          <p class="free-note">Free · 3 analyses per day · No signup</p>
+        </div>
+
+        <div class="results-section" id="results" hidden>
+          <!-- Score card -->
+          <div class="result-score-card" id="score-card">
+            <div class="score-ring">
+              <svg viewBox="0 0 100 100" class="score-svg">
+                <circle cx="50" cy="50" r="42" class="score-bg-circle"/>
+                <circle cx="50" cy="50" r="42" class="score-fill-circle" id="score-circle"/>
+              </svg>
+              <div class="score-number" id="score-number">—</div>
+            </div>
+            <div class="score-meta">
+              <h3 class="score-title">Match score</h3>
+              <p class="score-explanation" id="score-explanation">Running analysis…</p>
+            </div>
+          </div>
+
+          <!-- Result tabs -->
+          <div class="result-tabs">
+            <button class="result-tab active" data-tab="skills">Missing skills</button>
+            <button class="result-tab" data-tab="improvements">CV improvements</button>
+            <button class="result-tab" data-tab="questions">Interview questions</button>
+            <button class="result-tab" data-tab="roadmap">Learning roadmap</button>
+            <button class="result-tab" data-tab="projects">Portfolio ideas</button>
+          </div>
+
+          <div class="result-panel" id="tab-skills">
+            <div class="panel-loading">Identifying skill gaps…</div>
+          </div>
+          <div class="result-panel" id="tab-improvements" hidden>
+            <div class="panel-loading">Generating CV improvements…</div>
+          </div>
+          <div class="result-panel" id="tab-questions" hidden>
+            <div class="panel-loading">Generating interview questions…</div>
+          </div>
+          <div class="result-panel" id="tab-roadmap" hidden>
+            <div class="panel-loading">Building your learning roadmap…</div>
+          </div>
+          <div class="result-panel" id="tab-projects" hidden>
+            <div class="panel-loading">Generating portfolio project ideas…</div>
+          </div>
+
+          <div class="result-actions">
+            <button class="btn-secondary" id="share-btn">Share your score</button>
+            <button class="btn-secondary" id="new-analysis-btn">New analysis</button>
+          </div>
+        </div>
+
+        <div class="error-section" id="error-section" hidden>
+          <p class="error-text" id="error-text">Something went wrong. Please try again.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testimonials">
+    <div class="container">
+      <div class="section-label">Early feedback</div>
+      <h2 class="section-headline">What job seekers are saying.</h2>
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <div class="testimonial-score">78% match</div>
+          <p>"I applied to 30 DevOps roles and heard nothing. After using CareerLens, I realized I was missing Terraform and ArgoCD on every application. Fixed it, got 4 callbacks in a week."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">AM</div>
+            <div>
+              <strong>Alex M.</strong>
+              <span>Junior DevOps Engineer, Berlin</span>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-score">91% match</div>
+          <p>"The before/after CV improvements alone are worth it. It rewrote my experience section from 'worked on backend APIs' to specific impact statements with technologies. Night and day difference."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">FO</div>
+            <div>
+              <strong>Fatima O.</strong>
+              <span>Backend Developer, Amsterdam</span>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-score">64% match</div>
+          <p>"The honest score hurt a little. But the learning roadmap it gave me was exactly what I needed. 6 weeks later I'm applying again with a much stronger profile."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">MK</div>
+            <div>
+              <strong>Marcus K.</strong>
+              <span>Bootcamp grad, Vienna</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq-section" id="faq">
+    <div class="container">
+      <div class="section-label">Questions</div>
+      <h2 class="section-headline">Frequently asked.</h2>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-question">Is my CV stored anywhere?</button>
+          <div class="faq-answer">No. Your CV and job description are sent directly to the AI for analysis and are never stored on our servers. We don't log the content of your inputs.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">How accurate is the match score?</button>
+          <div class="faq-answer">The score reflects how well your CV language matches the job description's requirements. It's a strong signal, not a guarantee. Some companies weight experience over keywords — use the score as a guide, not a verdict.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">Does it work for non-IT jobs?</button>
+          <div class="faq-answer">CareerLens is specifically designed for IT roles — software engineering, DevOps, data science, cloud, QA, and related fields. It works best when both the CV and JD are technical in nature.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">Should I paste my CV as PDF text?</button>
+          <div class="faq-answer">Yes — open your CV PDF, select all text, copy and paste. Make sure formatting is readable. Avoid pasting from a Word table, as the text extraction may be messy.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">How many analyses can I run for free?</button>
+          <div class="faq-answer">3 per day on the free plan. That's enough to analyze your top 3 target roles each day. If you need more, the Pro plan is €9/month with unlimited analyses.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">What AI model powers this?</button>
+          <div class="faq-answer">CareerLens uses Claude by Anthropic — one of the most capable AI models for nuanced document analysis and reasoning. The prompts are carefully engineered to produce IT-specific, actionable output.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="container">
+      <h2 class="cta-headline">Stop guessing. Start improving.</h2>
+      <p class="cta-sub">Paste your CV and a job description. Get your honest score in 30 seconds. Free to start.</p>
+      <a href="#analyzer" class="btn-primary btn-large">Analyze my CV now →</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <a href="/" class="logo">
+          <span class="logo-mark">●</span>CareerLens
+        </a>
+        <p>AI-powered CV analysis for IT professionals.<br/>Built with Claude by Anthropic.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <strong>Product</strong>
+          <a href="#analyzer">Analyzer</a>
+          <a href="#features">Features</a>
+          <a href="#how-it-works">How it works</a>
+        </div>
+        <div class="footer-col">
+          <strong>Legal</strong>
+          <a href="#">Privacy policy</a>
+          <a href="#">Terms of service</a>
+        </div>
+        <div class="footer-col">
+          <strong>Connect</strong>
+          <a href="#">Twitter / X</a>
+          <a href="#">LinkedIn</a>
+          <a href="#">GitHub</a>
+        </div>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <p>© 2025 CareerLens. Made with ☕ and zero budget.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

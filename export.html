@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Export Report — CareerLens</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    .export-page { padding: 120px 0 80px; max-width: 700px; margin: 0 auto; }
+    .export-preview {
+      background: white;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.4);
+      margin-bottom: 32px;
+      color: #1a1a2e;
+      font-family: 'Inter', sans-serif;
+    }
+    .pdf-header {
+      background: #0B0F1A;
+      padding: 32px 40px;
+      color: white;
+    }
+    .pdf-header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 24px;
+    }
+    .pdf-logo { font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 700; color: #00D4B4; }
+    .pdf-date { font-size: 12px; color: rgba(255,255,255,0.4); }
+    .pdf-score-row { display: flex; align-items: center; gap: 20px; }
+    .pdf-score-circle {
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      background: conic-gradient(#00D4B4 0deg, #00D4B4 var(--deg), #1a2235 var(--deg));
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      position: relative;
+    }
+    .pdf-score-circle::after {
+      content: '';
+      position: absolute;
+      inset: 8px;
+      background: #0B0F1A;
+      border-radius: 50%;
+    }
+    .pdf-score-num {
+      position: absolute;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: white;
+      z-index: 1;
+    }
+    .pdf-score-meta h2 { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+    .pdf-score-meta p  { font-size: 13px; color: rgba(255,255,255,0.6); line-height: 1.5; }
+    .pdf-body { padding: 36px 40px; }
+    .pdf-section { margin-bottom: 28px; }
+    .pdf-section-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #00b89b;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1.5px solid #e8f5f3;
+    }
+    .pdf-skill-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px solid #f0f0f0;
+      font-size: 13px;
+    }
+    .pdf-skill-row:last-child { border-bottom: none; }
+    .pdf-priority {
+      font-size: 10px; font-weight: 700; padding: 2px 8px;
+      border-radius: 100px; text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .p-high   { background: #ffe8e8; color: #cc3333; }
+    .p-medium { background: #fff3e0; color: #d97706; }
+    .p-low    { background: #f0f0f0; color: #666; }
+    .pdf-skill-why { color: #666; font-size: 12px; }
+    .pdf-improvement {
+      background: #f9fafb;
+      border-radius: 8px;
+      padding: 14px;
+      margin-bottom: 10px;
+      border-left: 3px solid #00D4B4;
+    }
+    .pdf-imp-section { font-size: 10px; color: #00b89b; font-weight: 700; text-transform: uppercase; margin-bottom: 6px; }
+    .pdf-imp-before { font-size: 12px; color: #888; margin-bottom: 6px; text-decoration: line-through; }
+    .pdf-imp-after  { font-size: 13px; color: #1a1a2e; font-weight: 500; margin-bottom: 6px; }
+    .pdf-imp-reason { font-size: 11px; color: #999; font-style: italic; }
+    .pdf-question {
+      display: flex; gap: 12px; padding: 8px 0;
+      border-bottom: 1px solid #f0f0f0; font-size: 13px; color: #333;
+    }
+    .pdf-question:last-child { border-bottom: none; }
+    .pdf-q-num {
+      width: 22px; height: 22px; border-radius: 6px; background: #e8f5f3;
+      color: #00b89b; font-size: 11px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .pdf-roadmap-item {
+      display: flex; gap: 14px; padding: 10px 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .pdf-roadmap-item:last-child { border-bottom: none; }
+    .pdf-weeks {
+      background: #e8f5f3; color: #00b89b; font-size: 11px; font-weight: 700;
+      padding: 3px 10px; border-radius: 100px; white-space: nowrap; height: fit-content;
+    }
+    .pdf-roadmap-skill { font-size: 13px; font-weight: 600; margin-bottom: 4px; color: #1a1a2e; }
+    .pdf-resource { font-size: 12px; color: #666; }
+    .pdf-project {
+      background: #f9fafb; border-radius: 8px; padding: 14px;
+      margin-bottom: 8px; font-size: 13px; color: #333; line-height: 1.55;
+      border-left: 3px solid #0B0F1A;
+    }
+    .pdf-footer {
+      background: #f9fafb;
+      padding: 16px 40px;
+      text-align: center;
+      font-size: 11px;
+      color: #aaa;
+      border-top: 1px solid #eee;
+    }
+
+    /* Page chrome */
+    .export-actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+    .export-note { font-size: 13px; color: var(--text-3); }
+    .no-result-msg {
+      text-align: center;
+      padding: 60px 24px;
+      color: var(--text-2);
+    }
+    .no-result-msg h2 { font-size: 22px; margin-bottom: 12px; }
+    .no-result-msg p  { font-size: 15px; color: var(--text-3); margin-bottom: 24px; }
+  </style>
+</head>
+<body>
+
+  <header class="nav">
+    <div class="container nav-inner">
+      <a href="/" class="logo"><span class="logo-mark">●</span>CareerLens</a>
+      <nav class="nav-links">
+        <a href="analyzer.html">← Back to analyzer</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container export-page">
+
+    <div id="no-result" class="no-result-msg" hidden>
+      <h2>No analysis to export</h2>
+      <p>Run an analysis first, then come back here to export it as a PDF.</p>
+      <a href="analyzer.html" class="btn-primary">Go to analyzer →</a>
+    </div>
+
+    <div id="export-content">
+      <div class="section-label" style="margin-bottom:12px;">Export</div>
+      <h1 style="font-size:32px;font-weight:700;letter-spacing:-1px;margin-bottom:8px;">Your CV analysis report</h1>
+      <p style="color:var(--text-2);margin-bottom:32px;">Download as a PDF to save, share with a mentor, or track your progress.</p>
+
+      <div class="export-actions" style="margin-bottom:32px;">
+        <button class="btn-primary" id="download-pdf-btn">Download PDF →</button>
+        <button class="btn-secondary" id="print-btn">Print</button>
+        <span class="export-note">Pro feature · Your report is generated locally in your browser</span>
+      </div>
+
+      <!-- PDF Preview -->
+      <div class="export-preview" id="pdf-preview">
+
+        <div class="pdf-header">
+          <div class="pdf-header-top">
+            <div class="pdf-logo">● CareerLens</div>
+            <div class="pdf-date" id="pdf-date"></div>
+          </div>
+          <div class="pdf-score-row">
+            <div class="pdf-score-circle" id="pdf-score-circle">
+              <span class="pdf-score-num" id="pdf-score-num">—</span>
+            </div>
+            <div class="pdf-score-meta">
+              <h2 id="pdf-score-headline">CV Analysis Report</h2>
+              <p id="pdf-score-explanation"></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="pdf-body">
+
+          <div class="pdf-section" id="pdf-overall-advice-section">
+            <div class="pdf-section-title">Overall assessment</div>
+            <p id="pdf-overall-advice" style="font-size:13px;color:#444;line-height:1.65;"></p>
+          </div>
+
+          <div class="pdf-section" id="pdf-skills-section">
+            <div class="pdf-section-title">Missing skills</div>
+            <div id="pdf-skills-list"></div>
+          </div>
+
+          <div class="pdf-section" id="pdf-improvements-section">
+            <div class="pdf-section-title">CV improvements</div>
+            <div id="pdf-improvements-list"></div>
+          </div>
+
+          <div class="pdf-section" id="pdf-questions-section">
+            <div class="pdf-section-title">Interview preparation questions</div>
+            <div id="pdf-questions-list"></div>
+          </div>
+
+          <div class="pdf-section" id="pdf-roadmap-section">
+            <div class="pdf-section-title">Learning roadmap</div>
+            <div id="pdf-roadmap-list"></div>
+          </div>
+
+          <div class="pdf-section" id="pdf-projects-section">
+            <div class="pdf-section-title">Portfolio project ideas</div>
+            <div id="pdf-projects-list"></div>
+          </div>
+
+        </div>
+
+        <div class="pdf-footer">
+          Generated by CareerLens · careerlens.io · For personal use only · Results are AI-generated and should be used as a guide, not a guarantee.
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    // ── LOAD LAST RESULT FROM localStorage ────────────────────────────────
+    const HISTORY_KEY = 'careerlens_history';
+
+    function loadLatestResult() {
+      try {
+        const history = JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
+        return history[0]?.result || null;
+      } catch { return null; }
+    }
+
+    function escHtml(s) {
+      if (!s) return '';
+      return String(s)
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    function renderPDFPreview(data) {
+      const score = data.match_score || 0;
+
+      // Score circle (conic gradient)
+      const deg = Math.round((score / 100) * 360);
+      document.getElementById('pdf-score-circle').style.setProperty('--deg', deg + 'deg');
+      document.getElementById('pdf-score-num').textContent = score + '%';
+      document.getElementById('pdf-score-headline').textContent =
+        score >= 80 ? 'Strong match' : score >= 60 ? 'Moderate match' : 'Needs work';
+
+      document.getElementById('pdf-score-explanation').textContent = data.score_explanation || '';
+      document.getElementById('pdf-date').textContent =
+        'Generated ' + new Date().toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' });
+
+      // Overall advice
+      if (data.overall_advice) {
+        document.getElementById('pdf-overall-advice').textContent = data.overall_advice;
+      } else {
+        document.getElementById('pdf-overall-advice-section').hidden = true;
+      }
+
+      // Missing skills
+      const skillsList = document.getElementById('pdf-skills-list');
+      if (data.missing_skills?.length) {
+        skillsList.innerHTML = data.missing_skills.map(s => `
+          <div class="pdf-skill-row">
+            <span class="pdf-priority p-${(s.priority||'medium').toLowerCase()}">${s.priority || 'medium'}</span>
+            <strong style="font-size:13px;flex-shrink:0;">${escHtml(s.skill)}</strong>
+            <span class="pdf-skill-why">— ${escHtml(s.why)}</span>
+          </div>
+        `).join('');
+      } else {
+        document.getElementById('pdf-skills-section').hidden = true;
+      }
+
+      // CV improvements
+      const impList = document.getElementById('pdf-improvements-list');
+      if (data.cv_improvements?.length) {
+        impList.innerHTML = data.cv_improvements.map(i => `
+          <div class="pdf-improvement">
+            <div class="pdf-imp-section">${escHtml(i.section)}</div>
+            <div class="pdf-imp-before">Before: ${escHtml(i.current)}</div>
+            <div class="pdf-imp-after">After: ${escHtml(i.improved)}</div>
+            <div class="pdf-imp-reason">${escHtml(i.reason)}</div>
+          </div>
+        `).join('');
+      } else {
+        document.getElementById('pdf-improvements-section').hidden = true;
+      }
+
+      // Interview questions
+      const qList = document.getElementById('pdf-questions-list');
+      if (data.interview_questions?.length) {
+        qList.innerHTML = data.interview_questions.map((q, i) => `
+          <div class="pdf-question">
+            <div class="pdf-q-num">${i+1}</div>
+            <span>${escHtml(q)}</span>
+          </div>
+        `).join('');
+      } else {
+        document.getElementById('pdf-questions-section').hidden = true;
+      }
+
+      // Roadmap
+      const roadmapList = document.getElementById('pdf-roadmap-list');
+      if (data.learning_roadmap?.length) {
+        roadmapList.innerHTML = data.learning_roadmap.map(item => `
+          <div class="pdf-roadmap-item">
+            <span class="pdf-weeks">${item.weeks}w</span>
+            <div>
+              <div class="pdf-roadmap-skill">${escHtml(item.skill)}</div>
+              ${(item.resources||[]).map(r => `<div class="pdf-resource">→ ${escHtml(r)}</div>`).join('')}
+            </div>
+          </div>
+        `).join('');
+      } else {
+        document.getElementById('pdf-roadmap-section').hidden = true;
+      }
+
+      // Portfolio projects
+      const projList = document.getElementById('pdf-projects-list');
+      if (data.portfolio_projects?.length) {
+        projList.innerHTML = data.portfolio_projects.map((p, i) => `
+          <div class="pdf-project">
+            <strong style="display:block;margin-bottom:4px;font-size:12px;color:#666;text-transform:uppercase;letter-spacing:0.5px;">
+              Project idea ${i+1}
+            </strong>
+            ${escHtml(typeof p === 'string' ? p : p.description || '')}
+          </div>
+        `).join('');
+      } else {
+        document.getElementById('pdf-projects-section').hidden = true;
+      }
+    }
+
+    // ── PDF GENERATION ─────────────────────────────────────────────────────
+    document.getElementById('download-pdf-btn').addEventListener('click', async () => {
+      const btn = document.getElementById('download-pdf-btn');
+      btn.disabled = true;
+      btn.textContent = 'Generating PDF…';
+
+      try {
+        // Use browser print-to-PDF as a reliable fallback
+        // For full jsPDF multi-page support, use html2canvas + jsPDF
+        window.print();
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Download PDF →';
+      }
+    });
+
+    document.getElementById('print-btn').addEventListener('click', () => window.print());
+
+    // ── INIT ───────────────────────────────────────────────────────────────
+    const result = loadLatestResult();
+
+    if (!result) {
+      document.getElementById('export-content').hidden = true;
+      document.getElementById('no-result').hidden = false;
+    } else {
+      renderPDFPreview(result);
+    }
+
+    // Print styles injected dynamically
+    const printStyle = document.createElement('style');
+    printStyle.textContent = `
+      @media print {
+        .nav, .export-actions, .export-note,
+        h1, .section-label, p.color-text-2 { display: none !important; }
+        body { background: white !important; }
+        .export-preview { box-shadow: none !important; }
+        .export-page { padding: 0 !important; }
+        @page { margin: 0.5cm; }
+      }
+    `;
+    document.head.appendChild(printStyle);
+  </script>
+</body>
+</html>

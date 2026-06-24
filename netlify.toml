@@ -1,0 +1,19 @@
+# netlify.toml
+# Netlify liest diese Datei beim Deployment
+
+[build]
+  # Kein Build-Schritt nötig — reines HTML/CSS/JS
+  publish = "."
+  functions = "netlify/functions"
+
+# URL-Umleitung: /api/analyze → Netlify Function
+[[redirects]]
+  from = "/api/analyze"
+  to = "/.netlify/functions/analyze"
+  status = 200
+
+# Alle anderen URLs → index.html (Single Page)
+[[redirects]]
+  from = "/*"
+  to = "/:splat"
+  status = 200
