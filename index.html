@@ -13,6 +13,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="lang-style.css" />
 </head>
 <body>
 
@@ -23,10 +24,15 @@
         <span class="logo-mark">●</span>CareerLens
       </a>
       <nav class="nav-links">
-        <a href="#how-it-works">How it works</a>
-        <a href="#features">Features</a>
-        <a href="#faq">FAQ</a>
-        <a href="#analyzer" class="btn-nav">Try free →</a>
+        <a href="#how-it-works" data-i18n="nav_how">How it works</a>
+        <a href="#features" data-i18n="nav_features">Features</a>
+        <a href="#faq" data-i18n="nav_faq">FAQ</a>
+        <div class="lang-switcher">
+          <button class="lang-btn active" data-lang="en">EN</button>
+          <button class="lang-btn" data-lang="de">DE</button>
+          <button class="lang-btn" data-lang="ar">AR</button>
+        </div>
+        <a href="#analyzer" class="btn-nav" data-i18n="nav_try">Try free →</a>
       </nav>
       <button class="nav-hamburger" aria-label="Open menu" id="hamburger">
         <span></span><span></span><span></span>
@@ -37,20 +43,16 @@
   <!-- HERO -->
   <section class="hero">
     <div class="container">
-      <div class="hero-eyebrow">Free for IT professionals</div>
-      <h1 class="hero-headline">
-        Find out exactly why<br />
-        you didn't get<br />
-        the interview.
-      </h1>
+      <div class="hero-eyebrow" data-i18n="hero_eyebrow">Free for IT professionals</div>
+      <h1 class="hero-headline" data-i18n="hero_h1">Find out exactly why<br/>you didn't get<br/>the interview.</h1>
       <p class="hero-sub">
         Paste your CV and a job description. Get your match score, missing skills,
         CV improvements, interview questions, and a personalized learning roadmap —
         in under 30 seconds.
       </p>
       <div class="hero-cta">
-        <a href="#analyzer" class="btn-primary">Analyze my CV — it's free</a>
-        <span class="hero-note">No signup required. No CV stored.</span>
+        <a href="#analyzer" class="btn-primary" data-i18n="hero_btn">Analyze my CV — it's free</a>
+        <span class="hero-note" data-i18n="hero_note">No signup required. No CV stored.</span>
       </div>
       <div class="hero-stats">
         <div class="stat">
@@ -209,12 +211,12 @@
 
         <div class="analyzer-actions">
           <button class="btn-analyze" id="analyze-btn">
-            <span class="btn-analyze-text">Analyze my CV →</span>
+            <span class="btn-analyze-text" data-i18n="analyze_btn">Analyze my CV →</span>
             <span class="btn-analyze-loading" hidden>
               <span class="spinner"></span> Analyzing...
             </span>
           </button>
-          <p class="free-note">Free · 3 analyses per day · No signup</p>
+          <p class="free-note" data-i18n="free_note">Free · 3 analyses per day · No signup</p>
         </div>
 
         <div class="results-section" id="results" hidden>
@@ -228,18 +230,18 @@
               <div class="score-number" id="score-number">—</div>
             </div>
             <div class="score-meta">
-              <h3 class="score-title">Match score</h3>
+              <h3 class="score-title" data-i18n="score_title">Match score</h3>
               <p class="score-explanation" id="score-explanation">Running analysis…</p>
             </div>
           </div>
 
           <!-- Result tabs -->
           <div class="result-tabs">
-            <button class="result-tab active" data-tab="skills">Missing skills</button>
-            <button class="result-tab" data-tab="improvements">CV improvements</button>
-            <button class="result-tab" data-tab="questions">Interview questions</button>
-            <button class="result-tab" data-tab="roadmap">Learning roadmap</button>
-            <button class="result-tab" data-tab="projects">Portfolio ideas</button>
+            <button class="result-tab active" data-tab="skills" data-i18n="tab_skills">Missing skills</button>
+            <button class="result-tab" data-tab="improvements" data-i18n="tab_improvements">CV improvements</button>
+            <button class="result-tab" data-tab="questions" data-i18n="tab_questions">Interview questions</button>
+            <button class="result-tab" data-tab="roadmap" data-i18n="tab_roadmap">Learning roadmap</button>
+            <button class="result-tab" data-tab="projects" data-i18n="tab_projects">Portfolio ideas</button>
           </div>
 
           <div class="result-panel" id="tab-skills">
@@ -259,8 +261,8 @@
           </div>
 
           <div class="result-actions">
-            <button class="btn-secondary" id="share-btn">Share your score</button>
-            <button class="btn-secondary" id="new-analysis-btn">New analysis</button>
+            <button class="btn-secondary" id="share-btn" data-i18n="share_btn">Share your score</button>
+            <button class="btn-secondary" id="new-analysis-btn" data-i18n="new_btn">New analysis</button>
           </div>
         </div>
 
@@ -351,9 +353,9 @@
   <!-- CTA -->
   <section class="cta-section">
     <div class="container">
-      <h2 class="cta-headline">Stop guessing. Start improving.</h2>
+      <h2 class="cta-headline" data-i18n="cta_h2">Stop guessing. Start improving.</h2>
       <p class="cta-sub">Paste your CV and a job description. Get your honest score in 30 seconds. Free to start.</p>
-      <a href="#analyzer" class="btn-primary btn-large">Analyze my CV now →</a>
+      <a href="#analyzer" class="btn-primary btn-large" data-i18n="cta_btn">Analyze my CV now →</a>
     </div>
   </section>
 
@@ -370,8 +372,8 @@
         <div class="footer-col">
           <strong>Product</strong>
           <a href="#analyzer">Analyzer</a>
-          <a href="#features">Features</a>
-          <a href="#how-it-works">How it works</a>
+          <a href="#features" data-i18n="nav_features">Features</a>
+          <a href="#how-it-works" data-i18n="nav_how">How it works</a>
         </div>
         <div class="footer-col">
           <strong>Legal</strong>
@@ -391,6 +393,7 @@
     </div>
   </footer>
 
+  <script src="i18n.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
