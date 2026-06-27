@@ -17,3 +17,8 @@
   from = "/*"
   to = "/:splat"
   status = 200
+
+[[redirects]]
+  from = "/api/extract-pdf"
+  to = "/.netlify/functions/extract-pdf"
+  status = 200
