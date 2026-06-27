@@ -300,3 +300,54 @@ document.addEventListener('DOMContentLoaded', () => {
     btn.addEventListener('click', () => applyLanguage(btn.dataset.lang));
   });
 });
+
+// إضافة الترجمات الناقصة
+const EXTRA = {
+  en: {
+    analyzing: 'Analyzing...',
+    testimonials_label: 'Early feedback',
+    testimonials_h2: 'What job seekers are saying.',
+    t1_text: '"I applied to 30 DevOps roles and heard nothing. After using CareerLens, I realized I was missing Terraform and ArgoCD. Fixed it, got 4 callbacks in a week."',
+    t2_text: '"The before/after CV improvements alone are worth it. Night and day difference."',
+    t3_text: '"The honest score hurt a little. But the learning roadmap was exactly what I needed."',
+    footer_product: 'Product',
+    footer_analyzer: 'Analyzer',
+    footer_legal: 'Legal',
+    footer_privacy: 'Privacy policy',
+    footer_terms: 'Terms of service',
+    footer_connect: 'Connect',
+  },
+  de: {
+    analyzing: 'Analysiere...',
+    testimonials_label: 'Erstes Feedback',
+    testimonials_h2: 'Was Jobsuchende sagen.',
+    t1_text: '"Ich habe mich auf 30 DevOps-Stellen beworben und nichts gehört. Nach CareerLens wusste ich: Terraform und ArgoCD fehlen. Behoben — 4 Rückmeldungen in einer Woche."',
+    t2_text: '"Die Vorher/Nachher-CV-Verbesserungen allein sind es wert. Tag-und-Nacht-Unterschied."',
+    t3_text: '"Der ehrliche Score hat ein bisschen wehgetan. Aber der Lernplan war genau das, was ich brauchte."',
+    footer_product: 'Produkt',
+    footer_analyzer: 'Analyzer',
+    footer_legal: 'Rechtliches',
+    footer_privacy: 'Datenschutz',
+    footer_terms: 'Nutzungsbedingungen',
+    footer_connect: 'Kontakt',
+  },
+  ar: {
+    analyzing: 'جاري التحليل...',
+    testimonials_label: 'آراء المستخدمين',
+    testimonials_h2: 'ماذا يقول الباحثون عن عمل.',
+    t1_text: '"تقدمت لـ 30 وظيفة DevOps ولم أسمع شيئاً. بعد CareerLens عرفت: Terraform وArgoCD ناقصان. أصلحتهما — حصلت على 4 مقابلات في أسبوع."',
+    t2_text: '"تحسينات CV وحدها تستحق. فرق كبير جداً."',
+    t3_text: '"الدرجة الصادقة آلمتني قليلاً. لكن خطة التعلم كانت بالضبط ما احتجته."',
+    footer_product: 'المنتج',
+    footer_analyzer: 'المحلل',
+    footer_legal: 'قانوني',
+    footer_privacy: 'سياسة الخصوصية',
+    footer_terms: 'شروط الخدمة',
+    footer_connect: 'تواصل',
+  }
+};
+
+// دمج الترجمات الإضافية
+Object.keys(EXTRA).forEach(lang => {
+  Object.assign(TRANSLATIONS[lang], EXTRA[lang]);
+});
