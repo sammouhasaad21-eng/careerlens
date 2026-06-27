@@ -1,0 +1,38 @@
+/* Language switcher styles */
+.lang-switcher {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--navy-3);
+  border: 1px solid var(--border-2);
+  border-radius: var(--radius-sm);
+  padding: 3px;
+  margin-right: 8px;
+}
+
+.lang-btn {
+  background: none;
+  border: none;
+  color: var(--text-3);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.lang-btn:hover { color: var(--text-1); background: var(--navy-4); }
+.lang-btn.active { background: var(--teal); color: var(--navy); }
+
+/* RTL support */
+[dir="rtl"] .hero-headline { text-align: right; }
+[dir="rtl"] .hero-sub { text-align: right; }
+[dir="rtl"] .hero-cta { flex-direction: row-reverse; }
+[dir="rtl"] .nav-inner { flex-direction: row-reverse; }
+[dir="rtl"] .nav-links { flex-direction: row-reverse; }
+[dir="rtl"] .ps-card li { flex-direction: row-reverse; }
+[dir="rtl"] .step-arrow { transform: rotate(180deg); }
+[dir="rtl"] .footer-inner { direction: rtl; }
+[dir="rtl"] body { font-family: 'Segoe UI', Tahoma, Arial, sans-serif; }
