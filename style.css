@@ -654,6 +654,82 @@ section { padding: 100px 0; }
   gap: 8px;
 }
 
+.btn-upgrade {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: var(--text-1);
+  padding: 14px 24px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background var(--transition), border-color var(--transition);
+}
+
+.btn-upgrade:hover {
+  background: rgba(0,212,180,0.12);
+  border-color: var(--teal);
+}
+
+.usage-status {
+  font-size: 13px;
+  color: var(--text-3);
+  flex-basis: 100%;
+  margin-top: 4px;
+}
+
+.analysis-history {
+  margin-top: 28px;
+  padding: 22px 0 0;
+  border-top: 1px solid var(--border);
+}
+
+.history-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.history-header span {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-1);
+}
+
+.history-list {
+  display: grid;
+  gap: 14px;
+}
+
+.history-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 18px;
+}
+
+.history-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+  color: var(--text-2);
+}
+
+.history-meta strong {
+  font-size: 15px;
+  color: var(--text-1);
+}
+
+.history-snippet p {
+  font-size: 14px;
+  color: var(--text-3);
+  margin: 0;
+}
+
 .btn-analyze:hover:not(:disabled) {
   background: var(--teal-dim);
   transform: translateY(-1px);
