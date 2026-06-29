@@ -1,1121 +1,443 @@
-/* =============================================
-   CareerLens — style.css
-   Design: dark navy base, electric teal accent,
-   Space Grotesk display / Inter body
-   ============================================= */
-
-/* === RESET & BASE === */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-:root {
-  --navy:      #0B0F1A;
-  --navy-2:    #111827;
-  --navy-3:    #1a2235;
-  --navy-4:    #243047;
-  --teal:      #00D4B4;
-  --teal-dim:  #00b89b;
-  --teal-glow: rgba(0, 212, 180, 0.12);
-  --teal-bg:   rgba(0, 212, 180, 0.07);
-  --coral:     #FF6B6B;
-  --green:     #22C55E;
-  --amber:     #F59E0B;
-  --text-1:    #F1F5F9;
-  --text-2:    #94A3B8;
-  --text-3:    #64748B;
-  --border:    rgba(255,255,255,0.08);
-  --border-2:  rgba(255,255,255,0.14);
-  --surface:   rgba(255,255,255,0.035);
-  --surface-2: rgba(255,255,255,0.05);
-  --shadow:    0 24px 60px rgba(2, 8, 23, 0.35);
-  --shadow-soft: 0 14px 40px rgba(2, 8, 23, 0.22);
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 20px;
-  --font-display: 'Space Grotesk', sans-serif;
-  --font-body:    'Inter', sans-serif;
-  --max-w: 1100px;
-  --transition: 0.2s ease;
-}
-
-html { scroll-behavior: smooth; }
-
-body {
-  font-family: var(--font-body);
-  background:
-    radial-gradient(circle at top left, rgba(0, 212, 180, 0.16), transparent 28%),
-    linear-gradient(135deg, #060913 0%, var(--navy) 100%);
-  color: var(--text-1);
-  font-size: 16px;
-  line-height: 1.7;
-  min-height: 100vh;
-  -webkit-font-smoothing: antialiased;
-}
-
-/* === CONTAINER === */
-.container {
-  max-width: var(--max-w);
-  margin: 0 auto;
-  padding: 0 24px;
-}
-
-/* === TYPOGRAPHY === */
-h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.15; }
-a { color: inherit; text-decoration: none; }
-ul { list-style: none; }
-
-/* === NAV === */
-.nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 100;
-  background: rgba(11, 15, 26, 0.85);
-  backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--border);
-}
-
-.nav-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 64px;
-}
-
-.logo {
-  font-family: var(--font-display);
-  font-size: 18px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  letter-spacing: -0.3px;
-}
-
-.logo-mark {
-  color: var(--teal);
-  font-size: 12px;
-}
-
-.nav-links {
-  display: flex;
-  align-items: center;
-  gap: 32px;
-  font-size: 14px;
-  color: var(--text-2);
-}
-
-.nav-links a { transition: color var(--transition); }
-.nav-links a:hover { color: var(--text-1); }
-
-.btn-nav {
-  background: var(--teal);
-  color: var(--navy);
-  padding: 8px 18px;
-  border-radius: var(--radius-sm);
-  font-weight: 600;
-  font-size: 13px;
-  transition: background var(--transition), transform var(--transition);
-}
-.btn-nav:hover { background: var(--teal-dim); transform: translateY(-1px); }
-
-.nav-hamburger {
-  display: none;
-  flex-direction: column;
-  gap: 5px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 4px;
-}
-.nav-hamburger span {
-  display: block;
-  width: 22px;
-  height: 2px;
-  background: var(--text-1);
-  border-radius: 2px;
-  transition: var(--transition);
-}
-
-/* === HERO === */
-.hero {
-  padding: 160px 0 100px;
-  position: relative;
-  overflow: hidden;
-}
-
-.hero::before {
-  content: '';
-  position: absolute;
-  top: -200px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 800px;
-  height: 800px;
-  background: radial-gradient(circle, rgba(0,212,180,0.1) 0%, transparent 70%);
-  pointer-events: none;
-}
-
-.hero .container {
-  position: relative;
-  border: 1px solid var(--border);
-  border-radius: 32px;
-  padding: 48px;
-  background: linear-gradient(145deg, rgba(255,255,255,0.045), rgba(0,212,180,0.04));
-  box-shadow: var(--shadow);
-  overflow: hidden;
-}
-
-.hero-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--teal);
-  background: var(--teal-bg);
-  border: 1px solid rgba(0,212,180,0.2);
-  padding: 6px 16px;
-  border-radius: 100px;
-  margin-bottom: 32px;
-}
-
-.hero-headline {
-  font-size: clamp(44px, 7vw, 80px);
-  font-weight: 700;
-  letter-spacing: -2px;
-  line-height: 1.05;
-  margin-bottom: 24px;
-  color: var(--text-1);
-}
-
-.hero-headline em {
-  font-style: normal;
-  color: var(--teal);
-}
-
-.hero-sub {
-  font-size: 18px;
-  color: var(--text-2);
-  max-width: 540px;
-  line-height: 1.65;
-  margin-bottom: 40px;
-}
-
-.hero-cta {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  flex-wrap: wrap;
-  margin-bottom: 40px;
-}
-
-.btn-primary {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dim) 100%);
-  color: var(--navy);
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 16px;
-  padding: 14px 28px;
-  border-radius: var(--radius-sm);
-  transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
-  white-space: nowrap;
-  box-shadow: 0 12px 30px rgba(0, 212, 180, 0.18);
-}
-.btn-primary:hover {
-  background: linear-gradient(135deg, #09e6c2 0%, var(--teal) 100%);
-  transform: translateY(-2px);
-  box-shadow: 0 16px 38px rgba(0,212,180,0.28);
-}
-
-.btn-large { font-size: 18px; padding: 18px 36px; }
-
-.hero-note {
-  font-size: 13px;
-  color: var(--text-3);
-}
-
-.hero-stats {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-}
-
-.stat {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 16px 18px;
-  box-shadow: var(--shadow-soft);
-}
-
-.stat strong {
-  display: block;
-  font-family: var(--font-display);
-  font-size: 22px;
-  font-weight: 700;
-  color: var(--text-1);
-  line-height: 1.2;
-}
-.stat span {
-  font-size: 13px;
-  color: var(--text-3);
-}
-
-.stat-divider {
-  display: none;
-}
-
-/* === SECTION SHARED === */
-section { padding: 100px 0; }
-
-.section-label {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--teal);
-  margin-bottom: 16px;
-}
-
-.section-headline {
-  font-size: clamp(28px, 4vw, 44px);
-  font-weight: 700;
-  letter-spacing: -1px;
-  margin-bottom: 52px;
-}
-
-/* === PROBLEM / SOLUTION === */
-.problem-solution { background: var(--navy-2); }
-
-.ps-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-}
-
-.ps-card {
-  padding: 36px;
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--border);
-}
-
-.ps-problem {
-  background: rgba(255, 107, 107, 0.05);
-  border-color: rgba(255, 107, 107, 0.2);
-}
-
-.ps-solution {
-  background: rgba(0, 212, 180, 0.05);
-  border-color: rgba(0, 212, 180, 0.2);
-}
-
-.ps-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  font-weight: 700;
-  margin-bottom: 20px;
-}
-
-.ps-problem .ps-icon { background: rgba(255,107,107,0.15); color: var(--coral); }
-.ps-solution .ps-icon { background: rgba(0,212,180,0.15); color: var(--teal); }
-
-.ps-card h3 {
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 20px;
-  color: var(--text-1);
-}
-
-.ps-card li {
-  padding: 10px 0;
-  border-bottom: 1px solid var(--border);
-  color: var(--text-2);
-  font-size: 15px;
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-}
-.ps-card li:last-child { border-bottom: none; }
-.ps-card li::before { content: '—'; color: var(--text-3); flex-shrink: 0; }
-.ps-problem li::before { color: rgba(255,107,107,0.5); }
-.ps-solution li::before { content: '→'; color: var(--teal); }
-
-/* === HOW IT WORKS === */
-.how-it-works { background: var(--navy); }
-
-.steps-grid {
-  display: flex;
-  align-items: flex-start;
-  gap: 0;
-}
-
-.step {
-  flex: 1;
-  padding: 36px;
-  background: var(--navy-3);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-}
-
-.step-num {
-  width: 40px;
-  height: 40px;
-  background: var(--teal-bg);
-  border: 1px solid rgba(0,212,180,0.3);
-  border-radius: var(--radius-sm);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 18px;
-  color: var(--teal);
-  margin-bottom: 20px;
-}
-
-.step h3 {
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 10px;
-}
-
-.step p { font-size: 15px; color: var(--text-2); }
-
-.step-arrow {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 12px;
-  padding-top: 36px;
-  color: var(--teal);
-  font-size: 24px;
-  flex-shrink: 0;
-}
-
-/* === FEATURES DEEP === */
-.features-deep { background: var(--navy-2); }
-
-.features-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-}
-
-.feature-card {
-  background: var(--navy-3);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 28px;
-  transition: border-color var(--transition), transform var(--transition);
-}
-
-.feature-card:hover {
-  border-color: var(--border-2);
-  transform: translateY(-3px);
-}
-
-.feature-icon {
-  font-size: 22px;
-  color: var(--teal);
-  margin-bottom: 16px;
-  font-family: monospace;
-}
-
-.feature-card h3 {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 8px;
-}
-
-.feature-card p { font-size: 14px; color: var(--text-2); line-height: 1.6; }
-
-/* === ANALYZER === */
-.analyzer-section { background: var(--navy); }
-
-.analyzer-intro {
-  font-size: 16px;
-  color: var(--text-2);
-  max-width: 560px;
-  margin-bottom: 48px;
-}
-
-.analyzer-box {
-  background: var(--navy-2);
-  border: 1px solid var(--border-2);
-  border-radius: var(--radius-lg);
-  padding: 40px;
-}
-
-.analyzer-inputs {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-  margin-bottom: 28px;
-}
-
-.input-group { display: flex; flex-direction: column; gap: 10px; }
-
-.input-label {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text-1);
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-
-.input-hint {
-  font-size: 12px;
-  font-weight: 400;
-  color: var(--text-3);
-}
-
-.analyzer-textarea {
-  background: var(--navy-3);
-  border: 1px solid var(--border-2);
-  border-radius: var(--radius-sm);
-  color: var(--text-1);
-  font-family: var(--font-body);
-  font-size: 14px;
-  line-height: 1.6;
-  padding: 16px;
-  resize: vertical;
-  transition: border-color var(--transition);
-  min-height: 220px;
-}
-.analyzer-textarea:focus {
-  outline: none;
-  border-color: rgba(0,212,180,0.5);
-  box-shadow: 0 0 0 3px rgba(0,212,180,0.08);
-}
-.analyzer-textarea::placeholder { color: var(--text-3); }
-
-.char-count {
-  font-size: 11px;
-  color: var(--text-3);
-  text-align: right;
-}
-
-.analyzer-actions {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  flex-wrap: wrap;
-}
-
-.btn-analyze {
-  background: var(--teal);
-  color: var(--navy);
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 16px;
-  padding: 14px 32px;
-  border: none;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.btn-analyze:hover:not(:disabled) {
-  background: var(--teal-dim);
-  transform: translateY(-1px);
-  box-shadow: 0 8px 24px rgba(0,212,180,0.2);
-}
-
-.btn-analyze:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  transform: none;
-}
-
-.free-note { font-size: 13px; color: var(--text-3); }
-
-/* === SPINNER === */
-.spinner {
-  display: inline-block;
-  width: 14px;
-  height: 14px;
-  border: 2px solid rgba(11,15,26,0.3);
-  border-top-color: var(--navy);
-  border-radius: 50%;
-  animation: spin 0.7s linear infinite;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-
-/* === RESULTS === */
-.results-section {
-  margin-top: 40px;
-  border-top: 1px solid var(--border);
-  padding-top: 40px;
-}
-
-.result-score-card {
-  display: flex;
-  align-items: center;
-  gap: 32px;
-  background: var(--navy-3);
-  border: 1px solid var(--border-2);
-  border-radius: var(--radius-lg);
-  padding: 32px;
-  margin-bottom: 32px;
-}
-
-.score-ring { position: relative; width: 100px; height: 100px; flex-shrink: 0; }
-
-.score-svg { width: 100%; height: 100%; transform: rotate(-90deg); }
-
-.score-bg-circle {
-  fill: none;
-  stroke: var(--navy-4);
-  stroke-width: 8;
-}
-
-.score-fill-circle {
-  fill: none;
-  stroke: var(--teal);
-  stroke-width: 8;
-  stroke-linecap: round;
-  stroke-dasharray: 264;
-  stroke-dashoffset: 264;
-  transition: stroke-dashoffset 1s ease, stroke 0.5s ease;
-}
-
-.score-number {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-display);
-  font-size: 22px;
-  font-weight: 700;
-  color: var(--text-1);
-}
-
-.score-title {
-  font-size: 13px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: var(--teal);
-  margin-bottom: 8px;
-}
-
-.score-explanation { font-size: 15px; color: var(--text-2); line-height: 1.6; }
-
-/* === RESULT TABS === */
-.result-tabs {
-  display: flex;
-  gap: 4px;
-  border-bottom: 1px solid var(--border);
-  margin-bottom: 28px;
-  overflow-x: auto;
-}
-
-.result-tab {
-  background: none;
-  border: none;
-  color: var(--text-3);
-  font-family: var(--font-body);
-  font-size: 13px;
-  font-weight: 500;
-  padding: 10px 16px;
-  cursor: pointer;
-  border-bottom: 2px solid transparent;
-  transition: color var(--transition), border-color var(--transition);
-  white-space: nowrap;
-}
-
-.result-tab:hover { color: var(--text-2); }
-
-.result-tab.active {
-  color: var(--teal);
-  border-bottom-color: var(--teal);
-}
-
-/* === RESULT PANELS === */
-.result-panel { min-height: 160px; }
-
-.panel-loading {
-  color: var(--text-3);
-  font-size: 14px;
-  padding: 20px 0;
-}
-
-/* Skills panel */
-.skill-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 16px;
-  padding: 16px 0;
-  border-bottom: 1px solid var(--border);
-}
-.skill-item:last-child { border-bottom: none; }
-
-.skill-badge {
-  font-size: 11px;
-  font-weight: 600;
-  padding: 3px 10px;
-  border-radius: 100px;
-  flex-shrink: 0;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-.badge-high   { background: rgba(255,107,107,0.15); color: var(--coral); }
-.badge-medium { background: rgba(245,158,11,0.15); color: var(--amber); }
-.badge-low    { background: rgba(100,116,139,0.15); color: var(--text-3); }
-
-.skill-info h4 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
-.skill-info p  { font-size: 13px; color: var(--text-2); }
-
-/* Improvements panel */
-.improvement-item {
-  background: var(--navy-3);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  padding: 20px;
-  margin-bottom: 16px;
-}
-
-.improvement-section-label {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: var(--teal);
-  margin-bottom: 12px;
-}
-
-.improvement-before, .improvement-after {
-  padding: 12px;
-  border-radius: var(--radius-sm);
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 8px;
-}
-
-.improvement-before {
-  background: rgba(255,107,107,0.06);
-  border-left: 2px solid var(--coral);
-  color: var(--text-2);
-}
-
-.improvement-after {
-  background: rgba(0,212,180,0.06);
-  border-left: 2px solid var(--teal);
-  color: var(--text-1);
-}
-
-.improvement-label {
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 4px;
-}
-
-.before-label { color: var(--coral); }
-.after-label  { color: var(--teal); }
-
-.improvement-reason {
-  font-size: 13px;
-  color: var(--text-3);
-  margin-top: 8px;
-  font-style: italic;
-}
-
-/* Questions panel */
-.question-item {
-  display: flex;
-  gap: 16px;
-  padding: 16px 0;
-  border-bottom: 1px solid var(--border);
-  align-items: flex-start;
-}
-.question-item:last-child { border-bottom: none; }
-
-.question-num {
-  width: 28px;
-  height: 28px;
-  background: var(--teal-bg);
-  border: 1px solid rgba(0,212,180,0.25);
-  border-radius: var(--radius-sm);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--teal);
-  flex-shrink: 0;
-}
-
-.question-item p { font-size: 15px; color: var(--text-1); line-height: 1.55; }
-
-/* Roadmap panel */
-.roadmap-item {
-  background: var(--navy-3);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  padding: 20px;
-  margin-bottom: 16px;
-}
-
-.roadmap-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
-}
-
-.roadmap-skill { font-size: 16px; font-weight: 600; }
-
-.roadmap-weeks {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--teal);
-  background: var(--teal-bg);
-  padding: 3px 10px;
-  border-radius: 100px;
-  border: 1px solid rgba(0,212,180,0.2);
-}
-
-.roadmap-resources { list-style: none; }
-.roadmap-resources li {
-  font-size: 13px;
-  color: var(--text-2);
-  padding: 4px 0;
-  display: flex;
-  gap: 8px;
-  align-items: flex-start;
-}
-.roadmap-resources li::before { content: '→'; color: var(--teal); flex-shrink: 0; }
-
-/* Portfolio panel */
-.project-item {
-  background: var(--navy-3);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  padding: 20px;
-  margin-bottom: 16px;
-}
-.project-item h4 { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
-.project-item p { font-size: 14px; color: var(--text-2); }
-
-/* Result actions */
-.result-actions {
-  display: flex;
-  gap: 12px;
-  margin-top: 28px;
-  padding-top: 28px;
-  border-top: 1px solid var(--border);
-}
-
-.btn-secondary {
-  background: var(--navy-3);
-  border: 1px solid var(--border-2);
-  color: var(--text-1);
-  font-family: var(--font-body);
-  font-size: 14px;
-  font-weight: 500;
-  padding: 10px 20px;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  transition: border-color var(--transition), background var(--transition);
-}
-.btn-secondary:hover {
-  border-color: var(--teal);
-  background: var(--teal-bg);
-}
-
-/* Error */
-.error-section { padding: 20px 0; }
-.error-text { color: var(--coral); font-size: 14px; }
-
-/* === TESTIMONIALS === */
-.testimonials { background: var(--navy-2); }
-
-.testimonials-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-}
-
-.testimonial-card {
-  background: var(--navy-3);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 28px;
-}
-
-.testimonial-score {
-  font-family: var(--font-display);
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--teal);
-  background: var(--teal-bg);
-  display: inline-block;
-  padding: 4px 12px;
-  border-radius: 100px;
-  margin-bottom: 16px;
-  border: 1px solid rgba(0,212,180,0.2);
-}
-
-.testimonial-card p {
-  font-size: 15px;
-  color: var(--text-2);
-  line-height: 1.65;
-  margin-bottom: 24px;
-}
-
-.testimonial-author {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.testimonial-avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: var(--teal-bg);
-  border: 1px solid rgba(0,212,180,0.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--teal);
-  flex-shrink: 0;
-}
-
-.testimonial-author strong { display: block; font-size: 14px; font-weight: 600; }
-.testimonial-author span  { font-size: 12px; color: var(--text-3); }
-
-/* === FAQ === */
-.faq-section { background: var(--navy); }
-
-.faq-list { max-width: 720px; }
-
-.faq-item {
-  border-bottom: 1px solid var(--border);
-}
-
-.faq-question {
-  width: 100%;
-  text-align: left;
-  background: none;
-  border: none;
-  color: var(--text-1);
-  font-family: var(--font-body);
-  font-size: 16px;
-  font-weight: 500;
-  padding: 20px 0;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
-  transition: color var(--transition);
-}
-
-.faq-question:hover { color: var(--teal); }
-
-.faq-question::after {
-  content: '+';
-  font-size: 20px;
-  color: var(--text-3);
-  flex-shrink: 0;
-  transition: transform var(--transition);
-}
-
-.faq-item.open .faq-question::after { transform: rotate(45deg); }
-
-.faq-answer {
-  font-size: 15px;
-  color: var(--text-2);
-  line-height: 1.65;
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease, padding 0.3s ease;
-}
-
-.faq-item.open .faq-answer {
-  max-height: 200px;
-  padding-bottom: 20px;
-}
-
-/* === CTA === */
-.cta-section {
-  background: var(--navy-2);
-  text-align: center;
-  padding: 120px 24px;
-}
-
-.cta-headline {
-  font-size: clamp(32px, 5vw, 52px);
-  font-weight: 700;
-  letter-spacing: -1.5px;
-  margin-bottom: 16px;
-}
-
-.cta-sub {
-  font-size: 18px;
-  color: var(--text-2);
-  margin-bottom: 40px;
-}
-
-/* === FOOTER === */
-.footer {
-  background: var(--navy);
-  border-top: 1px solid var(--border);
-  padding: 64px 0 0;
-}
-
-.footer-inner {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 60px;
-  margin-bottom: 48px;
-}
-
-.footer-brand .logo { margin-bottom: 16px; display: inline-flex; }
-.footer-brand p { font-size: 14px; color: var(--text-3); line-height: 1.65; }
-
-.footer-links {
-  display: flex;
-  gap: 60px;
-}
-
-.footer-col {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.footer-col strong {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-1);
-  margin-bottom: 4px;
-}
-
-.footer-col a {
-  font-size: 14px;
-  color: var(--text-3);
-  transition: color var(--transition);
-}
-.footer-col a:hover { color: var(--text-1); }
-
-.footer-bottom {
-  border-top: 1px solid var(--border);
-  padding: 24px 0;
-}
-
-.footer-bottom p { font-size: 13px; color: var(--text-3); }
-
-/* === DASHBOARD SURFACES === */
-.ps-card,
-.step,
-.feature-card,
-.analyzer-box,
-.result-score-card,
-.improvement-item,
-.roadmap-item,
-.project-item,
-.testimonial-card,
-.faq-item {
-  background: linear-gradient(145deg, rgba(255,255,255,0.045), rgba(0,212,180,0.035));
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow-soft);
-}
-
-.ps-card,
-.step,
-.feature-card,
-.analyzer-box,
-.result-score-card,
-.improvement-item,
-.roadmap-item,
-.project-item,
-.testimonial-card {
-  border-radius: var(--radius-lg);
-}
-
-.ps-card:hover,
-.step:hover,
-.feature-card:hover,
-.testimonial-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(0, 212, 180, 0.28);
-}
-
-.btn-analyze {
-  background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dim) 100%);
-  box-shadow: 0 12px 30px rgba(0, 212, 180, 0.18);
-}
-
-.btn-analyze:hover:not(:disabled) {
-  background: linear-gradient(135deg, #09e6c2 0%, var(--teal) 100%);
-  box-shadow: 0 16px 38px rgba(0, 212, 180, 0.28);
-}
-
-section {
-  position: relative;
-}
-
-.section-label {
-  display: inline-block;
-  padding: 6px 12px;
-  border-radius: 999px;
-  background: rgba(0, 212, 180, 0.08);
-  border: 1px solid rgba(0, 212, 180, 0.18);
-}
-
-.section-headline {
-  max-width: 680px;
-}
-
-/* === RESPONSIVE === */
-@media (max-width: 900px) {
-  .ps-grid { grid-template-columns: 1fr; }
-  .features-grid { grid-template-columns: repeat(2, 1fr); }
-  .testimonials-grid { grid-template-columns: 1fr; }
-  .steps-grid { flex-direction: column; }
-  .step-arrow { transform: rotate(90deg); padding: 0; align-self: center; }
-  .footer-inner { grid-template-columns: 1fr; gap: 40px; }
-  .footer-links { flex-wrap: wrap; gap: 32px; }
-  .analyzer-inputs { grid-template-columns: 1fr; }
-}
-
-@media (max-width: 640px) {
-  section { padding: 64px 0; }
-  .hero { padding: 120px 0 64px; }
-  .hero .container { padding: 28px; }
-  .hero-stats { grid-template-columns: 1fr; }
-  .features-grid { grid-template-columns: 1fr; }
-  .nav-links { display: none; }
-  .nav-hamburger { display: flex; }
-  .hero-headline { letter-spacing: -1px; }
-  .result-score-card { flex-direction: column; align-items: flex-start; gap: 20px; }
-  .analyzer-box { padding: 20px; }
-  .result-tabs { flex-wrap: nowrap; }
-}
-
-/* === REDUCED MOTION === */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
-}
+// i18n.js — نظام اللغات لـ CareerLens
+// يدعم: العربية (ar) والألمانية (de) والإنجليزية (en)
+
+const TRANSLATIONS = {
+  en: {
+    dir: 'ltr',
+    char_count: 'characters',
+    nav_how: 'How it works',
+    nav_features: 'Features',
+    nav_faq: 'FAQ',
+    nav_try: 'Try free →',
+    hero_eyebrow: 'Free for IT professionals',
+    hero_h1: 'Find out exactly why<br/>you didn\'t get<br/>the interview.',
+    hero_sub: 'Paste your CV and a job description. Get your match score, missing skills, CV improvements, interview questions, and a personalized learning roadmap — in under 30 seconds.',
+    hero_btn: 'Analyze my CV — it\'s free',
+    hero_note: 'No signup required. No CV stored.',
+    hero_preview_badge: 'Live analysis preview',
+    hero_preview_chip: 'No signup',
+    hero_preview_score_label: 'Match score',
+    hero_preview_missing: 'Missing skills',
+    hero_preview_missing_value: 'Terraform · Kubernetes · CI/CD',
+    hero_preview_improvements: 'CV improvements',
+    hero_preview_improvements_value: '3 strong rewrites for your experience section',
+    hero_preview_questions: 'Interview prep',
+    hero_preview_questions_value: '5 tailored questions ready in seconds',
+    hero_preview_fast: '⚡ 30 seconds',
+    hero_preview_private: '🔒 Private by design',
+    stat1_val: '30 sec',
+    stat1_label: 'Average analysis time',
+    stat2_val: '10 insights',
+    stat2_label: 'Per analysis',
+    stat3_val: '100% IT-focused',
+    stat3_label: 'Built for tech roles',
+    problem_label: 'The problem',
+    problem_h2: 'You\'re applying in the dark.',
+    problem_title: 'What most job seekers experience',
+    problem_1: 'Apply to dozens of roles with the same generic CV',
+    problem_2: 'Get rejected with zero feedback',
+    problem_3: 'Don\'t know if ATS systems are filtering them out',
+    problem_4: 'Waste months learning the wrong skills',
+    problem_5: 'Pay €200+ for a professional CV writer',
+    solution_title: 'What CareerLens gives you',
+    solution_1: 'An exact match score for every role you apply to',
+    solution_2: 'The precise skills the employer is looking for',
+    solution_3: 'Sentence-level CV improvements with before/after',
+    solution_4: 'A 6-week learning roadmap for your gaps',
+    solution_5: '5 tailored interview questions to prepare for',
+    howitworks_label: 'How it works',
+    howitworks_h2: 'Three steps. Thirty seconds.',
+    step1_h: 'Paste your CV',
+    step1_p: 'Copy and paste your CV as plain text. No file upload, no account needed.',
+    step2_h: 'Paste the job description',
+    step2_p: 'Copy the full job posting — requirements, responsibilities, everything.',
+    step3_h: 'Get your analysis',
+    step3_p: 'In 30 seconds, you receive your match score, missing skills, CV improvements, interview questions, and a learning roadmap.',
+    features_label: 'What you get',
+    features_h2: 'Ten insights per analysis.',
+    f1_h: 'Match score', f1_p: 'A 0–100 score showing how well your CV aligns with this specific role.',
+    f2_h: 'Missing skills', f2_p: 'The exact skills in the job description that aren\'t in your CV.',
+    f3_h: 'CV improvements', f3_p: 'Before/after rewrites for specific lines in your CV.',
+    f4_h: 'Interview questions', f4_p: '5 questions the interviewer is likely to ask.',
+    f5_h: 'Learning roadmap', f5_p: 'A prioritized 6-week plan: which skills to learn first.',
+    f6_h: 'Portfolio projects', f6_p: 'Two concrete project ideas that demonstrate the skills this employer wants.',
+    analyzer_label: 'The tool',
+    analyzer_h2: 'Analyze your CV now.',
+    analyzer_intro: 'Paste your CV and the job description below. No signup, no email, no CV stored.',
+    cv_label: 'Your CV',
+    cv_hint: 'Paste as plain text. Include all sections.',
+    cv_placeholder: 'Paste your full CV here...',
+    jd_label: 'Job description',
+    jd_hint: 'Paste the full posting including requirements.',
+    jd_placeholder: 'Paste the full job description here...',
+    analyze_btn: 'Analyze my CV →',
+    free_note: 'Free · 3 analyses per day · No signup',
+    score_title: 'Match score',
+    tab_skills: 'Missing skills',
+    tab_improvements: 'CV improvements',
+    tab_questions: 'Interview questions',
+    tab_roadmap: 'Learning roadmap',
+    tab_projects: 'Portfolio ideas',
+    share_btn: 'Share your score',
+    new_btn: 'New analysis',
+    panel_loading_skills: 'Identifying skill gaps…',
+    panel_loading_improvements: 'Generating CV improvements…',
+    panel_loading_questions: 'Generating interview questions…',
+    panel_loading_roadmap: 'Building your learning roadmap…',
+    panel_loading_projects: 'Generating portfolio project ideas…',
+    empty_skills: 'No significant skill gaps identified. Your profile is a strong match.',
+    empty_improvements: 'Your CV is already well-structured for this role.',
+    empty_questions: 'No questions generated.',
+    empty_roadmap: 'No learning roadmap — your skills already match well.',
+    empty_projects: 'No portfolio project suggestions.',
+    empty_project_label: 'Project idea',
+    faq_label: 'Questions',
+    faq_h2: 'Frequently asked.',
+    faq1_q: 'Is my CV stored anywhere?',
+    faq1_a: 'No. Your CV and job description are sent directly to the AI for analysis and are never stored on our servers.',
+    faq2_q: 'How accurate is the match score?',
+    faq2_a: 'The score reflects how well your CV language matches the job description\'s requirements. Use it as a guide, not a verdict.',
+    faq3_q: 'Does it work for non-IT jobs?',
+    faq3_a: 'CareerLens is specifically designed for IT roles — software engineering, DevOps, data science, cloud, QA, and related fields.',
+    faq4_q: 'How many analyses can I run for free?',
+    faq4_a: '3 per day on the free plan. Upgrade to Pro for unlimited analyses.',
+    cta_h2: 'Stop guessing. Start improving.',
+    cta_sub: 'Paste your CV and a job description. Get your honest score in 30 seconds. Free to start.',
+    cta_btn: 'Analyze my CV now →',
+    footer_desc: 'AI-powered CV analysis for IT professionals.',
+    footer_copy: '© 2025 CareerLens. Made with ☕ and zero budget.',
+  },
+
+  de: {
+    dir: 'ltr',
+    char_count: 'Zeichen',
+    nav_how: 'Wie es funktioniert',
+    nav_features: 'Funktionen',
+    nav_faq: 'FAQ',
+    nav_try: 'Kostenlos testen →',
+    hero_eyebrow: 'Kostenlos für IT-Fachleute',
+    hero_h1: 'Finde heraus, warum du<br/>keine Einladung<br/>bekommen hast.',
+    hero_sub: 'Füge deinen Lebenslauf und eine Stellenbeschreibung ein. Erhalte deinen Match-Score, fehlende Skills, CV-Verbesserungen, Interviewfragen und einen Lernplan — in unter 30 Sekunden.',
+    hero_btn: 'Meinen CV analysieren — kostenlos',
+    hero_note: 'Keine Registrierung. Kein CV gespeichert.',
+    hero_preview_badge: 'Live-Analysevorschau',
+    hero_preview_chip: 'Keine Registrierung',
+    hero_preview_score_label: 'Match-Score',
+    hero_preview_missing: 'Fehlende Skills',
+    hero_preview_missing_value: 'Terraform · Kubernetes · CI/CD',
+    hero_preview_improvements: 'CV-Verbesserungen',
+    hero_preview_improvements_value: '3 starke Umschreibungen für deinen Erfahrungsabschnitt',
+    hero_preview_questions: 'Interviewvorbereitung',
+    hero_preview_questions_value: '5 maßgeschneiderte Fragen in Sekunden bereit',
+    hero_preview_fast: '⚡ 30 Sekunden',
+    hero_preview_private: '🔒 Privatsphäre',
+    stat1_val: '30 Sek',
+    stat1_label: 'Durchschnittliche Analysezeit',
+    stat2_val: '10 Einblicke',
+    stat2_label: 'Pro Analyse',
+    stat3_val: '100% IT-fokussiert',
+    stat3_label: 'Für Tech-Berufe',
+    problem_label: 'Das Problem',
+    problem_h2: 'Du bewirbst dich im Dunkeln.',
+    problem_title: 'Was die meisten Bewerber erleben',
+    problem_1: 'Mit demselben generischen CV auf Dutzende Stellen bewerben',
+    problem_2: 'Ohne Feedback abgelehnt werden',
+    problem_3: 'Nicht wissen, ob ATS-Systeme sie herausfiltern',
+    problem_4: 'Monate damit verschwenden, die falschen Skills zu lernen',
+    problem_5: '€200+ für einen professionellen CV-Schreiber bezahlen',
+    solution_title: 'Was CareerLens dir gibt',
+    solution_1: 'Einen genauen Match-Score für jede Stelle',
+    solution_2: 'Die genauen Skills, die der Arbeitgeber sucht',
+    solution_3: 'CV-Verbesserungen mit Vorher/Nachher',
+    solution_4: 'Einen 6-Wochen-Lernplan für deine Lücken',
+    solution_5: '5 maßgeschneiderte Interviewfragen zur Vorbereitung',
+    howitworks_label: 'So funktioniert es',
+    howitworks_h2: 'Drei Schritte. Dreißig Sekunden.',
+    step1_h: 'CV einfügen',
+    step1_p: 'Kopiere deinen CV als einfachen Text. Kein Datei-Upload, kein Konto nötig.',
+    step2_h: 'Stellenbeschreibung einfügen',
+    step2_p: 'Kopiere die vollständige Stellenanzeige — Anforderungen, Aufgaben, alles.',
+    step3_h: 'Analyse erhalten',
+    step3_p: 'In 30 Sekunden erhältst du deinen Match-Score, fehlende Skills, CV-Verbesserungen, Interviewfragen und einen Lernplan.',
+    features_label: 'Was du bekommst',
+    features_h2: 'Zehn Einblicke pro Analyse.',
+    f1_h: 'Match-Score', f1_p: 'Ein 0–100 Score, der zeigt, wie gut dein CV zur Stelle passt.',
+    f2_h: 'Fehlende Skills', f2_p: 'Die genauen Skills in der Stellenbeschreibung, die in deinem CV fehlen.',
+    f3_h: 'CV-Verbesserungen', f3_p: 'Vorher/Nachher-Umschreibungen für bestimmte Zeilen in deinem CV.',
+    f4_h: 'Interviewfragen', f4_p: '5 Fragen, die der Interviewer wahrscheinlich stellen wird.',
+    f5_h: 'Lernplan', f5_p: 'Ein priorisierter 6-Wochen-Plan: Welche Skills du zuerst lernen solltest.',
+    f6_h: 'Portfolio-Projekte', f6_p: 'Zwei konkrete Projektideen, die genau die Skills zeigen, die der Arbeitgeber möchte.',
+    analyzer_label: 'Das Tool',
+    analyzer_h2: 'Analysiere deinen CV jetzt.',
+    analyzer_intro: 'Füge deinen CV und die Stellenbeschreibung unten ein. Keine Registrierung, keine E-Mail, kein CV gespeichert.',
+    cv_label: 'Dein Lebenslauf',
+    cv_hint: 'Als einfachen Text einfügen. Alle Abschnitte einschließen.',
+    cv_placeholder: 'Füge deinen vollständigen CV hier ein...',
+    jd_label: 'Stellenbeschreibung',
+    jd_hint: 'Die vollständige Anzeige einschließlich Anforderungen einfügen.',
+    jd_placeholder: 'Füge die vollständige Stellenbeschreibung hier ein...',
+    analyze_btn: 'Meinen CV analysieren →',
+    free_note: 'Kostenlos · 3 Analysen pro Tag · Keine Registrierung',
+    score_title: 'Match-Score',
+    tab_skills: 'Fehlende Skills',
+    tab_improvements: 'CV-Verbesserungen',
+    tab_questions: 'Interviewfragen',
+    tab_roadmap: 'Lernplan',
+    tab_projects: 'Portfolio-Ideen',
+    share_btn: 'Score teilen',
+    new_btn: 'Neue Analyse',
+    panel_loading_skills: 'Skill-Lücken werden identifiziert…',
+    panel_loading_improvements: 'CV-Verbesserungen werden erzeugt…',
+    panel_loading_questions: 'Interviewfragen werden erzeugt…',
+    panel_loading_roadmap: 'Dein Lernplan wird aufgebaut…',
+    panel_loading_projects: 'Portfolio-Projektideen werden erzeugt…',
+    empty_skills: 'Keine wesentlichen Skill-Lücken erkannt. Dein Profil passt sehr gut.',
+    empty_improvements: 'Dein CV ist für diese Rolle bereits gut strukturiert.',
+    empty_questions: 'Keine Fragen erzeugt.',
+    empty_roadmap: 'Kein Lernplan — deine Skills passen bereits gut.',
+    empty_projects: 'Keine Portfolio-Projektvorschläge.',
+    empty_project_label: 'Projektidee',
+    faq_label: 'Fragen',
+    faq_h2: 'Häufig gestellte Fragen.',
+    faq1_q: 'Wird mein CV gespeichert?',
+    faq1_a: 'Nein. Dein CV und die Stellenbeschreibung werden direkt an die KI zur Analyse gesendet und niemals auf unseren Servern gespeichert.',
+    faq2_q: 'Wie genau ist der Match-Score?',
+    faq2_a: 'Der Score zeigt, wie gut die Sprache deines CVs mit den Anforderungen der Stellenbeschreibung übereinstimmt. Nutze ihn als Orientierung.',
+    faq3_q: 'Funktioniert es auch für Nicht-IT-Jobs?',
+    faq3_a: 'CareerLens ist speziell für IT-Berufe entwickelt — Softwareentwicklung, DevOps, Data Science, Cloud, QA und verwandte Bereiche.',
+    faq4_q: 'Wie viele Analysen kann ich kostenlos durchführen?',
+    faq4_a: '3 pro Tag im kostenlosen Plan. Upgrade auf Pro für unbegrenzte Analysen.',
+    cta_h2: 'Hör auf zu raten. Fang an zu verbessern.',
+    cta_sub: 'Füge deinen CV und eine Stellenbeschreibung ein. Erhalte deinen ehrlichen Score in 30 Sekunden.',
+    cta_btn: 'Meinen CV jetzt analysieren →',
+    footer_desc: 'KI-gestützte CV-Analyse für IT-Fachleute.',
+    footer_copy: '© 2025 CareerLens. Mit ☕ und null Budget gebaut.',
+  },
+
+  ar: {
+    dir: 'rtl',
+    char_count: 'أحرف',
+    nav_how: 'كيف يعمل',
+    nav_features: 'المميزات',
+    nav_faq: 'الأسئلة',
+    nav_try: '← جرب مجاناً',
+    hero_eyebrow: 'مجاني لمحترفي IT',
+    hero_h1: 'اكتشف بالضبط لماذا<br/>لم تحصل<br/>على المقابلة.',
+    hero_sub: 'الصق CV تاعك ووصف الوظيفة. احصل على درجة التوافق، المهارات الناقصة، تحسينات CV، أسئلة المقابلة، وخطة تعلم مخصصة — في أقل من 30 ثانية.',
+    hero_btn: 'حلل CV تاعي — مجاناً',
+    hero_note: 'لا تسجيل. لا CV محفوظ.',
+    hero_preview_badge: 'معاينة تحليل مباشرة',
+    hero_preview_chip: 'بدون تسجيل',
+    hero_preview_score_label: 'درجة التوافق',
+    hero_preview_missing: 'المهارات الناقصة',
+    hero_preview_missing_value: 'Terraform · Kubernetes · CI/CD',
+    hero_preview_improvements: 'تحسينات CV',
+    hero_preview_improvements_value: '3 إعادة كتابة قوية لقسم الخبرة',
+    hero_preview_questions: 'تحضير المقابلة',
+    hero_preview_questions_value: '5 أسئلة مخصصة جاهزة خلال ثوانٍ',
+    hero_preview_fast: '⚡ 30 ثانية',
+    hero_preview_private: '🔒 خاص وبعناية',
+    stat1_val: '30 ثانية',
+    stat1_label: 'متوسط وقت التحليل',
+    stat2_val: '10 نتائج',
+    stat2_label: 'لكل تحليل',
+    stat3_val: '100% IT',
+    stat3_label: 'للأدوار التقنية',
+    problem_label: 'المشكلة',
+    problem_h2: 'أنت تتقدم في الظلام.',
+    problem_title: 'ما يعانيه معظم الباحثين عن عمل',
+    problem_1: 'التقديم لعشرات الوظائف بنفس CV العام',
+    problem_2: 'الرفض دون أي تغذية راجعة',
+    problem_3: 'عدم معرفة ما إذا كانت أنظمة ATS تفلترهم',
+    problem_4: 'إضاعة أشهر في تعلم المهارات الخاطئة',
+    problem_5: 'دفع €200+ لكاتب CV محترف',
+    solution_title: 'ما يقدمه CareerLens',
+    solution_1: 'درجة توافق دقيقة لكل وظيفة تتقدم لها',
+    solution_2: 'المهارات التي يبحث عنها صاحب العمل',
+    solution_3: 'تحسينات CV مع قبل وبعد',
+    solution_4: 'خطة تعلم 6 أسابيع لسد الفجوات',
+    solution_5: '5 أسئلة مقابلة مخصصة للتحضير',
+    howitworks_label: 'كيف يعمل',
+    howitworks_h2: 'ثلاث خطوات. ثلاثون ثانية.',
+    step1_h: 'الصق CV تاعك',
+    step1_p: 'انسخ والصق CV تاعك كنص عادي. لا رفع ملفات، لا حساب مطلوب.',
+    step2_h: 'الصق وصف الوظيفة',
+    step2_p: 'انسخ الإعلان الكامل — المتطلبات، المسؤوليات، كل شيء.',
+    step3_h: 'احصل على التحليل',
+    step3_p: 'في 30 ثانية، تحصل على درجة التوافق، المهارات الناقصة، تحسينات CV، أسئلة المقابلة، وخطة تعلم.',
+    features_label: 'ما تحصل عليه',
+    features_h2: 'عشر نتائج لكل تحليل.',
+    f1_h: 'درجة التوافق', f1_p: 'درجة من 0 إلى 100 تظهر مدى توافق CV تاعك مع هذا الدور.',
+    f2_h: 'المهارات الناقصة', f2_p: 'المهارات الدقيقة في وصف الوظيفة غير الموجودة في CV تاعك.',
+    f3_h: 'تحسينات CV', f3_p: 'إعادة كتابة قبل/بعد لأسطر معينة في CV تاعك.',
+    f4_h: 'أسئلة المقابلة', f4_p: '5 أسئلة من المرجح أن يسألها المحاور.',
+    f5_h: 'خطة التعلم', f5_p: 'خطة 6 أسابيع مرتبة حسب الأولوية: أي مهارات تتعلم أولاً.',
+    f6_h: 'مشاريع Portfolio', f6_p: 'فكرتان لمشروع ملموس يُظهران المهارات التي يريدها صاحب العمل.',
+    analyzer_label: 'الأداة',
+    analyzer_h2: 'حلل CV تاعك الآن.',
+    analyzer_intro: 'الصق CV تاعك ووصف الوظيفة أدناه. لا تسجيل، لا بريد إلكتروني، لا CV محفوظ.',
+    cv_label: 'CV تاعك',
+    cv_hint: 'الصق كنص عادي. أدرج جميع الأقسام.',
+    cv_placeholder: 'الصق CV تاعك الكامل هنا...',
+    jd_label: 'وصف الوظيفة',
+    jd_hint: 'الصق الإعلان الكامل بما في ذلك المتطلبات.',
+    jd_placeholder: 'الصق وصف الوظيفة الكامل هنا...',
+    analyze_btn: 'حلل CV تاعي →',
+    free_note: 'مجاني · 3 تحليلات يومياً · بدون تسجيل',
+    score_title: 'درجة التوافق',
+    tab_skills: 'المهارات الناقصة',
+    tab_improvements: 'تحسينات CV',
+    tab_questions: 'أسئلة المقابلة',
+    tab_roadmap: 'خطة التعلم',
+    tab_projects: 'أفكار Portfolio',
+    share_btn: 'شارك درجتك',
+    new_btn: 'تحليل جديد',
+    panel_loading_skills: 'جارٍ تحديد فجوات المهارات…',
+    panel_loading_improvements: 'جارٍ إنشاء تحسينات CV…',
+    panel_loading_questions: 'جارٍ إنشاء أسئلة المقابلة…',
+    panel_loading_roadmap: 'جارٍ بناء خطة التعلم…',
+    panel_loading_projects: 'جارٍ إنشاء أفكار مشاريع Portfolio…',
+    empty_skills: 'لم يتم اكتشاف فجوات مهارات كبيرة. ملفك الشخصي يناسب جيداً.',
+    empty_improvements: 'CV تاعك منظم جيداً بالفعل لهذه الوظيفة.',
+    empty_questions: 'لم يتم إنشاء أسئلة.',
+    empty_roadmap: 'لا توجد خطة تعلم — مهاراتك تتطابق بالفعل جيداً.',
+    empty_projects: 'لا توجد أفكار لمشاريع Portfolio.',
+    empty_project_label: 'فكرة المشروع',
+    faq_label: 'الأسئلة',
+    faq_h2: 'الأسئلة الشائعة.',
+    faq1_q: 'هل يتم حفظ CV تاعي؟',
+    faq1_a: 'لا. CV تاعك ووصف الوظيفة يُرسلان مباشرة إلى الذكاء الاصطناعي للتحليل ولا يُحفظان أبداً على خوادمنا.',
+    faq2_q: 'ما مدى دقة درجة التوافق؟',
+    faq2_a: 'الدرجة تعكس مدى توافق لغة CV تاعك مع متطلبات وصف الوظيفة. استخدمها كدليل وليس حكماً نهائياً.',
+    faq3_q: 'هل يعمل للوظائف غير التقنية؟',
+    faq3_a: 'CareerLens مصمم خصيصاً للأدوار التقنية — هندسة البرمجيات، DevOps، علم البيانات، Cloud، QA والمجالات ذات الصلة.',
+    faq4_q: 'كم عدد التحليلات المجانية؟',
+    faq4_a: '3 يومياً في الخطة المجانية. قم بالترقية إلى Pro للحصول على تحليلات غير محدودة.',
+    cta_h2: 'توقف عن التخمين. ابدأ بالتحسين.',
+    cta_sub: 'الصق CV تاعك ووصف الوظيفة. احصل على درجتك الصادقة في 30 ثانية.',
+    cta_btn: 'حلل CV تاعي الآن →',
+    footer_desc: 'تحليل CV بالذكاء الاصطناعي لمحترفي IT.',
+    footer_copy: '© 2025 CareerLens. مبني بـ ☕ وميزانية صفر.',
+  }
+};
+
+let currentLang = 'en';
+
+function translate(key, fallback = '') {
+  const lang = currentLang || 'en';
+  const values = TRANSLATIONS[lang] || TRANSLATIONS.en;
+  return values[key] !== undefined ? values[key] : fallback;
+}
+
+function getCurrentLanguage() {
+  return currentLang;
+}
+
+// ── الدالة الرئيسية ──────────────────────────────────────────────────────────
+function applyLanguage(lang) {
+  const t = TRANSLATIONS[lang];
+  if (!t) return;
+
+  currentLang = lang;
+
+  // اتجاه النص
+  document.documentElement.lang = lang;
+  document.documentElement.dir = t.dir;
+
+  // تحديث كل العناصر
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    if (t[key] !== undefined) {
+      if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+        el.placeholder = t[key];
+      } else if (key.endsWith('_h1') || key.endsWith('_h2') || key === 'hero_h1') {
+        el.innerHTML = t[key];
+      } else {
+        el.textContent = t[key];
+      }
+    }
+  });
+
+  // حفظ اللغة
+  localStorage.setItem('careerlens_lang', lang);
+
+  // تحديث الزر النشط
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.lang === lang);
+  });
+}
+
+function detectLanguage() {
+  const saved = localStorage.getItem('careerlens_lang');
+  if (saved && TRANSLATIONS[saved]) return saved;
+  const browser = navigator.language.substring(0, 2).toLowerCase();
+  if (browser === 'de') return 'de';
+  if (browser === 'ar') return 'ar';
+  return 'en';
+}
+
+// ── تشغيل عند تحميل الصفحة ──────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  applyLanguage(detectLanguage());
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => applyLanguage(btn.dataset.lang));
+  });
+});
+
+window.CareerLensI18n = {
+  applyLanguage,
+  detectLanguage,
+  translate,
+  getCurrentLanguage
+};
+
+// إضافة الترجمات الناقصة
+const EXTRA = {
+  en: {
+    analyzing: 'Analyzing...',
+    testimonials_label: 'Early feedback',
+    testimonials_h2: 'What job seekers are saying.',
+    t1_text: '"I applied to 30 DevOps roles and heard nothing. After using CareerLens, I realized I was missing Terraform and ArgoCD. Fixed it, got 4 callbacks in a week."',
+    t2_text: '"The before/after CV improvements alone are worth it. Night and day difference."',
+    t3_text: '"The honest score hurt a little. But the learning roadmap was exactly what I needed."',
+    footer_product: 'Product',
+    footer_analyzer: 'Analyzer',
+    footer_legal: 'Legal',
+    footer_privacy: 'Privacy policy',
+    footer_terms: 'Terms of service',
+    footer_connect: 'Connect',
+  },
+  de: {
+    analyzing: 'Analysiere...',
+    testimonials_label: 'Erstes Feedback',
+    testimonials_h2: 'Was Jobsuchende sagen.',
+    t1_text: '"Ich habe mich auf 30 DevOps-Stellen beworben und nichts gehört. Nach CareerLens wusste ich: Terraform und ArgoCD fehlen. Behoben — 4 Rückmeldungen in einer Woche."',
+    t2_text: '"Die Vorher/Nachher-CV-Verbesserungen allein sind es wert. Tag-und-Nacht-Unterschied."',
+    t3_text: '"Der ehrliche Score hat ein bisschen wehgetan. Aber der Lernplan war genau das, was ich brauchte."',
+    footer_product: 'Produkt',
+    footer_analyzer: 'Analyzer',
+    footer_legal: 'Rechtliches',
+    footer_privacy: 'Datenschutz',
+    footer_terms: 'Nutzungsbedingungen',
+    footer_connect: 'Kontakt',
+  },
+  ar: {
+    analyzing: 'جاري التحليل...',
+    testimonials_label: 'آراء المستخدمين',
+    testimonials_h2: 'ماذا يقول الباحثون عن عمل.',
+    t1_text: '"تقدمت لـ 30 وظيفة DevOps ولم أسمع شيئاً. بعد CareerLens عرفت: Terraform وArgoCD ناقصان. أصلحتهما — حصلت على 4 مقابلات في أسبوع."',
+    t2_text: '"تحسينات CV وحدها تستحق. فرق كبير جداً."',
+    t3_text: '"الدرجة الصادقة آلمتني قليلاً. لكن خطة التعلم كانت بالضبط ما احتجته."',
+    footer_product: 'المنتج',
+    footer_analyzer: 'المحلل',
+    footer_legal: 'قانوني',
+    footer_privacy: 'سياسة الخصوصية',
+    footer_terms: 'شروط الخدمة',
+    footer_connect: 'تواصل',
+  }
+};
+
+// دمج الترجمات الإضافية
+Object.keys(EXTRA).forEach(lang => {
+  Object.assign(TRANSLATIONS[lang], EXTRA[lang]);
+});
