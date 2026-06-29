@@ -16,7 +16,8 @@ const CONFIG = {
   WORKER_URL: '/api/analyze',
   FREE_LIMIT: 3,
   STORAGE_KEY: 'careerlens_usage',
-  MOCK_MODE: false  // Set to false when you deploy your Worker
+  HISTORY_KEY: 'careerlens_history',
+  MOCK_MODE: true  // Set to false when you deploy your Worker
 };
 
 /* =============================================
@@ -41,6 +42,55 @@ function incrementUsage() {
   } catch { /* silently fail */ }
 }
 
+function getHistory() {
+  try {
+    return JSON.parse(localStorage.getItem(CONFIG.HISTORY_KEY) || '[]');
+  } catch {
+    return [];
+  }
+}
+
+function saveHistory(entry) {
+  try {
+    const list = getHistory();
+    list.unshift(entry);
+    localStorage.setItem(CONFIG.HISTORY_KEY, JSON.stringify(list.slice(0, 6)));
+  } catch { /* silently fail */ }
+}
+
+function formatDate(date) {
+  return new Date(date).toLocaleString([], { year: 'numeric', month: 'short', day: 'numeric' });
+}
+
+function updateUsageStatus() {
+  if (!usageStatusEl) return;
+  const used = getUsageCount();
+  const remaining = Math.max(0, CONFIG.FREE_LIMIT - used);
+  const translation = translate('usage_status', 'You have {remaining} free analyses remaining today.');
+  usageStatusEl.textContent = translation.replace('{remaining}', remaining);
+}
+
+function renderHistory() {
+  if (!historyListEl) return;
+  const history = getHistory();
+  if (!history.length) {
+    historyListEl.innerHTML = `<p>${translate('history_empty', 'No past analysis yet. Your results will appear here.')}</p>`;
+    return;
+  }
+
+  historyListEl.innerHTML = history.map(item => `
+    <div class="history-card">
+      <div class="history-meta">
+        <span>${formatDate(item.date)}</span>
+        <strong>${item.score}%</strong>
+      </div>
+      <div class="history-snippet">
+        <p>${item.role || 'CV analysis'}</p>
+      </div>
+    </div>
+  `).join('');
+}
+
 /* =============================================
    DOM REFERENCES
    ============================================= */
@@ -48,15 +98,17 @@ const cvInput      = document.getElementById('cv-input');
 const jdInput      = document.getElementById('jd-input');
 const cvCount      = document.getElementById('cv-count');
 const jdCount      = document.getElementById('jd-count');
-const analyzeBtn   = document.getElementById('analyze-btn');
-const resultsEl    = document.getElementById('results');
-const errorSection = document.getElementById('error-section');
-const errorText    = document.getElementById('error-text');
-const scoreNumber  = document.getElementById('score-number');
-const scoreCircle  = document.getElementById('score-circle');
-const scoreExpl    = document.getElementById('score-explanation');
-const shareBtn     = document.getElementById('share-btn');
-const newAnalBtn   = document.getElementById('new-analysis-btn');
+const analyzeBtn      = document.getElementById('analyze-btn');
+const resultsEl       = document.getElementById('results');
+const errorSection    = document.getElementById('error-section');
+const errorText       = document.getElementById('error-text');
+const scoreNumber     = document.getElementById('score-number');
+const scoreCircle     = document.getElementById('score-circle');
+const scoreExpl       = document.getElementById('score-explanation');
+const usageStatusEl   = document.getElementById('usage-status');
+const historyListEl   = document.getElementById('history-list');
+const shareBtn        = document.getElementById('share-btn');
+const newAnalBtn      = document.getElementById('new-analysis-btn');
 
 /* =============================================
    CHARACTER COUNTERS
@@ -391,9 +443,18 @@ async function runAnalysis() {
       result = await response.json();
     }
 
-    // Success: increment usage and show results
+    // Success: increment usage, save history, and show results
     incrementUsage();
+    saveHistory({
+      date: new Date().toISOString(),
+      score: result.match_score || 0,
+      role: result.job_title || 'CV analysis',
+      cvSnippet: cv.slice(0, 120),
+      jdSnippet: jd.slice(0, 120)
+    });
     showResults(result);
+    updateUsageStatus();
+    renderHistory();
 
   } catch (err) {
     console.error('Analysis error:', err);
@@ -483,6 +544,9 @@ newAnalBtn && newAnalBtn.addEventListener('click', () => {
    ANALYZE BUTTON
    ============================================= */
 analyzeBtn.addEventListener('click', runAnalysis);
+
+updateUsageStatus();
+renderHistory();
 
 /* =============================================
    NAV SCROLL EFFECT
