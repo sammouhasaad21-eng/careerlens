@@ -4,6 +4,7 @@
 const TRANSLATIONS = {
   en: {
     dir: 'ltr',
+    char_count: 'characters',
     nav_how: 'How it works',
     nav_features: 'Features',
     nav_faq: 'FAQ',
@@ -13,6 +14,17 @@ const TRANSLATIONS = {
     hero_sub: 'Paste your CV and a job description. Get your match score, missing skills, CV improvements, interview questions, and a personalized learning roadmap — in under 30 seconds.',
     hero_btn: 'Analyze my CV — it\'s free',
     hero_note: 'No signup required. No CV stored.',
+    hero_preview_badge: 'Live analysis preview',
+    hero_preview_chip: 'No signup',
+    hero_preview_score_label: 'Match score',
+    hero_preview_missing: 'Missing skills',
+    hero_preview_missing_value: 'Terraform · Kubernetes · CI/CD',
+    hero_preview_improvements: 'CV improvements',
+    hero_preview_improvements_value: '3 strong rewrites for your experience section',
+    hero_preview_questions: 'Interview prep',
+    hero_preview_questions_value: '5 tailored questions ready in seconds',
+    hero_preview_fast: '⚡ 30 seconds',
+    hero_preview_private: '🔒 Private by design',
     stat1_val: '30 sec',
     stat1_label: 'Average analysis time',
     stat2_val: '10 insights',
@@ -68,6 +80,17 @@ const TRANSLATIONS = {
     tab_projects: 'Portfolio ideas',
     share_btn: 'Share your score',
     new_btn: 'New analysis',
+    panel_loading_skills: 'Identifying skill gaps…',
+    panel_loading_improvements: 'Generating CV improvements…',
+    panel_loading_questions: 'Generating interview questions…',
+    panel_loading_roadmap: 'Building your learning roadmap…',
+    panel_loading_projects: 'Generating portfolio project ideas…',
+    empty_skills: 'No significant skill gaps identified. Your profile is a strong match.',
+    empty_improvements: 'Your CV is already well-structured for this role.',
+    empty_questions: 'No questions generated.',
+    empty_roadmap: 'No learning roadmap — your skills already match well.',
+    empty_projects: 'No portfolio project suggestions.',
+    empty_project_label: 'Project idea',
     faq_label: 'Questions',
     faq_h2: 'Frequently asked.',
     faq1_q: 'Is my CV stored anywhere?',
@@ -87,6 +110,7 @@ const TRANSLATIONS = {
 
   de: {
     dir: 'ltr',
+    char_count: 'Zeichen',
     nav_how: 'Wie es funktioniert',
     nav_features: 'Funktionen',
     nav_faq: 'FAQ',
@@ -96,6 +120,17 @@ const TRANSLATIONS = {
     hero_sub: 'Füge deinen Lebenslauf und eine Stellenbeschreibung ein. Erhalte deinen Match-Score, fehlende Skills, CV-Verbesserungen, Interviewfragen und einen Lernplan — in unter 30 Sekunden.',
     hero_btn: 'Meinen CV analysieren — kostenlos',
     hero_note: 'Keine Registrierung. Kein CV gespeichert.',
+    hero_preview_badge: 'Live-Analysevorschau',
+    hero_preview_chip: 'Keine Registrierung',
+    hero_preview_score_label: 'Match-Score',
+    hero_preview_missing: 'Fehlende Skills',
+    hero_preview_missing_value: 'Terraform · Kubernetes · CI/CD',
+    hero_preview_improvements: 'CV-Verbesserungen',
+    hero_preview_improvements_value: '3 starke Umschreibungen für deinen Erfahrungsabschnitt',
+    hero_preview_questions: 'Interviewvorbereitung',
+    hero_preview_questions_value: '5 maßgeschneiderte Fragen in Sekunden bereit',
+    hero_preview_fast: '⚡ 30 Sekunden',
+    hero_preview_private: '🔒 Privatsphäre',
     stat1_val: '30 Sek',
     stat1_label: 'Durchschnittliche Analysezeit',
     stat2_val: '10 Einblicke',
@@ -151,6 +186,17 @@ const TRANSLATIONS = {
     tab_projects: 'Portfolio-Ideen',
     share_btn: 'Score teilen',
     new_btn: 'Neue Analyse',
+    panel_loading_skills: 'Skill-Lücken werden identifiziert…',
+    panel_loading_improvements: 'CV-Verbesserungen werden erzeugt…',
+    panel_loading_questions: 'Interviewfragen werden erzeugt…',
+    panel_loading_roadmap: 'Dein Lernplan wird aufgebaut…',
+    panel_loading_projects: 'Portfolio-Projektideen werden erzeugt…',
+    empty_skills: 'Keine wesentlichen Skill-Lücken erkannt. Dein Profil passt sehr gut.',
+    empty_improvements: 'Dein CV ist für diese Rolle bereits gut strukturiert.',
+    empty_questions: 'Keine Fragen erzeugt.',
+    empty_roadmap: 'Kein Lernplan — deine Skills passen bereits gut.',
+    empty_projects: 'Keine Portfolio-Projektvorschläge.',
+    empty_project_label: 'Projektidee',
     faq_label: 'Fragen',
     faq_h2: 'Häufig gestellte Fragen.',
     faq1_q: 'Wird mein CV gespeichert?',
@@ -170,6 +216,7 @@ const TRANSLATIONS = {
 
   ar: {
     dir: 'rtl',
+    char_count: 'أحرف',
     nav_how: 'كيف يعمل',
     nav_features: 'المميزات',
     nav_faq: 'الأسئلة',
@@ -179,6 +226,17 @@ const TRANSLATIONS = {
     hero_sub: 'الصق CV تاعك ووصف الوظيفة. احصل على درجة التوافق، المهارات الناقصة، تحسينات CV، أسئلة المقابلة، وخطة تعلم مخصصة — في أقل من 30 ثانية.',
     hero_btn: 'حلل CV تاعي — مجاناً',
     hero_note: 'لا تسجيل. لا CV محفوظ.',
+    hero_preview_badge: 'معاينة تحليل مباشرة',
+    hero_preview_chip: 'بدون تسجيل',
+    hero_preview_score_label: 'درجة التوافق',
+    hero_preview_missing: 'المهارات الناقصة',
+    hero_preview_missing_value: 'Terraform · Kubernetes · CI/CD',
+    hero_preview_improvements: 'تحسينات CV',
+    hero_preview_improvements_value: '3 إعادة كتابة قوية لقسم الخبرة',
+    hero_preview_questions: 'تحضير المقابلة',
+    hero_preview_questions_value: '5 أسئلة مخصصة جاهزة خلال ثوانٍ',
+    hero_preview_fast: '⚡ 30 ثانية',
+    hero_preview_private: '🔒 خاص وبعناية',
     stat1_val: '30 ثانية',
     stat1_label: 'متوسط وقت التحليل',
     stat2_val: '10 نتائج',
@@ -234,6 +292,17 @@ const TRANSLATIONS = {
     tab_projects: 'أفكار Portfolio',
     share_btn: 'شارك درجتك',
     new_btn: 'تحليل جديد',
+    panel_loading_skills: 'جارٍ تحديد فجوات المهارات…',
+    panel_loading_improvements: 'جارٍ إنشاء تحسينات CV…',
+    panel_loading_questions: 'جارٍ إنشاء أسئلة المقابلة…',
+    panel_loading_roadmap: 'جارٍ بناء خطة التعلم…',
+    panel_loading_projects: 'جارٍ إنشاء أفكار مشاريع Portfolio…',
+    empty_skills: 'لم يتم اكتشاف فجوات مهارات كبيرة. ملفك الشخصي يناسب جيداً.',
+    empty_improvements: 'CV تاعك منظم جيداً بالفعل لهذه الوظيفة.',
+    empty_questions: 'لم يتم إنشاء أسئلة.',
+    empty_roadmap: 'لا توجد خطة تعلم — مهاراتك تتطابق بالفعل جيداً.',
+    empty_projects: 'لا توجد أفكار لمشاريع Portfolio.',
+    empty_project_label: 'فكرة المشروع',
     faq_label: 'الأسئلة',
     faq_h2: 'الأسئلة الشائعة.',
     faq1_q: 'هل يتم حفظ CV تاعي؟',
@@ -252,10 +321,24 @@ const TRANSLATIONS = {
   }
 };
 
+let currentLang = 'en';
+
+function translate(key, fallback = '') {
+  const lang = currentLang || 'en';
+  const values = TRANSLATIONS[lang] || TRANSLATIONS.en;
+  return values[key] !== undefined ? values[key] : fallback;
+}
+
+function getCurrentLanguage() {
+  return currentLang;
+}
+
 // ── الدالة الرئيسية ──────────────────────────────────────────────────────────
 function applyLanguage(lang) {
   const t = TRANSLATIONS[lang];
   if (!t) return;
+
+  currentLang = lang;
 
   // اتجاه النص
   document.documentElement.lang = lang;
@@ -300,6 +383,13 @@ document.addEventListener('DOMContentLoaded', () => {
     btn.addEventListener('click', () => applyLanguage(btn.dataset.lang));
   });
 });
+
+window.CareerLensI18n = {
+  applyLanguage,
+  detectLanguage,
+  translate,
+  getCurrentLanguage
+};
 
 // إضافة الترجمات الناقصة
 const EXTRA = {
