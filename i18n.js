@@ -105,7 +105,7 @@ const TRANSLATIONS = {
     cta_sub: 'Paste your CV and a job description. Get your honest score in 30 seconds. Free to start.',
     cta_btn: 'Analyze my CV now →',
     footer_desc: 'AI-powered CV analysis for IT professionals.',
-    footer_copy: '© 2025 CareerLens. Made with ☕ and zero budget.',
+    footer_copy: '© 2025 CareerLens. AsaadSammouh.',
   },
 
   de: {
@@ -211,7 +211,7 @@ const TRANSLATIONS = {
     cta_sub: 'Füge deinen CV und eine Stellenbeschreibung ein. Erhalte deinen ehrlichen Score in 30 Sekunden.',
     cta_btn: 'Meinen CV jetzt analysieren →',
     footer_desc: 'KI-gestützte CV-Analyse für IT-Fachleute.',
-    footer_copy: '© 2025 CareerLens. Mit ☕ und null Budget gebaut.',
+    footer_copy: '© 2025 CareerLens. AsaadSammouh.',
   },
 
   ar: {
@@ -317,7 +317,7 @@ const TRANSLATIONS = {
     cta_sub: 'الصق CV تاعك ووصف الوظيفة. احصل على درجتك الصادقة في 30 ثانية.',
     cta_btn: 'حلل CV تاعي الآن →',
     footer_desc: 'تحليل CV بالذكاء الاصطناعي لمحترفي IT.',
-    footer_copy: '© 2025 CareerLens. مبني بـ ☕ وميزانية صفر.',
+    footer_copy: '© 2025 CareerLens. AsaadSammouh.',
   }
 };
 
