@@ -256,9 +256,23 @@ function escapeHtml(str) {
    MOCK DATA (for local testing without a Worker)
    ============================================= */
 function getMockResult(cv, jd) {
+  // Calculate score based on input length and keyword matches
+  const cvWords = cv.toLowerCase().split(/\s+/).length;
+  const jdWords = jd.toLowerCase().split(/\s+/).length;
+  const baseScore = Math.min(90, Math.floor((Math.min(cvWords, jdWords) / 150) * 100));
+  
+  // Count keyword matches for skill detection
+  const commonKeywords = ['python', 'kubernetes', 'terraform', 'react', 'nodejs', 'aws', 'docker', 'git', 'sql', 'agile', 'devops', 'ci/cd', 'java', 'javascript', 'cloud'];
+  let matches = 0;
+  commonKeywords.forEach(keyword => {
+    if (cv.toLowerCase().includes(keyword) && jd.toLowerCase().includes(keyword)) matches++;
+  });
+  
+  const finalScore = Math.max(25, Math.min(95, baseScore + (matches * 3)));
+  
   return {
-    match_score: 68,
-    score_explanation: "Your CV shows strong backend experience and Python skills, but lacks specific mentions of Kubernetes orchestration, infrastructure-as-code tools like Terraform, and observability platforms that this role emphasizes heavily.",
+    match_score: finalScore,
+    score_explanation: `Your CV contains ${cvWords} words and shows relevant skills. The job description emphasizes ${jdWords} key points. ${matches > 5 ? 'Strong keyword alignment detected.' : 'Some skill gaps identified.'}`,
     matched_skills: ["Python", "REST APIs", "PostgreSQL", "Git", "Agile"],
     missing_skills: [
       { skill: "Kubernetes", priority: "high", why: "Mentioned 6 times in the job description including in the required qualifications." },
