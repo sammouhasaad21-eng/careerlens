@@ -7,431 +7,497 @@
   <meta name="description" content="Paste your CV and a job description. Get your match score, missing skills, CV improvements, interview questions, and a learning roadmap — in 30 seconds." />
   <meta property="og:title" content="CareerLens — AI CV Analyzer for IT Professionals" />
   <meta property="og:description" content="Find out exactly why you didn't get the interview. Free for IT job seekers." />
-  <meta property="og:type" content="website" />
-  <meta name="twitter:card" content="summary_large_image" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="lang-style.css" />
 </head>
 <body>
 
-  <!-- NAV -->
-  <header class="nav">
-    <div class="container nav-inner">
-      <a href="/" class="logo">
-        <span class="logo-mark">●</span>CareerLens
+<!-- Particle canvas -->
+<canvas id="particle-canvas"></canvas>
+
+<!-- SVG gradient for score ring -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <linearGradient id="scoreGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+  </defs>
+</svg>
+
+<!-- NAV -->
+<header class="nav">
+  <div class="nav-inner-wrap">
+    <a href="/" class="logo">
+      <div class="logo-icon">⚡</div>
+      CareerLens
+    </a>
+    <nav class="nav-links">
+      <a href="#how-it-works" data-i18n="nav_how">How it works</a>
+      <a href="#features" data-i18n="nav_features">Features</a>
+      <a href="#faq" data-i18n="nav_faq">FAQ</a>
+      <div class="lang-switcher">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="de">DE</button>
+        <button class="lang-btn" data-lang="ar">AR</button>
+      </div>
+      <a href="#analyzer" class="btn-nav" data-i18n="nav_try">Try free →</a>
+    </nav>
+    <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-left">
+        <div class="hero-eyebrow" data-i18n="hero_eyebrow">Free for IT professionals</div>
+        <h1 class="hero-headline">
+          <span data-i18n="hero_h1_1">Find out exactly</span><br/>
+          <span class="gradient-text" data-i18n="hero_h1_2">why you didn't get</span><br/>
+          <span data-i18n="hero_h1_3">the interview.</span>
+        </h1>
+        <p class="hero-sub" data-i18n="hero_sub">Paste your CV and a job description. Get your match score, missing skills, CV improvements, interview questions, and a personalized learning roadmap — in under 30 seconds.</p>
+        <div class="hero-cta">
+          <a href="#analyzer" class="btn-primary" data-i18n="hero_btn">Analyze my CV — it's free</a>
+          <a href="#how-it-works" class="btn-ghost" data-i18n="hero_how">See how it works</a>
+        </div>
+        <span class="hero-note" data-i18n="hero_note">No signup required. No CV stored.</span>
+        <div class="hero-stats" style="margin-top:32px;">
+          <div class="stat">
+            <strong data-i18n="stat1_val">30 sec</strong>
+            <span data-i18n="stat1_label">Analysis time</span>
+          </div>
+          <div class="stat">
+            <strong data-i18n="stat2_val">10+</strong>
+            <span data-i18n="stat2_label">Insights</span>
+          </div>
+          <div class="stat">
+            <strong data-i18n="stat3_val">100% IT</strong>
+            <span data-i18n="stat3_label">Focused</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dashboard Visual -->
+      <div class="hero-visual">
+        <div class="floating-badge" data-i18n="badge_live">✦ Live AI Analysis</div>
+        <div class="hero-dashboard">
+          <div class="dashboard-header">
+            <div class="dashboard-dots">
+              <span></span><span></span><span></span>
+            </div>
+            <div class="dashboard-title">careerlens — analysis.json</div>
+          </div>
+
+          <div class="score-display">
+            <div class="score-big">78%</div>
+            <div>
+              <div class="score-label" data-i18n="score_title">MATCH SCORE</div>
+              <div class="score-sub" data-i18n="dashboard_sub">Strong backend match — 3 skills missing</div>
+            </div>
+          </div>
+
+          <div class="skill-pills">
+            <span class="skill-pill pill-missing">− Kubernetes</span>
+            <span class="skill-pill pill-missing">− Terraform</span>
+            <span class="skill-pill pill-missing">− ArgoCD</span>
+            <span class="skill-pill pill-match">✓ Python</span>
+            <span class="skill-pill pill-match">✓ PostgreSQL</span>
+            <span class="skill-pill pill-match">✓ Docker</span>
+            <span class="skill-pill pill-match">✓ REST APIs</span>
+          </div>
+
+          <div class="mini-bars">
+            <div class="mini-bar-row">
+              <span class="mini-bar-label">Skills match</span>
+              <div class="mini-bar-track"><div class="mini-bar-fill" style="width:78%"></div></div>
+              <span class="mini-bar-val">78%</span>
+            </div>
+            <div class="mini-bar-row">
+              <span class="mini-bar-label">Experience</span>
+              <div class="mini-bar-track"><div class="mini-bar-fill" style="width:85%"></div></div>
+              <span class="mini-bar-val">85%</span>
+            </div>
+            <div class="mini-bar-row">
+              <span class="mini-bar-label">Keywords</span>
+              <div class="mini-bar-track"><div class="mini-bar-fill" style="width:62%"></div></div>
+              <span class="mini-bar-val">62%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM & SOLUTION -->
+<section class="problem-solution" id="features">
+  <div class="container">
+    <div class="section-label" data-i18n="problem_label">The problem</div>
+    <h2 class="section-headline" data-i18n="problem_h2">You're applying in the dark.</h2>
+    <p class="section-sub" data-i18n="problem_sub">Most IT job seekers don't know why they get rejected. CareerLens changes that.</p>
+    <div class="ps-grid">
+      <div class="ps-card ps-problem">
+        <div class="ps-icon">✗</div>
+        <h3 data-i18n="problem_title">What most job seekers experience</h3>
+        <ul>
+          <li data-i18n="problem_1">Apply to dozens of roles with the same generic CV</li>
+          <li data-i18n="problem_2">Get rejected with zero feedback</li>
+          <li data-i18n="problem_3">Don't know if ATS systems are filtering them out</li>
+          <li data-i18n="problem_4">Waste months learning the wrong skills</li>
+          <li data-i18n="problem_5">Pay €200+ for a professional CV writer</li>
+        </ul>
+      </div>
+      <div class="ps-card ps-solution">
+        <div class="ps-icon">✓</div>
+        <h3 data-i18n="solution_title">What CareerLens gives you</h3>
+        <ul>
+          <li data-i18n="solution_1">An exact match score for every role you apply to</li>
+          <li data-i18n="solution_2">The precise skills the employer is looking for</li>
+          <li data-i18n="solution_3">Sentence-level CV improvements with before/after</li>
+          <li data-i18n="solution_4">A 6-week learning roadmap for your gaps</li>
+          <li data-i18n="solution_5">5 tailored interview questions to prepare for</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-it-works" id="how-it-works">
+  <div class="container">
+    <div class="section-label" data-i18n="howitworks_label">How it works</div>
+    <h2 class="section-headline" data-i18n="howitworks_h2">Three steps. Thirty seconds.</h2>
+    <p class="section-sub" data-i18n="howitworks_sub">No signup, no file upload, no waiting. Just paste and go.</p>
+    <div class="steps-grid">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3 data-i18n="step1_h">Paste your CV</h3>
+        <p data-i18n="step1_p">Copy and paste your CV as plain text. No file upload, no account needed. Your data stays in your browser.</p>
+      </div>
+      <div class="step-arrow">→</div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3 data-i18n="step2_h">Paste the job description</h3>
+        <p data-i18n="step2_p">Copy the full job posting — requirements, responsibilities, everything. The more you paste, the better the analysis.</p>
+      </div>
+      <div class="step-arrow">→</div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3 data-i18n="step3_h">Get your analysis</h3>
+        <p data-i18n="step3_p">In 30 seconds: match score, missing skills, CV improvements, interview questions, and a learning roadmap.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features-deep">
+  <div class="container">
+    <div class="section-label" data-i18n="features_label">What you get</div>
+    <h2 class="section-headline" data-i18n="features_h2">Ten insights per analysis.</h2>
+    <p class="section-sub" data-i18n="features_sub">Every analysis gives you a complete picture — not just a score.</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">◎</div>
+        <h3 data-i18n="f1_h">Match score</h3>
+        <p data-i18n="f1_p">A 0–100 score showing how well your CV aligns with this specific role — with a plain explanation of why.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⊘</div>
+        <h3 data-i18n="f2_h">Missing skills</h3>
+        <p data-i18n="f2_p">The exact skills in the job description that aren't in your CV, ranked by priority.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">✎</div>
+        <h3 data-i18n="f3_h">CV improvements</h3>
+        <p data-i18n="f3_p">Before/after rewrites for specific lines in your CV, with the reason each change improves your chances.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">?</div>
+        <h3 data-i18n="f4_h">Interview questions</h3>
+        <p data-i18n="f4_p">5 questions the interviewer is likely to ask, based on the job description and your CV gaps.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⇒</div>
+        <h3 data-i18n="f5_h">Learning roadmap</h3>
+        <p data-i18n="f5_p">A prioritized 6-week plan: which skills to learn first, with specific resources for each one.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">▲</div>
+        <h3 data-i18n="f6_h">Portfolio projects</h3>
+        <p data-i18n="f6_p">Two concrete project ideas that demonstrate exactly the skills this employer is looking for.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ANALYZER -->
+<section class="analyzer-section" id="analyzer">
+  <div class="container">
+    <div class="section-label" data-i18n="analyzer_label">The tool</div>
+    <h2 class="section-headline" data-i18n="analyzer_h2">Analyze your CV now.</h2>
+    <p class="analyzer-intro" data-i18n="analyzer_intro">Paste your CV and the job description below. No signup, no email, no CV stored.</p>
+
+    <div class="analyzer-box">
+      <div class="analyzer-inputs">
+        <div class="input-group">
+          <label for="cv-input" class="input-label">
+            <span data-i18n="cv_label">Your CV</span>
+            <span class="input-hint" data-i18n="cv_hint">Paste as plain text. Include all sections.</span>
+          </label>
+          <textarea id="cv-input" class="analyzer-textarea" data-i18n="cv_placeholder" placeholder="Paste your full CV here..." rows="12"></textarea>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;">
+            <span></span>
+            <div class="char-count" id="cv-count">0 chars</div>
+          </div>
+        </div>
+        <div class="input-group">
+          <label for="jd-input" class="input-label">
+            <span data-i18n="jd_label">Job description</span>
+            <span class="input-hint" data-i18n="jd_hint">Paste the full posting including requirements.</span>
+          </label>
+          <textarea id="jd-input" class="analyzer-textarea" data-i18n="jd_placeholder" placeholder="Paste the full job description here..." rows="12"></textarea>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;">
+            <span></span>
+            <div class="char-count" id="jd-count">0 chars</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="analyzer-actions">
+        <button class="btn-analyze" id="analyze-btn">
+          <span class="btn-analyze-text" data-i18n="analyze_btn">Analyze my CV →</span>
+          <span class="btn-analyze-loading" hidden>
+            <span class="spinner"></span> <span data-i18n="analyzing">Analyzing...</span>
+          </span>
+        </button>
+        <p class="free-note" data-i18n="free_note">Free · 3 analyses per day · No signup</p>
+      </div>
+
+      <div class="results-section" id="results" hidden>
+        <div class="result-score-card" id="score-card">
+          <div class="score-ring">
+            <svg viewBox="0 0 100 100" class="score-svg">
+              <circle cx="50" cy="50" r="42" class="score-bg-circle"/>
+              <circle cx="50" cy="50" r="42" class="score-fill-circle" id="score-circle"/>
+            </svg>
+            <div class="score-number" id="score-number">—</div>
+          </div>
+          <div class="score-meta">
+            <h3 class="score-title" data-i18n="score_title">Match score</h3>
+            <p class="score-explanation" id="score-explanation"></p>
+          </div>
+        </div>
+
+        <div class="result-tabs">
+          <button class="result-tab active" data-tab="skills" data-i18n="tab_skills">Missing skills</button>
+          <button class="result-tab" data-tab="improvements" data-i18n="tab_improvements">CV improvements</button>
+          <button class="result-tab" data-tab="questions" data-i18n="tab_questions">Interview questions</button>
+          <button class="result-tab" data-tab="roadmap" data-i18n="tab_roadmap">Learning roadmap</button>
+          <button class="result-tab" data-tab="projects" data-i18n="tab_projects">Portfolio ideas</button>
+        </div>
+
+        <div class="result-panel" id="tab-skills"></div>
+        <div class="result-panel" id="tab-improvements" hidden></div>
+        <div class="result-panel" id="tab-questions" hidden></div>
+        <div class="result-panel" id="tab-roadmap" hidden></div>
+        <div class="result-panel" id="tab-projects" hidden></div>
+
+        <div class="result-actions">
+          <button class="btn-secondary" id="share-btn" data-i18n="share_btn">Share your score</button>
+          <button class="btn-secondary" id="new-analysis-btn" data-i18n="new_btn">New analysis</button>
+        </div>
+      </div>
+
+      <div class="error-section" id="error-section" hidden>
+        <p class="error-text" id="error-text"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="container">
+    <div class="section-label" data-i18n="testimonials_label">Early feedback</div>
+    <h2 class="section-headline" data-i18n="testimonials_h2">What job seekers are saying.</h2>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="testimonial-score">78% match</div>
+        <p data-i18n="t1_text">"I applied to 30 DevOps roles and heard nothing. After using CareerLens, I realized I was missing Terraform and ArgoCD. Fixed it, got 4 callbacks in a week."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">AM</div>
+          <div><strong>Alex M.</strong><span>Junior DevOps Engineer, Berlin</span></div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-score">91% match</div>
+        <p data-i18n="t2_text">"The before/after CV improvements alone are worth it. It rewrote my experience section with specific impact statements. Night and day difference."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">FO</div>
+          <div><strong>Fatima O.</strong><span>Backend Developer, Amsterdam</span></div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-score">64% match</div>
+        <p data-i18n="t3_text">"The honest score hurt a little. But the learning roadmap was exactly what I needed. 6 weeks later I'm applying again with a much stronger profile."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">MK</div>
+          <div><strong>Marcus K.</strong><span>Bootcamp grad, Vienna</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section" id="faq">
+  <div class="container">
+    <div class="section-label" data-i18n="faq_label">Questions</div>
+    <h2 class="section-headline" data-i18n="faq_h2">Frequently asked.</h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-question" data-i18n="faq1_q">Is my CV stored anywhere?</button>
+        <div class="faq-answer" data-i18n="faq1_a">No. Your CV and job description are sent directly to the AI for analysis and are never stored on our servers.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" data-i18n="faq2_q">How accurate is the match score?</button>
+        <div class="faq-answer" data-i18n="faq2_a">The score reflects how well your CV language matches the job description's requirements. Use it as a guide, not a verdict.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" data-i18n="faq3_q">Does it work for non-IT jobs?</button>
+        <div class="faq-answer" data-i18n="faq3_a">CareerLens is specifically designed for IT roles — software engineering, DevOps, data science, cloud, QA, and related fields.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" data-i18n="faq4_q">How many analyses can I run for free?</button>
+        <div class="faq-answer" data-i18n="faq4_a">3 per day on the free plan. Upgrade to Pro for unlimited analyses.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="container">
+    <h2 class="cta-headline" data-i18n="cta_h2">Stop guessing.<br/>Start improving.</h2>
+    <p class="cta-sub" data-i18n="cta_sub">Paste your CV and a job description. Get your honest score in 30 seconds.</p>
+    <a href="#analyzer" class="btn-primary btn-large" data-i18n="cta_btn">Analyze my CV now →</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <a href="/" class="logo" style="margin-bottom:16px;display:inline-flex;">
+        <div class="logo-icon">⚡</div> CareerLens
       </a>
-      <nav class="nav-links">
-        <a href="#how-it-works" data-i18n="nav_how">How it works</a>
+      <p data-i18n="footer_desc">AI-powered CV analysis for IT professionals.</p>
+      <p style="margin-top:8px;font-size:12px;color:#334155;">Built by <a href="https://www.instagram.com/asaadsammouh" target="_blank" style="color:#7c3aed;">Asaad Sammouh</a></p>
+    </div>
+    <div class="footer-links">
+      <div class="footer-col">
+        <strong data-i18n="footer_product">Product</strong>
+        <a href="#analyzer" data-i18n="footer_analyzer">Analyzer</a>
         <a href="#features" data-i18n="nav_features">Features</a>
-        <a href="#faq" data-i18n="nav_faq">FAQ</a>
-        <div class="lang-switcher" aria-label="Language switcher">
-          <button class="lang-btn active" data-lang="en">EN</button>
-          <button class="lang-btn" data-lang="de">DE</button>
-          <button class="lang-btn" data-lang="ar">AR</button>
-        </div>
-        <a href="#analyzer" class="btn-nav" data-i18n="nav_try">Try free →</a>
-      </nav>
-      <button class="nav-hamburger" aria-label="Open menu" id="hamburger">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-  </header>
-
-  <!-- HERO -->
-  <section class="hero">
-    <div class="container">
-      <div class="hero-grid">
-        <div class="hero-copy">
-          <div class="hero-eyebrow" data-i18n="hero_eyebrow">Free for IT professionals</div>
-          <h1 class="hero-headline" data-i18n="hero_h1">
-            Find out exactly why<br />
-            you didn't get<br />
-            the interview.
-          </h1>
-          <p class="hero-sub" data-i18n="hero_sub">
-            Paste your CV and a job description. Get an honest match score, the missing skills recruiters expect,
-            better CV wording, interview questions, and a roadmap to improve — all in under 30 seconds.
-          </p>
-          <div class="hero-cta">
-            <a href="#analyzer" class="btn-primary" data-i18n="hero_btn">Analyze my CV — it's free</a>
-            <span class="hero-note" data-i18n="hero_note">No signup required · No CV stored · Private by design</span>
-          </div>
-          <div class="hero-stats">
-            <div class="stat">
-              <strong data-i18n="stat1_val">30 sec</strong>
-              <span data-i18n="stat1_label">Average analysis time</span>
-            </div>
-            <div class="stat">
-              <strong data-i18n="stat2_val">10 insights</strong>
-              <span data-i18n="stat2_label">Per analysis</span>
-            </div>
-            <div class="stat">
-              <strong data-i18n="stat3_val">100% IT-focused</strong>
-              <span data-i18n="stat3_label">Built for tech roles</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="hero-panel" aria-label="Preview of analysis results">
-          <div class="hero-panel-header">
-            <span class="hero-panel-badge" data-i18n="hero_preview_badge">Live analysis preview</span>
-            <span class="hero-panel-chip" data-i18n="hero_preview_chip">No signup</span>
-          </div>
-          <div class="hero-panel-score">
-            <div class="hero-panel-score-value">82%</div>
-            <div class="hero-panel-score-label" data-i18n="hero_preview_score_label">Match score</div>
-          </div>
-          <ul class="hero-panel-list">
-            <li>
-              <strong data-i18n="hero_preview_missing">Missing skills</strong>
-              <span data-i18n="hero_preview_missing_value">Terraform · Kubernetes · CI/CD</span>
-            </li>
-            <li>
-              <strong data-i18n="hero_preview_improvements">CV improvements</strong>
-              <span data-i18n="hero_preview_improvements_value">3 strong rewrites for your experience section</span>
-            </li>
-            <li>
-              <strong data-i18n="hero_preview_questions">Interview prep</strong>
-              <span data-i18n="hero_preview_questions_value">5 tailored questions ready in seconds</span>
-            </li>
-          </ul>
-          <div class="hero-panel-footer">
-            <span data-i18n="hero_preview_fast">⚡ 30 seconds</span>
-            <span data-i18n="hero_preview_private">🔒 Private by design</span>
-          </div>
-        </div>
+        <a href="#how-it-works" data-i18n="nav_how">How it works</a>
+      </div>
+      <div class="footer-col">
+        <strong data-i18n="footer_legal">Legal</strong>
+        <a href="#" data-i18n="footer_privacy">Privacy policy</a>
+        <a href="#" data-i18n="footer_terms">Terms of service</a>
+      </div>
+      <div class="footer-col">
+        <strong data-i18n="footer_connect">Connect</strong>
+        <a href="https://x.com/AsaadSammouh" target="_blank">Twitter / X</a>
+        <a href="https://www.linkedin.com/in/asaad-sammouh-0ba9523b6" target="_blank">LinkedIn</a>
+        <a href="https://www.instagram.com/asaadsammouh" target="_blank">Instagram</a>
       </div>
     </div>
-  </section>
+  </div>
+  <div class="container footer-bottom">
+    <p data-i18n="footer_copy">© 2026 CareerLens. AsaadSammouh.</p>
+  </div>
+</footer>
 
-  <!-- PROBLEM & SOLUTION -->
-  <section class="problem-solution" id="features">
-    <div class="container">
-      <div class="section-label" data-i18n="problem_label">The problem</div>
-      <h2 class="section-headline" data-i18n="problem_h2">You're applying in the dark.</h2>
-      <div class="ps-grid">
-        <div class="ps-card ps-problem">
-          <div class="ps-icon">✗</div>
-          <h3 data-i18n="problem_title">What most job seekers experience</h3>
-          <ul>
-            <li data-i18n="problem_1">Apply to dozens of roles with the same generic CV</li>
-            <li data-i18n="problem_2">Get rejected with zero feedback</li>
-            <li data-i18n="problem_3">Don't know if ATS systems are filtering them out</li>
-            <li data-i18n="problem_4">Waste months learning the wrong skills</li>
-            <li data-i18n="problem_5">Pay €200+ for a professional CV writer</li>
-          </ul>
-        </div>
-        <div class="ps-card ps-solution">
-          <div class="ps-icon">✓</div>
-          <h3 data-i18n="solution_title">What CareerLens gives you</h3>
-          <ul>
-            <li data-i18n="solution_1">An exact match score for every role you apply to</li>
-            <li data-i18n="solution_2">The precise skills the employer is looking for</li>
-            <li data-i18n="solution_3">Sentence-level CV improvements with before/after</li>
-            <li data-i18n="solution_4">A 6-week learning roadmap for your gaps</li>
-            <li data-i18n="solution_5">5 tailored interview questions to prepare for</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
+<script src="i18n.js"></script>
+<script src="pdf-upload.js"></script>
+<script src="script.js"></script>
 
-  <!-- HOW IT WORKS -->
-  <section class="how-it-works" id="how-it-works">
-    <div class="container">
-      <div class="section-label" data-i18n="howitworks_label">How it works</div>
-      <h2 class="section-headline" data-i18n="howitworks_h2">Three steps. Thirty seconds.</h2>
-      <div class="steps-grid">
-        <div class="step">
-          <div class="step-num">1</div>
-          <h3 data-i18n="step1_h">Paste your CV</h3>
-          <p data-i18n="step1_p">Copy and paste your CV as plain text. No file upload, no account needed. Your data stays in your browser.</p>
-        </div>
-        <div class="step-arrow">→</div>
-        <div class="step">
-          <div class="step-num">2</div>
-          <h3 data-i18n="step2_h">Paste the job description</h3>
-          <p data-i18n="step2_p">Copy the full job posting — requirements, responsibilities, everything. The more you paste, the better the analysis.</p>
-        </div>
-        <div class="step-arrow">→</div>
-        <div class="step">
-          <div class="step-num">3</div>
-          <h3 data-i18n="step3_h">Get your analysis</h3>
-          <p data-i18n="step3_p">In 30 seconds, you receive your match score, missing skills, CV improvements, interview questions, and a learning roadmap.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+<script>
+// Particle background
+(function() {
+  const canvas = document.getElementById('particle-canvas');
+  const ctx = canvas.getContext('2d');
+  let particles = [];
 
-  <!-- FEATURES DEEP DIVE -->
-  <section class="features-deep">
-    <div class="container">
-      <div class="section-label" data-i18n="features_label">What you get</div>
-      <h2 class="section-headline" data-i18n="features_h2">Ten insights per analysis.</h2>
-      <div class="features-grid">
-        <div class="feature-card">
-          <div class="feature-icon">◎</div>
-          <h3 data-i18n="f1_h">Match score</h3>
-          <p data-i18n="f1_p">A 0–100 score showing how well your CV aligns with this specific role — with a plain explanation of why.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">⊘</div>
-          <h3 data-i18n="f2_h">Missing skills</h3>
-          <p data-i18n="f2_p">The exact skills in the job description that aren't in your CV, ranked by how often they're mentioned.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">✎</div>
-          <h3 data-i18n="f3_h">CV improvements</h3>
-          <p data-i18n="f3_p">Before/after rewrites for specific lines in your CV, with the reason each change improves your chances.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">?</div>
-          <h3 data-i18n="f4_h">Interview questions</h3>
-          <p data-i18n="f4_p">5 questions the interviewer is likely to ask, based on the job description and your CV gaps.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">⇒</div>
-          <h3 data-i18n="f5_h">Learning roadmap</h3>
-          <p data-i18n="f5_p">A prioritized 6-week plan: which skills to learn first, with specific resources for each one.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">▲</div>
-          <h3 data-i18n="f6_h">Portfolio projects</h3>
-          <p data-i18n="f6_p">Two concrete project ideas that demonstrate exactly the skills this employer is looking for.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
 
-  <!-- THE ANALYZER TOOL -->
-  <section class="analyzer-section" id="analyzer">
-    <div class="container">
-      <div class="section-label" data-i18n="analyzer_label">The tool</div>
-      <h2 class="section-headline" data-i18n="analyzer_h2">Analyze your CV now.</h2>
-      <p class="analyzer-intro" data-i18n="analyzer_intro">Paste your CV and the job description below. No signup, no email, no CV stored. Your analysis appears below in around 30 seconds.</p>
+  function createParticle() {
+    return {
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: (Math.random() - 0.5) * 0.3,
+      size: Math.random() * 1.5 + 0.5,
+      opacity: Math.random() * 0.4 + 0.1,
+      color: Math.random() > 0.5 ? '124,58,237' : '6,182,212'
+    };
+  }
 
-      <div class="analyzer-box">
-        <div class="analyzer-inputs">
-          <div class="input-group">
-            <label for="cv-input" class="input-label">
-              <span data-i18n="cv_label">Your CV</span>
-              <span class="input-hint" data-i18n="cv_hint">Paste as plain text. Include all sections.</span>
-            </label>
-            <textarea
-              id="cv-input"
-              class="analyzer-textarea"
-              data-i18n="cv_placeholder"
-              placeholder="Paste your full CV here — work experience, skills, education, projects..."
-              rows="12"
-            ></textarea>
-            <div class="char-count" id="cv-count">0 characters</div>
-          </div>
-          <div class="input-group">
-            <label for="jd-input" class="input-label">
-              <span data-i18n="jd_label">Job description</span>
-              <span class="input-hint" data-i18n="jd_hint">Paste the full posting including requirements.</span>
-            </label>
-            <textarea
-              id="jd-input"
-              class="analyzer-textarea"
-              data-i18n="jd_placeholder"
-              placeholder="Paste the full job description here — title, responsibilities, requirements, nice-to-haves..."
-              rows="12"
-            ></textarea>
-            <div class="char-count" id="jd-count">0 characters</div>
-          </div>
-        </div>
+  function init() {
+    resize();
+    particles = Array.from({length: 80}, createParticle);
+  }
 
-        <div class="analyzer-actions">
-          <button class="btn-analyze" id="analyze-btn">
-            <span class="btn-analyze-text" data-i18n="analyze_btn">Analyze my CV →</span>
-            <span class="btn-analyze-loading" hidden>
-              <span class="spinner"></span> <span data-i18n="analyzing">Analyzing...</span>
-            </span>
-          </button>
-          <a href="pricing.html" class="btn-secondary btn-upgrade" id="upgrade-btn" data-i18n="upgrade_pro">Upgrade to Pro</a>
-          <p class="free-note" data-i18n="free_note">Free · 3 analyses per day · No signup</p>
-          <p class="usage-status" id="usage-status" data-i18n="usage_status">You have 3 free analyses remaining today.</p>
-        </div>
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => {
+      p.x += p.vx;
+      p.y += p.vy;
+      if (p.x < 0) p.x = canvas.width;
+      if (p.x > canvas.width) p.x = 0;
+      if (p.y < 0) p.y = canvas.height;
+      if (p.y > canvas.height) p.y = 0;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${p.color},${p.opacity})`;
+      ctx.fill();
+    });
 
-        <div class="analysis-history" id="analysis-history">
-          <div class="history-header">
-            <span data-i18n="history_label">Recent analysis</span>
-          </div>
-          <div class="history-list" id="history-list">
-            <p data-i18n="history_empty">No past analysis yet. Your results will appear here.</p>
-          </div>
-        </div>
+    // Draw connections
+    particles.forEach((p, i) => {
+      particles.slice(i+1).forEach(p2 => {
+        const d = Math.hypot(p.x-p2.x, p.y-p2.y);
+        if (d < 120) {
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(p2.x, p2.y);
+          ctx.strokeStyle = `rgba(124,58,237,${0.06 * (1 - d/120)})`;
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+      });
+    });
 
-        <div class="results-section" id="results" hidden>
-          <div class="result-score-card" id="score-card">
-            <div class="score-ring">
-              <svg viewBox="0 0 100 100" class="score-svg">
-                <circle cx="50" cy="50" r="42" class="score-bg-circle"/>
-                <circle cx="50" cy="50" r="42" class="score-fill-circle" id="score-circle"/>
-              </svg>
-              <div class="score-number" id="score-number">—</div>
-            </div>
-            <div class="score-meta">
-              <h3 class="score-title" data-i18n="score_title">Match score</h3>
-              <p class="score-explanation" id="score-explanation">Running analysis…</p>
-            </div>
-          </div>
+    requestAnimationFrame(draw);
+  }
 
-          <div class="result-tabs">
-            <button class="result-tab active" data-tab="skills" data-i18n="tab_skills">Missing skills</button>
-            <button class="result-tab" data-tab="improvements" data-i18n="tab_improvements">CV improvements</button>
-            <button class="result-tab" data-tab="questions" data-i18n="tab_questions">Interview questions</button>
-            <button class="result-tab" data-tab="roadmap" data-i18n="tab_roadmap">Learning roadmap</button>
-            <button class="result-tab" data-tab="projects" data-i18n="tab_projects">Portfolio ideas</button>
-          </div>
-
-          <div class="result-panel" id="tab-skills">
-            <div class="panel-loading" data-i18n="panel_loading_skills">Identifying skill gaps…</div>
-          </div>
-          <div class="result-panel" id="tab-improvements" hidden>
-            <div class="panel-loading" data-i18n="panel_loading_improvements">Generating CV improvements…</div>
-          </div>
-          <div class="result-panel" id="tab-questions" hidden>
-            <div class="panel-loading" data-i18n="panel_loading_questions">Generating interview questions…</div>
-          </div>
-          <div class="result-panel" id="tab-roadmap" hidden>
-            <div class="panel-loading" data-i18n="panel_loading_roadmap">Building your learning roadmap…</div>
-          </div>
-          <div class="result-panel" id="tab-projects" hidden>
-            <div class="panel-loading" data-i18n="panel_loading_projects">Generating portfolio project ideas…</div>
-          </div>
-
-          <div class="result-actions">
-            <button class="btn-secondary" id="share-btn" data-i18n="share_btn">Share your score</button>
-            <button class="btn-secondary" id="new-analysis-btn" data-i18n="new_btn">New analysis</button>
-          </div>
-        </div>
-
-        <div class="error-section" id="error-section" hidden>
-          <p class="error-text" id="error-text">Something went wrong. Please try again.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- TESTIMONIALS -->
-  <section class="testimonials">
-    <div class="container">
-      <div class="section-label" data-i18n="testimonials_label">Early feedback</div>
-      <h2 class="section-headline" data-i18n="testimonials_h2">What job seekers are saying.</h2>
-      <div class="testimonials-grid">
-        <div class="testimonial-card">
-          <div class="testimonial-score">78% match</div>
-          <p data-i18n="t1_text">"I applied to 30 DevOps roles and heard nothing. After using CareerLens, I realized I was missing Terraform and ArgoCD on every application. Fixed it, got 4 callbacks in a week."</p>
-          <div class="testimonial-author">
-            <div class="testimonial-avatar">AM</div>
-            <div>
-              <strong>Alex M.</strong>
-              <span>Junior DevOps Engineer, Berlin</span>
-            </div>
-          </div>
-        </div>
-        <div class="testimonial-card">
-          <div class="testimonial-score">91% match</div>
-          <p data-i18n="t2_text">"The before/after CV improvements alone are worth it. It rewrote my experience section from 'worked on backend APIs' to specific impact statements with technologies. Night and day difference."</p>
-          <div class="testimonial-author">
-            <div class="testimonial-avatar">FO</div>
-            <div>
-              <strong>Fatima O.</strong>
-              <span>Backend Developer, Amsterdam</span>
-            </div>
-          </div>
-        </div>
-        <div class="testimonial-card">
-          <div class="testimonial-score">64% match</div>
-          <p data-i18n="t3_text">"The honest score hurt a little. But the learning roadmap it gave me was exactly what I needed. 6 weeks later I'm applying again with a much stronger profile."</p>
-          <div class="testimonial-author">
-            <div class="testimonial-avatar">MK</div>
-            <div>
-              <strong>Marcus K.</strong>
-              <span>Bootcamp grad, Vienna</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FAQ -->
-  <section class="faq-section" id="faq">
-    <div class="container">
-      <div class="section-label" data-i18n="faq_label">Questions</div>
-      <h2 class="section-headline" data-i18n="faq_h2">Frequently asked.</h2>
-      <div class="faq-list">
-        <div class="faq-item">
-          <button class="faq-question" data-i18n="faq1_q">Is my CV stored anywhere?</button>
-          <div class="faq-answer" data-i18n="faq1_a">No. Your CV and job description are sent directly to the AI for analysis and are never stored on our servers. We don't log the content of your inputs.</div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-question" data-i18n="faq2_q">How accurate is the match score?</button>
-          <div class="faq-answer" data-i18n="faq2_a">The score reflects how well your CV language matches the job description's requirements. It's a strong signal, not a guarantee. Some companies weight experience over keywords — use the score as a guide, not a verdict.</div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-question" data-i18n="faq3_q">Does it work for non-IT jobs?</button>
-          <div class="faq-answer" data-i18n="faq3_a">CareerLens is specifically designed for IT roles — software engineering, DevOps, data science, cloud, QA, and related fields. It works best when both the CV and JD are technical in nature.</div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-question" data-i18n="faq4_q">How many analyses can I run for free?</button>
-          <div class="faq-answer" data-i18n="faq4_a">3 per day on the free plan. That's enough to analyze your top 3 target roles each day. If you need more, the Pro plan is €9/month with unlimited analyses.</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA -->
-  <section class="cta-section">
-    <div class="container">
-      <h2 class="cta-headline" data-i18n="cta_h2">Stop guessing. Start improving your chances.</h2>
-      <p class="cta-sub" data-i18n="cta_sub">Paste your CV, compare it against the role you want, and get actionable feedback that helps you stand out.</p>
-      <a href="#analyzer" class="btn-primary btn-large" data-i18n="cta_btn">Analyze my CV now →</a>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="container footer-inner">
-      <div class="footer-brand">
-        <a href="/" class="logo">
-          <span class="logo-mark">●</span>CareerLens
-        </a>
-        <p data-i18n="footer_desc">AI-powered CV analysis for IT professionals.<br/>Built to help you apply smarter, not just more.</p>
-      </div>
-      <div class="footer-links">
-        <div class="footer-col">
-          <strong data-i18n="footer_product">Product</strong>
-          <a href="#analyzer" data-i18n="footer_analyzer">Analyzer</a>
-          <a href="#features" data-i18n="nav_features">Features</a>
-          <a href="#how-it-works" data-i18n="nav_how">How it works</a>
-        </div>
-        <div class="footer-col">
-          <strong data-i18n="footer_legal">Legal</strong>
-          <a href="#" data-i18n="footer_privacy">Privacy policy</a>
-          <a href="#" data-i18n="footer_terms">Terms of service</a>
-        </div>
-        <div class="footer-col">
-          <strong data-i18n="footer_connect">Connect</strong>
-          <a href="https://x.com/AsaadSammouh" target="_blank" rel="noopener noreferrer">Twitter / X</a>
-          <a href="https://www.linkedin.com/in/asaad-sammouh-0ba9523b6" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-          <a href="https://www.instagram.com/asaadsammouh" target="_blank" rel="noopener noreferrer">Instagram</a>
-        </div>
-      </div>
-    </div>
-    <div class="container footer-bottom">
-      <p data-i18n="footer_copy">© 2026 CareerLens. Made with ☕ and zero budget.</p>
-    </div>
-  </footer>
-
-  <script src="i18n.js"></script>
-  <script src="pdf-upload.js"></script>
-  <script src="script.js"></script>
+  window.addEventListener('resize', resize);
+  init();
+  draw();
+})();
+</script>
 </body>
 </html>
