@@ -1,656 +1,514 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pricing — CareerLens</title>
-  <meta name="description" content="CareerLens is free to start. Upgrade to Pro for unlimited analyses, history, and PDF reports." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
-  <style>
-    .pricing-page { padding: 120px 0 80px; }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pricing — CareerLens</title>
+<meta name="description" content="CareerLens is free to start. Upgrade to Pro for unlimited analyses, history, and PDF reports." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+<style>
+.pricing-page { padding: 120px 0 80px; }
+.pricing-header { text-align: center; margin-bottom: 64px; }
+.pricing-header h1 {
+font-size: clamp(36px, 5vw, 56px);
+font-weight: 700;
+letter-spacing: -1.5px;
+margin-bottom: 16px;
+}
+.pricing-header p { font-size: 18px; color: var(--text-2); }
 
-    .pricing-header { text-align: center; margin-bottom: 64px; }
-    .pricing-header h1 {
-      font-size: clamp(36px, 5vw, 56px);
-      font-weight: 700;
-      letter-spacing: -1.5px;
-      margin-bottom: 16px;
-    }
-    .pricing-header p { font-size: 18px; color: var(--text-2); }
+/* Toggle */
+.billing-toggle {
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 16px;
+margin-bottom: 56px;
+}
+.toggle-label {
+font-size: 14px;
+color: var(--text-2);
+cursor: pointer;
+transition: color var(--transition);
+}
+.toggle-label.active { color: var(--text-1); font-weight: 600; }
+.toggle-switch {
+width: 44px;
+height: 24px;
+background: var(--navy-4);
+border: 1px solid var(--border-2);
+border-radius: 100px;
+position: relative;
+cursor: pointer;
+transition: background var(--transition);
+}
+.toggle-switch.annual { background: var(--teal); }
+.toggle-knob {
+position: absolute;
+top: 3px;
+left: 3px;
+width: 16px;
+height: 16px;
+background: var(--text-1);
+border-radius: 50%;
+transition: transform var(--transition);
+}
+.toggle-switch.annual .toggle-knob { transform: translateX(20px); }
+.save-badge {
+font-size: 11px;
+font-weight: 700;
+background: rgba(34,197,94,0.15);
+color: var(--green);
+padding: 3px 10px;
+border-radius: 100px;
+border: 1px solid rgba(34,197,94,0.25);
+}
 
-    /* Toggle */
-    .billing-toggle {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 16px;
-      margin-bottom: 56px;
-    }
+/* Pricing cards */
+.pricing-grid {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 20px;
+max-width: 960px;
+margin: 0 auto;
+}
+.pricing-card {
+background: var(--navy-2);
+border: 1px solid var(--border);
+border-radius: var(--radius-lg);
+padding: 36px 32px;
+position: relative;
+transition: border-color var(--transition), transform var(--transition);
+}
+.pricing-card:hover { transform: translateY(-3px); }
+.pricing-card.featured {
+border-color: rgba(0,212,180,0.4);
+background: linear-gradient(160deg, rgba(0,212,180,0.05), var(--navy-2) 60%);
+}
+.popular-badge {
+position: absolute;
+top: -1px;
+left: 50%;
+transform: translateX(-50%);
+background: var(--teal);
+color: var(--navy);
+font-size: 11px;
+font-weight: 700;
+letter-spacing: 0.5px;
+padding: 5px 16px;
+border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+}
+.plan-name {
+font-family: var(--font-display);
+font-size: 16px;
+font-weight: 600;
+color: var(--text-2);
+margin-bottom: 20px;
+text-transform: uppercase;
+letter-spacing: 1px;
+}
+.plan-price {
+margin-bottom: 6px;
+}
+.plan-price .amount {
+font-family: var(--font-display);
+font-size: 48px;
+font-weight: 700;
+letter-spacing: -2px;
+line-height: 1;
+}
+.plan-price .currency {
+font-size: 20px;
+font-weight: 600;
+vertical-align: top;
+margin-top: 8px;
+display: inline-block;
+color: var(--text-2);
+}
+.plan-price .period {
+font-size: 14px;
+color: var(--text-3);
+}
+.plan-price .original-price {
+font-size: 14px;
+color: var(--text-3);
+text-decoration: line-through;
+margin-left: 6px;
+}
+.plan-desc {
+font-size: 14px;
+color: var(--text-2);
+margin-bottom: 28px;
+line-height: 1.5;
+}
+.plan-divider {
+height: 1px;
+background: var(--border);
+margin: 24px 0;
+}
+.plan-features { margin-bottom: 32px; }
+.plan-feature {
+display: flex;
+align-items: flex-start;
+gap: 12px;
+padding: 8px 0;
+font-size: 14px;
+color: var(--text-2);
+}
+.feature-check {
+width: 18px;
+height: 18px;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+flex-shrink: 0;
+margin-top: 1px;
+font-size: 10px;
+}
+.check-yes { background: rgba(0,212,180,0.15); color: var(--teal); }
+.check-no { background: rgba(100,116,139,0.1); color: var(--text-3); }
+.plan-cta {
+display: block;
+text-align: center;
+width: 100%;
+padding: 13px;
+border-radius: var(--radius-sm);
+font-family: var(--font-display);
+font-weight: 700;
+font-size: 15px;
+cursor: pointer;
+transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+border: none;
+}
+.cta-free {
+background: var(--navy-4);
+color: var(--text-1);
+border: 1px solid var(--border-2);
+}
+.cta-free:hover { border-color: var(--border-2); background: var(--navy-3); }
+.cta-pro {
+background: var(--teal);
+color: var(--navy);
+}
+.cta-pro:hover {
+background: var(--teal-dim);
+transform: translateY(-1px);
+box-shadow: 0 8px 24px rgba(0,212,180,0.25);
+}
+.cta-enterprise {
+background: none;
+color: var(--text-1);
+border: 1px solid var(--border-2);
+}
+.cta-enterprise:hover { border-color: var(--border-2); background: var(--navy-3); }
 
-    .toggle-label {
-      font-size: 14px;
-      color: var(--text-2);
-      cursor: pointer;
-      transition: color var(--transition);
-    }
-    .toggle-label.active { color: var(--text-1); font-weight: 600; }
+/* Annual price display */
+.annual-only { display: none; }
+.monthly-only { display: block; }
+body.annual-billing .annual-only { display: block; }
+body.annual-billing .monthly-only { display: none; }
 
-    .toggle-switch {
-      width: 44px;
-      height: 24px;
-      background: var(--navy-4);
-      border: 1px solid var(--border-2);
-      border-radius: 100px;
-      position: relative;
-      cursor: pointer;
-      transition: background var(--transition);
-    }
-    .toggle-switch.annual { background: var(--teal); }
+/* Comparison table */
+.comparison-section {
+max-width: 800px;
+margin: 80px auto 0;
+}
+.comparison-section h2 {
+text-align: center;
+font-size: 28px;
+font-weight: 700;
+letter-spacing: -0.5px;
+margin-bottom: 36px;
+}
+.comparison-table {
+width: 100%;
+border-collapse: collapse;
+}
+.comparison-table th, .comparison-table td {
+padding: 14px 16px;
+border-bottom: 1px solid var(--border);
+font-size: 14px;
+}
+.comparison-table th {
+text-align: center;
+font-family: var(--font-display);
+font-weight: 600;
+font-size: 13px;
+color: var(--text-2);
+padding-bottom: 20px;
+}
+.comparison-table th:first-child { text-align: left; }
+.comparison-table th.highlighted { color: var(--teal); }
+.comparison-table td:not(:first-child) { text-align: center; }
+.comparison-table tr:last-child td { border-bottom: none; }
+.comparison-table td:first-child { color: var(--text-2); }
+.check-green { color: var(--teal); font-size: 16px; }
+.check-gray { color: var(--text-3); font-size: 16px; }
 
-    .toggle-knob {
-      position: absolute;
-      top: 3px;
-      left: 3px;
-      width: 16px;
-      height: 16px;
-      background: var(--text-1);
-      border-radius: 50%;
-      transition: transform var(--transition);
-    }
-    .toggle-switch.annual .toggle-knob { transform: translateX(20px); }
+/* FAQ */
+.pricing-faq {
+max-width: 640px;
+margin: 80px auto 0;
+}
+.pricing-faq h2 {
+text-align: center;
+font-size: 28px;
+font-weight: 700;
+letter-spacing: -0.5px;
+margin-bottom: 36px;
+}
 
-    .save-badge {
-      font-size: 11px;
-      font-weight: 700;
-      background: rgba(34,197,94,0.15);
-      color: var(--green);
-      padding: 3px 10px;
-      border-radius: 100px;
-      border: 1px solid rgba(34,197,94,0.25);
-    }
+/* Guarantee */
+.guarantee {
+text-align: center;
+margin-top: 56px;
+padding: 36px;
+background: rgba(34,197,94,0.05);
+border: 1px solid rgba(34,197,94,0.15);
+border-radius: var(--radius-lg);
+max-width: 520px;
+margin-left: auto;
+margin-right: auto;
+}
+.guarantee-icon { font-size: 32px; margin-bottom: 12px; }
+.guarantee h3 { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+.guarantee p { font-size: 14px; color: var(--text-2); }
 
-    /* Pricing cards */
-    .pricing-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-      max-width: 960px;
-      margin: 0 auto;
-    }
+/* Pro badge shown to active subscribers (controlled by subscription.js) */
+.pro-active-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(0,212,180,0.12); color: var(--teal);
+  border: 1px solid rgba(0,212,180,0.3);
+  font-family: var(--font-display); font-weight: 700; font-size: 13px;
+  padding: 8px 16px; border-radius: 100px; margin-top: 12px;
+}
 
-    .pricing-card {
-      background: var(--navy-2);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 36px 32px;
-      position: relative;
-      transition: border-color var(--transition), transform var(--transition);
-    }
-
-    .pricing-card:hover { transform: translateY(-3px); }
-
-    .pricing-card.featured {
-      border-color: rgba(0,212,180,0.4);
-      background: linear-gradient(160deg, rgba(0,212,180,0.05), var(--navy-2) 60%);
-    }
-
-    .popular-badge {
-      position: absolute;
-      top: -1px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--teal);
-      color: var(--navy);
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      padding: 5px 16px;
-      border-radius: 0 0 var(--radius-sm) var(--radius-sm);
-    }
-
-    .plan-name {
-      font-family: var(--font-display);
-      font-size: 16px;
-      font-weight: 600;
-      color: var(--text-2);
-      margin-bottom: 20px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .plan-price {
-      margin-bottom: 6px;
-    }
-
-    .plan-price .amount {
-      font-family: var(--font-display);
-      font-size: 48px;
-      font-weight: 700;
-      letter-spacing: -2px;
-      line-height: 1;
-    }
-
-    .plan-price .currency {
-      font-size: 20px;
-      font-weight: 600;
-      vertical-align: top;
-      margin-top: 8px;
-      display: inline-block;
-      color: var(--text-2);
-    }
-
-    .plan-price .period {
-      font-size: 14px;
-      color: var(--text-3);
-    }
-
-    .plan-price .original-price {
-      font-size: 14px;
-      color: var(--text-3);
-      text-decoration: line-through;
-      margin-left: 6px;
-    }
-
-    .plan-desc {
-      font-size: 14px;
-      color: var(--text-2);
-      margin-bottom: 28px;
-      line-height: 1.5;
-    }
-
-    .plan-divider {
-      height: 1px;
-      background: var(--border);
-      margin: 24px 0;
-    }
-
-    .plan-features { margin-bottom: 32px; }
-
-    .plan-feature {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      padding: 8px 0;
-      font-size: 14px;
-      color: var(--text-2);
-    }
-
-    .feature-check {
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      margin-top: 1px;
-      font-size: 10px;
-    }
-
-    .check-yes { background: rgba(0,212,180,0.15); color: var(--teal); }
-    .check-no  { background: rgba(100,116,139,0.1); color: var(--text-3); }
-
-    .plan-cta {
-      display: block;
-      text-align: center;
-      width: 100%;
-      padding: 13px;
-      border-radius: var(--radius-sm);
-      font-family: var(--font-display);
-      font-weight: 700;
-      font-size: 15px;
-      cursor: pointer;
-      transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
-      border: none;
-    }
-
-    .cta-free {
-      background: var(--navy-4);
-      color: var(--text-1);
-      border: 1px solid var(--border-2);
-    }
-    .cta-free:hover { border-color: var(--border-2); background: var(--navy-3); }
-
-    .cta-pro {
-      background: var(--teal);
-      color: var(--navy);
-    }
-    .cta-pro:hover {
-      background: var(--teal-dim);
-      transform: translateY(-1px);
-      box-shadow: 0 8px 24px rgba(0,212,180,0.25);
-    }
-
-    .cta-enterprise {
-      background: none;
-      color: var(--text-1);
-      border: 1px solid var(--border-2);
-    }
-    .cta-enterprise:hover { border-color: var(--border-2); background: var(--navy-3); }
-
-    /* Annual price display */
-    .annual-only { display: none; }
-    .monthly-only { display: block; }
-    body.annual-billing .annual-only { display: block; }
-    body.annual-billing .monthly-only { display: none; }
-
-    /* Comparison table */
-    .comparison-section {
-      max-width: 800px;
-      margin: 80px auto 0;
-    }
-
-    .comparison-section h2 {
-      text-align: center;
-      font-size: 28px;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-      margin-bottom: 36px;
-    }
-
-    .comparison-table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    .comparison-table th, .comparison-table td {
-      padding: 14px 16px;
-      border-bottom: 1px solid var(--border);
-      font-size: 14px;
-    }
-
-    .comparison-table th {
-      text-align: center;
-      font-family: var(--font-display);
-      font-weight: 600;
-      font-size: 13px;
-      color: var(--text-2);
-      padding-bottom: 20px;
-    }
-    .comparison-table th:first-child { text-align: left; }
-    .comparison-table th.highlighted { color: var(--teal); }
-
-    .comparison-table td:not(:first-child) { text-align: center; }
-
-    .comparison-table tr:last-child td { border-bottom: none; }
-
-    .comparison-table td:first-child { color: var(--text-2); }
-
-    .check-green { color: var(--teal); font-size: 16px; }
-    .check-gray  { color: var(--text-3); font-size: 16px; }
-
-    /* FAQ */
-    .pricing-faq {
-      max-width: 640px;
-      margin: 80px auto 0;
-    }
-
-    .pricing-faq h2 {
-      text-align: center;
-      font-size: 28px;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-      margin-bottom: 36px;
-    }
-
-    /* Guarantee */
-    .guarantee {
-      text-align: center;
-      margin-top: 56px;
-      padding: 36px;
-      background: rgba(34,197,94,0.05);
-      border: 1px solid rgba(34,197,94,0.15);
-      border-radius: var(--radius-lg);
-      max-width: 520px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .guarantee-icon { font-size: 32px; margin-bottom: 12px; }
-    .guarantee h3 { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
-    .guarantee p { font-size: 14px; color: var(--text-2); }
-
-    @media (max-width: 860px) {
-      .pricing-grid { grid-template-columns: 1fr; max-width: 420px; }
-    }
-  </style>
+@media (max-width: 860px) {
+.pricing-grid { grid-template-columns: 1fr; max-width: 420px; }
+}
+</style>
 </head>
 <body>
 
-  <header class="nav">
-    <div class="container nav-inner">
-      <a href="/" class="logo"><span class="logo-mark">●</span>CareerLens</a>
-      <nav class="nav-links">
-        <a href="/">Home</a>
-        <a href="analyzer.html">Try free</a>
-      </nav>
-    </div>
-  </header>
+<header class="nav">
+<div class="container nav-inner">
+<a href="/" class="logo"><span class="logo-mark">●</span>CareerLens</a>
+<nav class="nav-links">
+<a href="/">Home</a>
+<a href="analyzer.html">Try free</a>
+</nav>
+</div>
+</header>
 
-  <main class="pricing-page">
-    <div class="container">
+<main class="pricing-page">
+<div class="container">
 
-      <div class="pricing-header">
-        <div class="section-label" style="justify-content:center;display:flex;margin-bottom:16px;">Pricing</div>
-        <h1>Simple, honest pricing.</h1>
-        <p>Start free. Upgrade when you're getting value.</p>
-      </div>
+<div class="pricing-header">
+<div class="section-label" style="justify-content:center;display:flex;margin-bottom:16px;">Pricing</div>
+<h1>Simple, honest pricing.</h1>
+<p>Start free. Upgrade when you're getting value.</p>
+<!-- ظاهر فقط للمشتركين الحاليين (subscription.js يتحكم بهذا العنصر) -->
+<div class="pro-active-badge" data-pro-show hidden>✓ You're on Pro — unlimited analyses active</div>
+</div>
 
-      <!-- Billing toggle -->
-      <div class="billing-toggle">
-        <span class="toggle-label active" id="monthly-label">Monthly</span>
-        <div class="toggle-switch" id="billing-toggle" role="switch" aria-checked="false">
-          <div class="toggle-knob"></div>
-        </div>
-        <span class="toggle-label" id="annual-label">Annual</span>
-        <span class="save-badge">Save 27%</span>
-      </div>
+<!-- Billing toggle -->
+<div class="billing-toggle" data-pro-hide>
+<span class="toggle-label active" id="monthly-label">Monthly</span>
+<div class="toggle-switch" id="billing-toggle" role="switch" aria-checked="false">
+<div class="toggle-knob"></div>
+</div>
+<span class="toggle-label" id="annual-label">Annual</span>
+<span class="save-badge">Save 27%</span>
+</div>
 
-      <!-- Pricing cards -->
-      <div class="pricing-grid">
+<!-- Pricing cards -->
+<div class="pricing-grid">
 
-        <!-- Free -->
-        <div class="pricing-card">
-          <div class="plan-name">Free</div>
-          <div class="plan-price">
-            <span class="currency">€</span>
-            <span class="amount">0</span>
-            <div class="period">forever</div>
-          </div>
-          <p class="plan-desc">Perfect for trying it out. 3 analyses per day, no signup.</p>
-          <div class="plan-divider"></div>
-          <ul class="plan-features">
-            <li class="plan-feature">
-              <span class="feature-check check-yes">✓</span>
-              3 CV analyses per day
-            </li>
-            <li class="plan-feature">
-              <span class="feature-check check-yes">✓</span>
-              Full analysis output (all 10 sections)
-            </li>
-            <li class="plan-feature">
-              <span class="feature-check check-yes">✓</span>
-              Match score + skill gaps
-            </li>
-            <li class="plan-feature">
-              <span class="feature-check check-yes">✓</span>
-              Learning roadmap
-            </li>
-            <li class="plan-feature">
-              <span class="feature-check check-no">—</span>
-              <span style="color:var(--text-3);">Analysis history</span>
-            </li>
-            <li class="plan-feature">
-              <span class="feature-check check-no">—</span>
-              <span style="color:var(--text-3);">PDF export</span>
-            </li>
-            <li class="plan-feature">
-              <span class="feature-check check-no">—</span>
-              <span style="color:var(--text-3);">Unlimited analyses</span>
-            </li>
-          </ul>
-          <a href="analyzer.html" class="plan-cta cta-free">Start for free</a>
-        </div>
+<!-- Free -->
+<div class="pricing-card">
+<div class="plan-name">Free</div>
+<div class="plan-price">
+<span class="currency">€</span>
+<span class="amount">0</span>
+<div class="period">forever</div>
+</div>
+<p class="plan-desc">Perfect for trying it out. 3 analyses per day, no signup.</p>
+<div class="plan-divider"></div>
+<ul class="plan-features">
+<li class="plan-feature"><span class="feature-check check-yes">✓</span>3 CV analyses per day</li>
+<li class="plan-feature"><span class="feature-check check-yes">✓</span>Full analysis output (all 10 sections)</li>
+<li class="plan-feature"><span class="feature-check check-yes">✓</span>Match score + skill gaps</li>
+<li class="plan-feature"><span class="feature-check check-yes">✓</span>Learning roadmap</li>
+<li class="plan-feature"><span class="feature-check check-no">—</span><span style="color:var(--text-3);">Analysis history</span></li>
+<li class="plan-feature"><span class="feature-check check-no">—</span><span style="color:var(--text-3);">PDF export</span></li>
+<li class="plan-feature"><span class="feature-check check-no">—</span><span style="color:var(--text-3);">Unlimited analyses</span></li>
+</ul>
+<a href="analyzer.html" class="plan-cta cta-free">Start for free</a>
+</div>
 
-        <!-- Pro (featured) -->
-        <div class="pricing-card featured">
-          <div class="popular-badge">Most popular</div>
-          <div class="plan-name" style="color:var(--teal)">Pro</div>
-          <div class="plan-price">
-            <span class="currency">€</span>
-            <span class="amount monthly-only" id="pro-price-monthly">9</span>
-            <span class="amount annual-only" id="pro-price-annual">6.60</span>
-            <div class="period">
-              <span class="monthly-only">per month</span>
-              <span class="annual-only">per month, billed €79/year</span>
-            </div>
-          </div>
-          <p class="plan-desc">For active job seekers applying to multiple roles. Unlimited everything.</p>
-          <div class="plan-divider"></div>
-          <ul class="plan-features">
-            <li class="plan-feature">
-              <span class="feature-check check-yes">✓</span>
-              <strong>Unlimited</strong>&nbsp;analyses
-            </li>
-            <li class="plan-feature">
-              <span class="feature-check check-yes">✓</span>
-              Full analysis output (all 10 sections)
-            </li>
-            <li class="plan-feature">
-              <span class="feature-check check-yes">✓</span>
-              Analysis history (last 50)
-            </li>
-            <li class="plan-feature">
-              <span class="feature-check check-yes">✓</span>
-              PDF export of results
-            </li>
-            <li class="plan-feature">
-              <span class="feature-check check-yes">✓</span>
-              Priority processing
-            </li>
-            <li class="plan-feature">
-              <span class="feature-check check-yes">✓</span>
-              Email support
-            </li>
-            <li class="plan-feature">
-              <span class="feature-check check-yes">✓</span>
-              Cancel anytime
-            </li>
-          </ul>
-          <!-- Replace href with your actual Stripe Payment Link -->
-          <a href="https://buy.stripe.com/YOUR_PAYMENT_LINK" class="plan-cta cta-pro" id="pro-cta">
-            Get Pro →
-          </a>
-        </div>
+<!-- Pro (featured) -->
+<div class="pricing-card featured">
+<div class="popular-badge">Most popular</div>
+<div class="plan-name" style="color:var(--teal)">Pro</div>
+<div class="plan-price">
+<span class="currency">€</span>
+<span class="amount monthly-only" id="pro-price-monthly">9</span>
+<span class="amount annual-only" id="pro-price-annual">6.60</span>
+<div class="period">
+<span class="monthly-only">per month</span>
+<span class="annual-only">per month, billed €79/year</span>
+</div>
+</div>
+<p class="plan-desc">For active job seekers applying to multiple roles. Unlimited everything.</p>
+<div class="plan-divider"></div>
+<ul class="plan-features">
+<li class="plan-feature"><span class="feature-check check-yes">✓</span><strong>Unlimited</strong>&nbsp;analyses</li>
+<li class="plan-feature"><span class="feature-check check-yes">✓</span>Full analysis output (all 10 sections)</li>
+<li class="plan-feature"><span class="feature-check check-yes">✓</span>Analysis history (last 50)</li>
+<li class="plan-feature"><span class="feature-check check-yes">✓</span>PDF export of results</li>
+<li class="plan-feature"><span class="feature-check check-yes">✓</span>Priority processing</li>
+<li class="plan-feature"><span class="feature-check check-yes">✓</span>Email support</li>
+<li class="plan-feature"><span class="feature-check check-yes">✓</span>Cancel anytime</li>
+</ul>
 
-        <!-- Enterprise/Teams -->
-        <div class="pricing-card">
-          <div class="plan-name">Teams</div>
-          <div class="plan-price">
-            <span class="amount" style="font-size:36px;letter-spacing:-1px;">Custom</span>
-          </div>
-          <p class="plan-desc">For bootcamps, career coaches, and HR teams running analyses at scale.</p>
-          <div class="plan-divider"></div>
-          <ul class="plan-features">
-            <li class="plan-feature">
-              <span class="feature-check check-yes">✓</span>
-              Everything in Pro
-            </li>
-            <li class="plan-feature">
-              <span class="feature-check check-yes">✓</span>
-              Multiple team members
-            </li>
-            <li class="plan-feature">
-              <span class="feature-check check-yes">✓</span>
-              API access
-            </li>
-            <li class="plan-feature">
-              <span class="feature-check check-yes">✓</span>
-              Custom prompt tuning
-            </li>
-            <li class="plan-feature">
-              <span class="feature-check check-yes">✓</span>
-              Candidate comparison
-            </li>
-            <li class="plan-feature">
-              <span class="feature-check check-yes">✓</span>
-              Dedicated support
-            </li>
-          </ul>
-          <a href="mailto:hello@careerlens.io?subject=Teams plan inquiry" class="plan-cta cta-enterprise">Contact us →</a>
-        </div>
+<!-- رابط Stripe الحقيقي (شهري) — يتغيّر لو ضغط المستخدم "Annual" عبر الجافاسكربت أدناه -->
+<a href="https://buy.stripe.com/test_fZu7sK2WV4Bg3pe7xR7kc00" class="plan-cta cta-pro" id="pro-cta" data-pro-hide>
+Get Pro →
+</a>
+<a href="#" class="plan-cta cta-pro" data-pro-show hidden style="pointer-events:none; opacity:0.7;">
+✓ Active
+</a>
+</div>
 
-      </div>
+<!-- Enterprise/Teams -->
+<div class="pricing-card">
+<div class="plan-name">Teams</div>
+<div class="plan-price">
+<span class="amount" style="font-size:36px;letter-spacing:-1px;">Custom</span>
+</div>
+<p class="plan-desc">For bootcamps, career coaches, and HR teams running analyses at scale.</p>
+<div class="plan-divider"></div>
+<ul class="plan-features">
+<li class="plan-feature"><span class="feature-check check-yes">✓</span>Everything in Pro</li>
+<li class="plan-feature"><span class="feature-check check-yes">✓</span>Multiple team members</li>
+<li class="plan-feature"><span class="feature-check check-yes">✓</span>API access</li>
+<li class="plan-feature"><span class="feature-check check-yes">✓</span>Custom prompt tuning</li>
+<li class="plan-feature"><span class="feature-check check-yes">✓</span>Candidate comparison</li>
+<li class="plan-feature"><span class="feature-check check-yes">✓</span>Dedicated support</li>
+</ul>
+<a href="mailto:hello@careerlens.io?subject=Teams plan inquiry" class="plan-cta cta-enterprise">Contact us →</a>
+</div>
 
-      <!-- Guarantee -->
-      <div class="guarantee">
-        <div class="guarantee-icon">🛡️</div>
-        <h3>7-day money-back guarantee</h3>
-        <p>If you upgrade and aren't getting value from CareerLens within 7 days, we'll refund you. No questions asked. Email hello@careerlens.io.</p>
-      </div>
+</div>
 
-      <!-- Comparison table -->
-      <div class="comparison-section">
-        <h2>Full comparison</h2>
-        <table class="comparison-table">
-          <thead>
-            <tr>
-              <th>Feature</th>
-              <th>Free</th>
-              <th class="highlighted">Pro</th>
-              <th>Teams</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Analyses per day</td>
-              <td>3</td>
-              <td>Unlimited</td>
-              <td>Unlimited</td>
-            </tr>
-            <tr>
-              <td>Match score</td>
-              <td><span class="check-green">✓</span></td>
-              <td><span class="check-green">✓</span></td>
-              <td><span class="check-green">✓</span></td>
-            </tr>
-            <tr>
-              <td>Missing skills analysis</td>
-              <td><span class="check-green">✓</span></td>
-              <td><span class="check-green">✓</span></td>
-              <td><span class="check-green">✓</span></td>
-            </tr>
-            <tr>
-              <td>CV improvements (before/after)</td>
-              <td><span class="check-green">✓</span></td>
-              <td><span class="check-green">✓</span></td>
-              <td><span class="check-green">✓</span></td>
-            </tr>
-            <tr>
-              <td>Interview questions</td>
-              <td><span class="check-green">✓</span></td>
-              <td><span class="check-green">✓</span></td>
-              <td><span class="check-green">✓</span></td>
-            </tr>
-            <tr>
-              <td>Learning roadmap</td>
-              <td><span class="check-green">✓</span></td>
-              <td><span class="check-green">✓</span></td>
-              <td><span class="check-green">✓</span></td>
-            </tr>
-            <tr>
-              <td>Portfolio project ideas</td>
-              <td><span class="check-green">✓</span></td>
-              <td><span class="check-green">✓</span></td>
-              <td><span class="check-green">✓</span></td>
-            </tr>
-            <tr>
-              <td>Analysis history</td>
-              <td><span class="check-gray">—</span></td>
-              <td>Last 50</td>
-              <td>Unlimited</td>
-            </tr>
-            <tr>
-              <td>PDF export</td>
-              <td><span class="check-gray">—</span></td>
-              <td><span class="check-green">✓</span></td>
-              <td><span class="check-green">✓</span></td>
-            </tr>
-            <tr>
-              <td>API access</td>
-              <td><span class="check-gray">—</span></td>
-              <td><span class="check-gray">—</span></td>
-              <td><span class="check-green">✓</span></td>
-            </tr>
-            <tr>
-              <td>Team seats</td>
-              <td>1</td>
-              <td>1</td>
-              <td>Custom</td>
-            </tr>
-            <tr>
-              <td>Support</td>
-              <td>Community</td>
-              <td>Email</td>
-              <td>Dedicated</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+<!-- Guarantee -->
+<div class="guarantee">
+<div class="guarantee-icon">🛡️</div>
+<h3>7-day money-back guarantee</h3>
+<p>If you upgrade and aren't getting value from CareerLens within 7 days, we'll refund you. No questions asked. Email hello@careerlens.io.</p>
+</div>
 
-      <!-- Pricing FAQ -->
-      <div class="pricing-faq">
-        <h2>Pricing questions</h2>
-        <div class="faq-list">
-          <div class="faq-item">
-            <button class="faq-question">Do I need a credit card to try it?</button>
-            <div class="faq-answer">No. The free plan requires no signup, no credit card, nothing. Just open the tool and start analyzing.</div>
-          </div>
-          <div class="faq-item">
-            <button class="faq-question">Can I cancel my Pro subscription at any time?</button>
-            <div class="faq-answer">Yes. Cancel directly from your Stripe billing portal at any time. You keep Pro access until the end of your billing period.</div>
-          </div>
-          <div class="faq-item">
-            <button class="faq-question">What counts as one analysis?</button>
-            <div class="faq-answer">One analysis = one CV + one job description. You can analyze the same CV against different job descriptions — each counts separately. This is by design: we want you to tailor your CV per role.</div>
-          </div>
-          <div class="faq-item">
-            <button class="faq-question">Is there a student discount?</button>
-            <div class="faq-answer">Email us at hello@careerlens.io with your student email address. We offer 50% off Pro for students and recent bootcamp grads.</div>
-          </div>
-          <div class="faq-item">
-            <button class="faq-question">How does the annual plan work?</button>
-            <div class="faq-answer">You pay €79 upfront for 12 months of Pro — that's €6.60/month. You save €29 compared to monthly billing. The savings cover roughly 6 Udemy courses you no longer need to buy.</div>
-          </div>
-        </div>
-      </div>
+<!-- Comparison table -->
+<div class="comparison-section">
+<h2>Full comparison</h2>
+<table class="comparison-table">
+<thead>
+<tr><th>Feature</th><th>Free</th><th class="highlighted">Pro</th><th>Teams</th></tr>
+</thead>
+<tbody>
+<tr><td>Analyses per day</td><td>3</td><td>Unlimited</td><td>Unlimited</td></tr>
+<tr><td>Match score</td><td><span class="check-green">✓</span></td><td><span class="check-green">✓</span></td><td><span class="check-green">✓</span></td></tr>
+<tr><td>Missing skills analysis</td><td><span class="check-green">✓</span></td><td><span class="check-green">✓</span></td><td><span class="check-green">✓</span></td></tr>
+<tr><td>CV improvements (before/after)</td><td><span class="check-green">✓</span></td><td><span class="check-green">✓</span></td><td><span class="check-green">✓</span></td></tr>
+<tr><td>Interview questions</td><td><span class="check-green">✓</span></td><td><span class="check-green">✓</span></td><td><span class="check-green">✓</span></td></tr>
+<tr><td>Learning roadmap</td><td><span class="check-green">✓</span></td><td><span class="check-green">✓</span></td><td><span class="check-green">✓</span></td></tr>
+<tr><td>Portfolio project ideas</td><td><span class="check-green">✓</span></td><td><span class="check-green">✓</span></td><td><span class="check-green">✓</span></td></tr>
+<tr><td>Analysis history</td><td><span class="check-gray">—</span></td><td>Last 50</td><td>Unlimited</td></tr>
+<tr><td>PDF export</td><td><span class="check-gray">—</span></td><td><span class="check-green">✓</span></td><td><span class="check-green">✓</span></td></tr>
+<tr><td>API access</td><td><span class="check-gray">—</span></td><td><span class="check-gray">—</span></td><td><span class="check-green">✓</span></td></tr>
+<tr><td>Team seats</td><td>1</td><td>1</td><td>Custom</td></tr>
+<tr><td>Support</td><td>Community</td><td>Email</td><td>Dedicated</td></tr>
+</tbody>
+</table>
+</div>
 
-    </div>
-  </main>
+<!-- Pricing FAQ -->
+<div class="pricing-faq">
+<h2>Pricing questions</h2>
+<div class="faq-list">
+<div class="faq-item">
+<button class="faq-question">Do I need a credit card to try it?</button>
+<div class="faq-answer">No. The free plan requires no signup, no credit card, nothing. Just open the tool and start analyzing.</div>
+</div>
+<div class="faq-item">
+<button class="faq-question">Can I cancel my Pro subscription at any time?</button>
+<div class="faq-answer">Yes. Cancel directly from your Stripe billing portal at any time. You keep Pro access until the end of your billing period.</div>
+</div>
+<div class="faq-item">
+<button class="faq-question">What counts as one analysis?</button>
+<div class="faq-answer">One analysis = one CV + one job description. You can analyze the same CV against different job descriptions — each counts separately. This is by design: we want you to tailor your CV per role.</div>
+</div>
+<div class="faq-item">
+<button class="faq-question">Is there a student discount?</button>
+<div class="faq-answer">Email us at hello@careerlens.io with your student email address. We offer 50% off Pro for students and recent bootcamp grads.</div>
+</div>
+<div class="faq-item">
+<button class="faq-question">How does the annual plan work?</button>
+<div class="faq-answer">You pay €79 upfront for 12 months of Pro — that's €6.60/month. You save €29 compared to monthly billing. The savings cover roughly 6 Udemy courses you no longer need to buy.</div>
+</div>
+</div>
+</div>
 
-  <!-- Minimal footer -->
-  <footer style="border-top: 1px solid var(--border); padding: 32px 0; margin-top: 80px;">
-    <div class="container" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
-      <a href="/" class="logo"><span class="logo-mark">●</span>CareerLens</a>
-      <p style="font-size:13px; color:var(--text-3);">© 2025 CareerLens · <a href="#" style="color:var(--text-3);">Privacy</a> · <a href="#" style="color:var(--text-3);">Terms</a></p>
-    </div>
-  </footer>
+</div>
+</main>
 
-  <script>
-    // Billing toggle
-    const toggle = document.getElementById('billing-toggle');
-    const monthlyLabel = document.getElementById('monthly-label');
-    const annualLabel = document.getElementById('annual-label');
-    const proCta = document.getElementById('pro-cta');
+<!-- Minimal footer -->
+<footer style="border-top: 1px solid var(--border); padding: 32px 0; margin-top: 80px;">
+<div class="container" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+<a href="/" class="logo"><span class="logo-mark">●</span>CareerLens</a>
+<p style="font-size:13px; color:var(--text-3);">© 2026 CareerLens · <a href="#" style="color:var(--text-3);">Privacy</a> · <a href="#" style="color:var(--text-3);">Terms</a></p>
+</div>
+</footer>
 
-    // Replace with your actual Stripe payment links
-    const STRIPE_MONTHLY = 'https://buy.stripe.com/YOUR_MONTHLY_LINK';
-    const STRIPE_ANNUAL  = 'https://buy.stripe.com/YOUR_ANNUAL_LINK';
+<!-- يجب أن يُحمَّل قبل أي منطق يعتمد على حالة الاشتراك -->
+<script src="subscription.js"></script>
 
-    let isAnnual = false;
+<script>
+// Billing toggle
+const toggle = document.getElementById('billing-toggle');
+const monthlyLabel = document.getElementById('monthly-label');
+const annualLabel = document.getElementById('annual-label');
+const proCta = document.getElementById('pro-cta');
 
-    toggle.addEventListener('click', () => {
-      isAnnual = !isAnnual;
-      toggle.classList.toggle('annual', isAnnual);
-      toggle.setAttribute('aria-checked', isAnnual);
-      document.body.classList.toggle('annual-billing', isAnnual);
-      monthlyLabel.classList.toggle('active', !isAnnual);
-      annualLabel.classList.toggle('active', isAnnual);
-      proCta.href = isAnnual ? STRIPE_ANNUAL : STRIPE_MONTHLY;
-    });
+// روابط الدفع الحقيقية (Stripe Test mode الآن — استبدلها بروابط Live عند الإطلاق الفعلي)
+const STRIPE_MONTHLY = 'https://buy.stripe.com/test_fZu7sK2WV4Bg3pe7xR7kc00';
+const STRIPE_ANNUAL   = 'https://buy.stripe.com/test_9B628qapn7Nsf7WaK37kc02';
 
-    // FAQ accordion (reuse from style)
-    document.querySelectorAll('.faq-question').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const item = btn.closest('.faq-item');
-        const isOpen = item.classList.contains('open');
-        document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
-        if (!isOpen) item.classList.add('open');
-      });
-    });
-  </script>
+let isAnnual = false;
+
+toggle.addEventListener('click', () => {
+  isAnnual = !isAnnual;
+  toggle.classList.toggle('annual', isAnnual);
+  toggle.setAttribute('aria-checked', isAnnual);
+  document.body.classList.toggle('annual-billing', isAnnual);
+  monthlyLabel.classList.toggle('active', !isAnnual);
+  annualLabel.classList.toggle('active', isAnnual);
+  proCta.href = isAnnual ? STRIPE_ANNUAL : STRIPE_MONTHLY;
+});
+
+// FAQ accordion
+document.querySelectorAll('.faq-question').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  });
+});
+</script>
 </body>
 </html>
